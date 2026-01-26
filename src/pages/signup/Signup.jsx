@@ -40,9 +40,8 @@ const Signup = () => {
   // FORM SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    // POST request backendga
-    fetch("http://localhost:3000/register/createRegister", {
+  
+    fetch("http://localhost:3000/register/createRegister", { // backend port
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -62,6 +61,7 @@ const Signup = () => {
         alert("Something went wrong!");
       });
   };
+  
 
   return (
     <div className="signup-container">
