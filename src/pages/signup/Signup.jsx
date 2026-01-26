@@ -1,8 +1,14 @@
-import React from 'react'
+import React from "react"
+import Header from "../../Components/Header/header"
+import Footer from "../../Components/Footer/footer"
 
 const Signup = () => {
   return (
-    <div>Signup</div>
+    <>
+    <Header/>
+        <div>Signup</div>
+        <Footer/>
+    </>
   )
 }
 
