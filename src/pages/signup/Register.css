@@ -1,0 +1,113 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f6f4ef;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 520px;
+  background: #ffffff;
+  padding: 40px 36px;
+  border-radius: 20px;
+  text-align: center;
+}
+.card h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 22px;
+  line-height: 1.4;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #58b97c;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 26px;
+}
+
+.image-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+
+.image-box img {
+  width: 260px;
+}
+
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.digits {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.digits div {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #f1f3f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.digits .empty {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.nav-buttons button {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-buttons .back {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.nav-buttons .next {
+  background: #0f2a44;
+  color: #ffffff;
+}

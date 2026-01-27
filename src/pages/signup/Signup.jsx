@@ -1,4 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Header from "../../Components/Header/header";
+import Footer from "../../Components/Footer/footer";
 import {
   FaBuilding,
   FaPhone,
@@ -12,14 +15,13 @@ import {
   FaCity,
   FaUser,
 } from "react-icons/fa";
-
 import "./Signup.css";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("company");
 
-  // FORM STATE
   const [formData, setFormData] = useState({
     companyName: "",
     phone: "",
@@ -31,226 +33,151 @@ const Signup = () => {
     city: "",
   });
 
-  // INPUT O‘ZGARTIRISH FUNKSIYASI
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // FORM SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    fetch("http://localhost:3000/register/createRegister", { // backend port
+
+    // faqat shu 3 tasi majburiy
+    if (!formData.phone || !formData.email || !formData.password) {
+      alert("Phone, Email va Password majburiy!");
+      return;
+    }
+
+    fetch("http://localhost:3000/register/createRegister", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Server Error!");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Server Response:", data);
+      .then((res) => res.json())
+      .then(() => {
         alert("Form submitted successfully!");
+        navigate("/register");
       })
-      .catch((err) => {
-        console.error("Error:", err);
-        alert("Something went wrong!");
-      });
+      .catch(() => alert("Something went wrong!"));
   };
-  
 
   return (
-    <div className="signup-container">
-      <div className="signup-box">
+    <div>
+      <Header />
 
-        {/* TABS */}
-        <div className="tabs">
-          <button
-            type="button"
-            className={`tab ${activeTab === "talent" ? "active" : ""}`}
-            onClick={() => setActiveTab("talent")}
-          >
-            <FaUser className="tab-icon" />
-            Talent
-          </button>
+      <div className="signup-container">
+        <div className="signup-box">
 
-          <button
-            type="button"
-            className={`tab ${activeTab === "company" ? "active" : ""}`}
-            onClick={() => setActiveTab("company")}
-          >
-            <FaBuilding className="tab-icon" />
-            Company
-          </button>
-        </div>
+          <div className="tabs">
+            <button
+              type="button"
+              className={`tab ${activeTab === "talent" ? "active" : ""}`}
+              onClick={() => setActiveTab("talent")}
+            >
+              <FaUser /> Talent
+            </button>
+            <button
+              type="button"
+              className={`tab ${activeTab === "company" ? "active" : ""}`}
+              onClick={() => setActiveTab("company")}
+            >
+              <FaBuilding /> Company
+            </button>
+          </div>
 
-        {/* FORM */}
-        <form className="form" onSubmit={handleSubmit}>
-          <div className="field">
-            <label>Company name</label>
+          <form className="form" onSubmit={handleSubmit}>
+
             <div className="input-box">
-              <span className="icon">
-                <FaBuilding />
-              </span>
+              <FaBuilding />
               <input
-                type="text"
-                placeholder="Company name"
                 name="companyName"
-                value={formData.companyName}
+                placeholder="Company name"
                 onChange={handleChange}
-                required
               />
-            </div>
-          </div>
+            </div>  
 
-          <div className="field">
-            <label>Phone</label>
             <div className="input-box">
-              <span className="icon">
-                <FaPhone />
-              </span>
+              <FaPhone />
               <input
-                type="text"
-                placeholder="+998"
                 name="phone"
-                value={formData.phone}
+                placeholder="+998"
                 onChange={handleChange}
                 required
               />
             </div>
-          </div>
 
-          <div className="field">
-            <label>Email</label>
             <div className="input-box">
-              <span className="icon">
-                <FaEnvelope />
-              </span>
+              <FaEnvelope />
               <input
                 type="email"
-                placeholder="Email"
                 name="email"
-                value={formData.email}
+                placeholder="Email"
                 onChange={handleChange}
                 required
               />
             </div>
-          </div>
 
-          <div className="field">
-            <label>Password</label>
             <div className="input-box">
-              <span className="icon">
-                <FaLock />
-              </span>
+              <FaLock />
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
                 name="password"
-                value={formData.password}
+                placeholder="Password"
                 onChange={handleChange}
                 required
               />
-              <span
-                className="eye"
-                onClick={() => setShowPassword(!showPassword)}
-              >
+              <span onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
-          </div>
 
-          <div className="field">
-            <label>Website</label>
             <div className="input-box">
-              <span className="icon">
-                <FaGlobe />
-              </span>
+              <FaGlobe />
               <input
-                type="text"
-                placeholder="Website"
                 name="website"
-                value={formData.website}
+                placeholder="Website"
                 onChange={handleChange}
               />
             </div>
-          </div>
 
-          <div className="field">
-            <label>Industry</label>
             <div className="input-box">
-              <span className="icon">
-                <FaIndustry />
-              </span>
+              <FaIndustry />
               <input
-                type="text"
-                placeholder="Industry"
                 name="industry"
-                value={formData.industry}
+                placeholder="Industry"
                 onChange={handleChange}
               />
             </div>
-          </div>
+              
 
-          <div className="field">
-            <label>Country</label>
             <div className="input-box">
-              <span className="icon">
-                <FaFlag />
-              </span>
-              <select
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                required
-              >
+              <FaFlag />
+              <select name="country" onChange={handleChange}>
                 <option value="">Select country</option>
                 <option>Uzbekistan</option>
                 <option>Kazakhstan</option>
                 <option>Russia</option>
               </select>
             </div>
-          </div>
 
-          <div className="field">
-            <label>City</label>
             <div className="input-box">
-              <span className="icon">
-                <FaCity />
-              </span>
-              <select
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              >
+              <FaCity />
+              <select name="city" onChange={handleChange}>
                 <option value="">Select city</option>
                 <option>Tashkent</option>
                 <option>Samarkand</option>
                 <option>Bukhara</option>
               </select>
             </div>
-          </div>
 
-          <div className="buttons">
-            <button
-              type="button"
-              className="btn back"
-              onClick={() => alert("Going back!")}
-            >
-              Back
-            </button>
-            <button type="submit" className="btn next">
-              Next
-            </button>
-          </div>
-        </form>
+            <div className="buttons">
+              <button type="button" className="btn back">Back</button>
+              <button type="submit" className="btn next">Next</button>
+            </div>
 
+          </form>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 };
