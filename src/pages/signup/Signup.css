@@ -1,13 +1,4 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Segoe UI", sans-serif;
-}
 
-body {
-  background: #f4f7fb;
-}
 
 .signup-container {
   min-height: 100vh;
@@ -36,6 +27,9 @@ body {
   margin-bottom: 25px;
   width: 500px;
   height: 50px;
+}
+.tabs > button {
+  font-size: 20px;
 }
 
 .tab {

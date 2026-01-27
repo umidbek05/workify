@@ -1,0 +1,119 @@
+
+
+
+
+.header {
+  width: 1500px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: white; 
+  color: black;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  position: sticky;
+ 
+  margin-left: -40px;
+}
+.head a{
+  text-decoration: none;
+  width: 105px;
+  height: 38px;
+  margin-top: 23px;
+  margin-left: 200px;
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: black;
+}
+
+
+
+
+
+.header1 {
+  display: flex;
+  align-items: center;
+  gap:10px;
+  margin-right: 300px;
+}
+
+.header1 a {
+  color: silver;
+  width: 67px;
+  height: 18px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.header1 a:hover {
+  color: #38bdf8; 
+}
+
+.header1 img {
+  width: 15px; 
+  height: 15px;
+  margin-top: 5px;
+}
+
+
+.header2 select {
+  background-color: white; 
+  color: rgb(22, 61, 92, 1);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: sans-serif;
+  margin-left: 20px;
+}
+
+.header2 button {
+  
+  background-color: white; 
+  color: rgb(22, 61, 92, 1);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 2px solid rgb(22, 61, 92, 1);
+  margin-left: 20px;
+  font-family: sans-serif;
+  width: 120px;
+}
+
+.header2 .linkk{
+  text-decoration: none;
+}
+
+.header2 .linkk:hover{
+   color: white;
+}
+.header2 button:hover {
+  background-color: rgb(22, 61, 92, 1); 
+  color: white;
+  transition: 0.5s;
+}
+
+.header2 button:first-of-type {
+  border: 2px solid rgb(22, 61, 92, 1);
+  color: rgb(22, 61, 92, 1);
+}
+
+.header2 button:first-of-type:hover {
+  background-color: rgb(22, 61, 92, 1);
+  color: white;
+}
+.header2 select :hover{
+  background-color: rgb(22, 61, 92, 1);
+  color: white;
+}
+
+.app > *:not(.header) {
+  padding: 24px 32px;
+}
+
+
