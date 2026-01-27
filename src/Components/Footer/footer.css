@@ -23,14 +23,15 @@
   color: white;
   font-size: 14px;
 }
-.footer-logo button{
+.footer-logo button {
   width: 170px;
   position: absolute;
   height: 35px;
   border-radius: 8px;
+  border: none;
 }
 
-.footer-logo button a{
+.footer-logo button a {
   width: 130px;
   height: 30px;
   border-radius: 10px;
@@ -38,9 +39,6 @@
   color: black;
   font-size: 15px;
 }
-
-
-
 
 .footer-links {
   display: flex;
@@ -60,7 +58,7 @@
   margin: 0;
 }
 
-.link-column a{
+.link-column a {
   margin-bottom: 12px;
   color: white;
   font-size: 14px;
@@ -73,13 +71,11 @@
   color: white;
 }
 
-
-
 .footer-bottom p {
   margin: 0;
 }
 
-.foot{
+.foot {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px 20px 0;
@@ -90,7 +86,7 @@
   justify-content: space-between;
 }
 
-.img img{
+.img img {
   margin-right: 20px;
 }
 
@@ -124,8 +120,3 @@
   line-height: 1.5;
   font-size: 15px;
 }
-
-
-
-
-
