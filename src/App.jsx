@@ -4,6 +4,8 @@ import Dashboard from "./pages/dashboard/dashboard";
 import Workify from "./pages/Workify/workify"
 import Talents from "./pages/Talents/talents";
 import Jobs from "./pages/Jobs/jobs";
+import Register from "./pages/signup/Register";
+import Conguratulation from "./pages/signup/Conguratulation";
 
 const App = () => {
   return (
@@ -14,6 +16,8 @@ const App = () => {
         <Route path="/jobs" element={<Jobs />} />
         <Route path="/signup" element= {<Signup />} />
         <Route path="/dashboard" element= {<Dashboard />} />
+        <Route path="/register" element= {<Register />} />
+        <Route path="/congratulation" element= {<Conguratulation />} />
       </Routes>
     </div>
   );

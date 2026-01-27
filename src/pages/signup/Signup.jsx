@@ -1,6 +1,8 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
-import { useState } from "react";
+
 import {
   FaBuilding,
   FaPhone,
@@ -14,14 +16,13 @@ import {
   FaCity,
   FaUser,
 } from "react-icons/fa";
-
 import "./Signup.css";
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("company");
 
-  // FORM STATE
   const [formData, setFormData] = useState({
     companyName: "",
     phone: "",
@@ -33,41 +34,36 @@ const Signup = () => {
     city: "",
   });
 
-  // INPUT O‘ZGARTIRISH FUNKSIYASI
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // FORM SUBMIT
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    // faqat shu 3 tasi majburiy
+    if (!formData.phone || !formData.email || !formData.password) {
+      alert("Phone, Email va Password majburiy!");
+      return;
+    }
+
     fetch("http://localhost:3000/register/createRegister", {
-      // backend port
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
-      .then((res) => {
-        if (!res.ok) throw new Error("Server Error!");
-        return res.json();
-      })
-      .then((data) => {
-        console.log("Server Response:", data);
+      .then((res) => res.json())
+      .then(() => {
         alert("Form submitted successfully!");
+        navigate("/register");
       })
-      .catch((err) => {
-        console.error("Error:", err);
-        alert("Something went wrong!");
-      });
+      .catch(() => alert("Something went wrong!"));
   };
 
   return (
     <div>
       <Header />
+
       <div className="signup-container">
         <div className="signup-box">
           {/* TABS */}
@@ -77,8 +73,7 @@ const Signup = () => {
               className={`tab ${activeTab === "talent" ? "active" : ""}`}
               onClick={() => setActiveTab("talent")}
             >
-              <FaUser className="tab-icon" />
-              Talent
+              <FaUser className="tab-icon" /> Talent
             </button>
 
             <button
@@ -86,8 +81,7 @@ const Signup = () => {
               className={`tab ${activeTab === "company" ? "active" : ""}`}
               onClick={() => setActiveTab("company")}
             >
-              <FaBuilding className="tab-icon" />
-              Company
+              <FaBuilding className="tab-icon" /> Company
             </button>
           </div>
 
@@ -105,7 +99,6 @@ const Signup = () => {
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
-                  required
                 />
               </div>
             </div>
@@ -254,6 +247,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
+
       <Footer />
     </div>
   );
