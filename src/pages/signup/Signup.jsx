@@ -41,19 +41,20 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // faqat shu 3 tasi majburiy
     if (!formData.phone || !formData.email || !formData.password) {
       alert("Phone, Email va Password majburiy!");
       return;
     }
 
-    fetch("http://localhost:3000/register/createRegister", {
+    fetch("http://localhost:5000/register/createRegister", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
       .then(() => {
+        // 🟢 MANA SHU YERDA EMAILNI SAQLAB QOLAMIZ
+        localStorage.setItem("email", formData.email);
         alert("Form submitted successfully!");
         navigate("/register");
       })

@@ -2,7 +2,10 @@ import React from "react";
 import "../../pages/signup/Conguratulation.css";
 import congra from "../../assets/Conguratulation.png";
 
+import { useNavigate } from "react-router-dom";
+
 function Congratulation() {
+  const navigate = useNavigate();
   return (
     <div className="congrats-wrapper">
       <div className="congrats-card">
@@ -11,7 +14,12 @@ function Congratulation() {
 
         <img src={congra} alt="Congratulations" />
 
-        <button className="dashboard-btn">
+        <button
+          className="dashboard-btn"
+          onClick={() => {
+            navigate("/dashboard");
+          }}
+        >
           Go to Dashboard
         </button>
       </div>

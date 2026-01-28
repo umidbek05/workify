@@ -1,0 +1,711 @@
+/* ASOSIY STILLAR */
+
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fb;
+  padding: 15px;
+  gap: 25px;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 300px;
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 30px;
+}
+
+.company-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+
+.sidebar-text h1 {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.sidebar-text p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* MENU ITEMS */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.menu-item {
+  width: 220px;
+  height: 39px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 0 12px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  transition: background-color 0.3s ease;
+}
+
+.menu-item img {
+  filter: brightness(0) saturate(100%) invert(83%);
+  transition: filter 0.3s ease;
+}
+
+.menu-link {
+  color: #c7c7c7;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+  background-color: #163d5c;
+}
+
+.menu-item:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.menu-item:hover .menu-link {
+  color: #ffffff;
+}
+
+.menu-item img {
+  width: 22px;
+  height: 22px;
+  opacity: 5;
+  filter: brightness(0) saturate(100%) invert(83%) sepia(0%) saturate(0%)
+    hue-rotate(0deg);
+}
+
+.menu-link {
+  text-decoration: none;
+  color: #c7c7c7;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.nav-dashboard {
+  width: 850px;
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  /* elementlarni chapdan boshlab joylashtirish */
+  align-items: center;
+  gap: 20px;
+  /* h1 va button orasidagi bo‘sh joy */
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+  /* buttonni tashqariga chiqarish uchun */
+}
+
+.nav-dashboard nav h1 {
+  color: #333;
+  font-size: 26px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.menu {
+  display: flex;
+  gap: 24px;
+}
+
+/* PROFILE CARD */
+.profile-card {
+  width: 400px;
+  padding: 24px;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  border-radius: 16px;
+  color: #fff;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.profile-percent {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.profile-text {
+  font-size: 14px;
+  margin: 12px 0 20px;
+  opacity: 0.9;
+}
+
+/* Progress bar */
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+}
+
+/* Button */
+.complete-btn {
+  margin-top: 20px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background: #fff;
+  color: #1e40af;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.complete-btn:hover {
+  opacity: 0.9;
+}
+
+/* CHART CARD */
+.chart-card {
+  margin-left: 60px;
+  width: 650px;
+  height: 400px;
+  background: #fff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.post-job-btn {
+  width: 200px;
+  height: 60px;
+  position: absolute;
+  right: -280px;
+  /* nav-dan tashqariga chiqarish */
+  background-color: #50c594;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.post-job-btn:hover {
+  background-color: #45b083;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(80, 197, 148, 0.3);
+}
+
+.completed-inf {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.menu {
+  display: flex;
+  gap: 25px;
+}
+
+.section-completed {
+  flex: 1;
+  background: linear-gradient(135deg, #163d5c, #ca5eca);
+  border-radius: 15px;
+  padding: 25px;
+  min-height: 320px;
+}
+
+.section-completed h2 {
+  color: white;
+}
+
+.progress-section {
+  margin-bottom: 25px;
+}
+
+.percentage {
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  width: 25%;
+  height: 100%;
+  background: linear-gradient(to right, #50c594, #45b083);
+  border-radius: 5px;
+}
+
+.profile-text {
+  color: white;
+  line-height: 1.6;
+  margin-bottom: 25px;
+  margin-top: 150px;
+}
+
+.edit-profile-btn {
+  background-color: transparent;
+  color: #50c594;
+  border: 2px solid #50c594;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
+}
+
+.edit-profile-btn:hover {
+  background-color: #50c594;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* JOB POSTS CARD */
+.profil-wiev {
+  flex: 1.5;
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.job-posts-card h3 {
+  color: #333;
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.job-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 38px;
+  font-weight: 700;
+  color: #333;
+  min-width: 50px;
+}
+
+.stat-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  color: #666;
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+.stat-date {
+  color: #999;
+  font-size: 13px;
+}
+
+.job-footer {
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.job-footer p {
+  color: #666;
+  font-size: 15px;
+}
+
+/* JOB POSTS GRID */
+.job-posts {
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.job-card {
+  background-color: #f8f9fa;
+  border-radius: 12px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.job-card:hover {
+  background-color: #e9ecef;
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  border-color: #50c594;
+}
+
+.job-time {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1200px) {
+  .dashboard {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sidebar {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .company-info {
+    padding-bottom: 0;
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .sidebar-menu {
+    flex-direction: row;
+    gap: 15px;
+  }
+
+  .menu-item {
+    padding: 10px 15px;
+  }
+}
+
+@media (max-width: 992px) {
+  .menu {
+    flex-direction: column;
+  }
+
+  .job-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sidebar-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-dashboard {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .post-job-btn {
+    width: 100%;
+  }
+
+  .job-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stat-item {
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .stat-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .progress-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .status {
+    align-self: flex-start;
+  }
+}
+
+@media (max-width: 576px) {
+  .dashboard {
+    padding: 10px;
+  }
+
+  .sidebar {
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .sidebar-menu {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .menu-item {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .job-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .job-card {
+    height: 120px;
+  }
+
+  .profile-card,
+  .job-posts-card {
+    padding: 20px;
+  }
+}
+
+.profile-chart-title {
+  text-align: center;
+  /* Markazlashtirish */
+  font-family: "Gilroy", sans-serif;
+  /* Gilroy fonti */
+  font-weight: 400;
+  /* Regular */
+  font-style: normal;
+  /* Regular */
+  font-size: 24px;
+  /* 24px */
+  line-height: 100%;
+  /* line-height 100% */
+  letter-spacing: 0%;
+  /* 0% */
+  color: #4b5563;
+  /* gray-700 bilan mos */
+  margin-bottom: 1rem;
+  /* Tailwind mb-4 o‘rniga */
+}
+
+/* wrapper (katta container) */
+.toggle-wrapper {
+  margin-left: 19%;
+  width: 420px;
+  height: 50px;
+  background: #f3f4f6;
+  /* light gray */
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  opacity: 1;
+}
+
+/* oddiy button */
+.toggle-btn {
+  width: 200px;
+  height: 40px;
+  border-radius: 14px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+
+  /* TEXT STYLE */
+  font-family: "Mulish", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+  letter-spacing: 0%;
+  color: #9ca3af;
+  /* gray */
+
+  transition: all 0.3s ease;
+}
+
+/* active holati */
+.toggle-btn.active {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* hover */
+.toggle-btn:hover {
+  color: #374151;
+}
+
+/* Logout konteyneri */
+.menu-item.logout {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #ef4444; /* Qizil rang (xavf belgisi) */
+  font-family: "Gilroy", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-top: auto; /* Agar sidebar bo'lsa, pastga suradi */
+}
+
+/* Ichidagi span va ikonka joylashuvi */
+.menu-item.logout span {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Matn va ikonka orasidagi masofa */
+  width: 100%;
+}
+
+/* Hover effekti */
+.menu-item.logout:hover {
+  background-color: #fef2f2; /* Juda och qizil fon */
+  transform: translateX(5px); /* Ozgina o'ngga surilish */
+}
+
+/* Ikonka stili (LogOut komponenti uchun) */
+.menu-item.logout svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor; /* Rang matn rangiga moslashadi */
+  transition: transform 0.3s ease;
+}
+
+/* Hoverda ikonka qimirlashi */
+.menu-item.logout:hover svg {
+  transform: scale(1.1);
+}
+
+/* Active holati (bosilganda) */
+.menu-item.logout:active {
+  background-color: #fee2e2;
+  transform: scale(0.98);
+}
+
+/* Umumiy menyu elementi */
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #505151; /* Standart matn rangi */
+  font-family: "Gilroy", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 10px;
+  gap: 12px; /* Ikonka va matn orasidagi masofa */
+  transition: all 0.3s ease;
+  cursor: pointer;
+  margin-bottom: 8px;
+}
+
+/* Ikonka stili (Contact SVG uchun) */
+.menu-item svg {
+  width: 20px;
+  height: 20px;
+  stroke: #505151; /* Ikonka rangi */
+  fill: none;
+  transition: all 0.3s ease;
+}
+
+/* Hover effekti - Sichqoncha ustiga kelganda */
+.menu-item:hover {
+  background-color: #f0f4ff; /* Och ko'k fon */
+  color: #1d3f61; /* Matn ko'k rangga o'zgaradi */
+}
+
+.menu-item:hover svg {
+  stroke: #1d3f61; /* Ikonka ham ko'k rangga o'zgaradi */
+  transform: scale(1.1);
+}
+
+/* Faol holat - NavLink "active" klassini avtomat qo'shadi */
+.menu-item.active {
+  background: linear-gradient(135deg, #1d3f61, #4361ee);
+  color: #ffffff;
+}
+
+.menu-item.active svg {
+  stroke: #ffffff;
+}
+
+/* Matn stili */
+.menu-link {
+  line-height: 1;
+}

@@ -1,7 +1,8 @@
-.footer {
+footer {
+  width: 100%;
   background: rgb(22, 61, 92, 1);
   padding: 60px 0 30px;
-  margin-top: 100px;
+  /* margin-top: 100px; */
 }
 
 .footer-content {
