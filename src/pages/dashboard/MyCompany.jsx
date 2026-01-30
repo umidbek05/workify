@@ -46,17 +46,14 @@ const CompanyProfile = () => {
         const currentUserEmail = localStorage.getItem("email");
 
         // 2. PostgreSQL bazasiga rasm URL'ini saqlash
-        const dbRes = await fetch(
-          "http://localhost:5000/register/updateProfile",
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              email: currentUserEmail,
-              logo: imageUrl,
-            }),
-          }
-        );
+        const dbRes = await fetch("http://localhost:5000/uploader/save-image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: currentUserEmail,
+            logo: imageUrl,
+          }),
+        });
 
         if (dbRes.ok) {
           // UI'ni yangilash

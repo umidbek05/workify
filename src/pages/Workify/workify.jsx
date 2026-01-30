@@ -29,22 +29,6 @@ export default function Workify() {
             Finding the best candidate is always hard. Tell us what <br />
             you are looking for and choose one from among the best.
           </p>
-          <div className="Texta">
-            <div className="texta1">
-              <h2>Hire a talent</h2>
-            </div>
-            <div className="texta2">
-              <h3>Find a job</h3>
-            </div>
-          </div>
-          <div className="search">
-            <img src={Diplomat} alt="" />
-            <input placeholder="Who are you looking for?" />
-            <p></p>
-            <img src={Diplomat} alt="" />
-            <input placeholder="What job are you looking for?" />
-            <button>Search</button>
-          </div>
         </div>
       </section>
 

@@ -1,54 +1,81 @@
 import { useState, useEffect } from "react";
 import "./Dashboard.css";
-import C from "../dashboard/C.png";
+import C from "../dashboard/C.png"; // Bu default rasm bo'lib qoladi
 import page1 from "./page1.png";
 import page2 from "./page2.png";
 import page3 from "./page3.png";
 import page4 from "./page4.png";
 import page5 from "./page5.png";
-import page6 from "./page6.png";
-import { NavLink, Outlet } from "react-router-dom";
-import { Contact, Instagram, LogOut } from "lucide-react";
+import { useNavigate, NavLink, Outlet } from "react-router-dom";
+import { Contact, LogOut } from "lucide-react";
 
 const Dashboard = () => {
   const [company, setCompany] = useState({
-    name: "",
+    name: "Loading...", // Yuklanish holati uchun
     city: "",
   });
 
+  const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || C);
+
   useEffect(() => {
-    // LocalStorage dan joriy foydalanuvchi emailini olamiz
     const currentUserEmail = localStorage.getItem("email");
+
+    if (!currentUserEmail) return;
 
     fetch("http://localhost:5000/register/getRegister")
       .then((res) => res.json())
       .then((resp) => {
-        // Backend ma'lumotni 'data' obyektida yoki to'g'ridan-to'g'ri massivda qaytarishi mumkin
         const data = resp.data || resp;
 
         if (Array.isArray(data)) {
-          // Faqat joriy foydalanuvchiga tegishli kompaniyani qidiramiz
-          const myData = data.find(
-            (c) => c.email?.toLowerCase() === currentUserEmail?.toLowerCase()
-          );
+          // Emaili mos keladigan oxirgi ro'yxatdan o'tgan ma'lumotni olamiz
+          const myData = data
+            .filter(
+              (c) => c.email?.toLowerCase() === currentUserEmail?.toLowerCase()
+            )
+            .pop(); // Eng oxirgi qo'shilgan ma'lumotni olish
 
           if (myData) {
             setCompany({
-              name: myData.companyName || "Company Name",
-              city: myData.city || "City",
+              // Bu yerda bazadagi ustun nomi 'companyName' ekanligiga e'tibor bering
+              name: myData.companyName || "No Company Name",
+              city: myData.city || "No City",
             });
+
+            if (myData.logo) {
+              setLogo(myData.logo);
+              localStorage.setItem("companyLogo", myData.logo);
+            }
           }
         }
       })
-      .catch((err) => console.error("Error fetching data:", err));
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setCompany({ name: "Error loading", city: "" });
+      });
   }, []);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (window.confirm("Tizimdan chiqishni xohlaysizmi?")) {
+      localStorage.clear();
+      sessionStorage.clear();
+      navigate("/", { replace: true });
+    }
+  };
 
   return (
     <div className="dashboard">
-      {/* SIDEBAR */}
       <aside className="sidebar">
         <div className="company-info">
-          <img src={C} alt="Company logo" />
+          {/* 3. Bu yerda statik 'C' emas, 'logo' statini ishlatamiz */}
+          <img
+            src={logo}
+            alt="Company logo"
+            className="sidebar-logo"
+            onError={(e) => (e.target.src = C)} // Rasm yuklanmasa default rasmga qaytadi
+          />
           <div className="sidebar-text">
             <h1>{company.name}</h1>
             <p>{company.city}</p>
@@ -112,12 +139,23 @@ const Dashboard = () => {
             <span className="menu-link">Contacts</span>
           </NavLink>
 
-          <NavLink to="/" className="menu-item logout">
-            <span className="">
-              Log Out
-              <LogOut />
+          {/* Logout tugmasini ham qo'shib qo'ydim */}
+          <button
+            onClick={handleLogout}
+            className="menu-item logout-btn"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              width: "100%",
+              textAlign: "left",
+            }}
+          >
+            <span className="menu-link" style={{ color: "red" }}>
+              Logout
+              <LogOut className="logg" />
             </span>
-          </NavLink>
+          </button>
         </div>
       </aside>
 

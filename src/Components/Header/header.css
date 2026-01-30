@@ -1,99 +1,125 @@
 header {
-  width: 1460px;
-  height: 60px;
+  width: 100%; /* Qat'iy 1460px ni o'chirdik */
+  max-width: 1440px; /* Maksimal kenglik */
+  height: 70px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between; /* Elementlarni ikki chetga suradi */
   background-color: white;
-  color: black;
+  margin: 0 auto; /* Markazga olish */
+  padding: 0 5%; /* Yonlardan bo'sh joy */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   position: sticky;
-  margin-left: -40px;
+  top: 0;
+  z-index: 1000;
 }
+
 .head a {
   text-decoration: none;
-  width: 105px;
-  height: 38px;
-  margin-top: 23px;
-  margin-left: 200px;
   font-weight: 600;
   font-size: 30px;
+  color: #404040;
   line-height: 100%;
-  letter-spacing: 0%;
-  color: black;
 }
 
 .header1 {
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin-right: 300px;
+  gap: 25px;
 }
 
 .header1 a {
-  color: silver;
-  width: 67px;
-  height: 18px;
+  color: #64748b;
   text-decoration: none;
   font-weight: 500;
-  transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
 }
 
 .header1 a:hover {
   color: #38bdf8;
 }
 
-.header1 img {
-  width: 15px;
-  height: 15px;
-  margin-top: 5px;
-}
-
-.header2 select {
-  background-color: white;
-  color: rgb(22, 61, 92, 1);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: sans-serif;
-  margin-left: 20px;
+.header2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
 }
 
 .header2 button {
-  background-color: white;
-  color: rgb(22, 61, 92, 1);
-  border: none;
-  padding: 8px 16px;
-  border-radius: 6px;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s;
-  border: 2px solid rgb(22, 61, 92, 1);
-  margin-left: 20px;
-  font-family: sans-serif;
-  width: 120px;
+  font-weight: 600;
+  transition: 0.3s;
+  border: 2px solid #163d5c;
+  background: transparent;
+  color: #163d5c;
+}
+
+.header2 button:last-of-type {
+  background-color: #163d5c;
+  color: white;
 }
 
 .header2 button:hover {
-  background-color: rgb(22, 61, 92, 1);
-  color: white;
-  transition: 0.5s;
+  opacity: 0.8;
 }
 
-.header2 button:first-of-type {
-  border: 2px solid rgb(22, 61, 92, 1);
-  color: rgb(22, 61, 92, 1);
+.header2 select {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
 }
 
-.header2 button:first-of-type:hover {
-  background-color: rgb(22, 61, 92, 1);
-  color: white;
-}
-.header2 select :hover {
-  background-color: rgb(22, 61, 92, 1);
-  color: white;
+/* --- RESPONSIVE --- */
+
+@media (max-width: 1024px) {
+  .header1 {
+    gap: 15px;
+  }
 }
 
-.app > *:not(.header) {
-  padding: 24px 32px;
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    padding: 15px 5%;
+    flex-wrap: wrap; /* Elementlar sig'masa pastga tushadi */
+  }
+
+  .header1 {
+    order: 3; /* Linklarni eng pastga tushiradi */
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 10px;
+  }
+
+  .header2 {
+    gap: 8px;
+  }
+
+  .header2 button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .head a {
+    font-size: 22px;
+  }
+
+  .header2 button {
+    width: auto; /* Qat'iy widthni bekor qilish */
+    padding: 6px 10px;
+  }
+
+  .header1 a {
+    font-size: 14px;
+  }
 }

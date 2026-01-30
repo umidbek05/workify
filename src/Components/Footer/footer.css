@@ -30,6 +30,7 @@ footer {
   height: 35px;
   border-radius: 8px;
   border: none;
+  margin-top: 50px;
 }
 
 .footer-logo button a {
@@ -57,10 +58,12 @@ footer {
   list-style: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .link-column a {
-  margin-bottom: 12px;
+  /* margin-bottom: 12px; */
   color: white;
   font-size: 14px;
   cursor: pointer;
@@ -120,4 +123,80 @@ footer {
   color: white;
   line-height: 1.5;
   font-size: 15px;
+}
+
+/* --- FOOTER RESPONSIVE --- */
+
+@media (max-width: 1024px) {
+  .footer-content {
+    gap: 100px; /* Planshetlarda masofani kamaytiramiz */
+    padding: 0 40px;
+  }
+
+  .footer-links {
+    gap: 50px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column; /* Elementlarni ustma-ust tushiramiz */
+    gap: 50px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-logo button {
+    position: static; /* Absolute pozitsiyani bekor qilamiz */
+    margin: 20px auto 0;
+  }
+
+  .footer-links {
+    width: 100%;
+    justify-content: space-around;
+    gap: 20px;
+  }
+
+  .foot {
+    flex-direction: column; /* Pastki qismni ham ustma-ust qilamiz */
+    gap: 20px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .img {
+    margin-top: 10px;
+  }
+
+  .img img {
+    margin: 0 10px; /* Ikonkalar orasini ochamiz */
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 40px 0 20px;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Havolalarni 2 ustunga bo'lamiz */
+    text-align: left;
+    gap: 30px;
+    padding: 0 20px;
+  }
+
+  .footer-logo h1 {
+    font-size: 24px;
+  }
+
+  /* Oxirgi ustun to'liq kenglikni egallashi uchun (ixtiyoriy) */
+  .link-column:last-child {
+    grid-column: span 2;
+    text-align: center;
+  }
+
+  .link-column:last-child ul {
+    align-items: center;
+  }
 }

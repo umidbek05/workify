@@ -101,3 +101,67 @@ button {
   background: #0f2a44;
   color: #ffffff;
 }
+
+/* --- REGISTER RESPONSIVE --- */
+
+@media (max-width: 768px) {
+  .page {
+    height: auto; /* Telefonda balandlikni cheklamaymiz */
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%; /* Kenglikni ekran kengligiga moslaymiz */
+    max-width: 450px;
+    padding: 30px 20px;
+  }
+
+  .card h1 {
+    font-size: 16px; /* Matnni biroz kichraytiramiz */
+  }
+
+  .image-box img {
+    width: 80%; /* Rasm ekran kengligidan chiqib ketmasligi uchun */
+  }
+
+  .digits {
+    gap: 8px; /* Raqam kataklari orasini kamaytiramiz */
+  }
+
+  .digits div {
+    width: 45px; /* Kataklarni biroz kichraytiramiz */
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 25px 15px;
+  }
+
+  .digits {
+    gap: 5px; /* Juda kichik ekranlar uchun */
+  }
+
+  .digits div {
+    width: 38px; /* 6 ta katak sig'ishi uchun kichraytiriladi */
+    height: 38px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .nav-buttons {
+    flex-direction: column-reverse; /* Tugmalarni ustma-ust qilamiz */
+    width: 100%;
+  }
+
+  .nav-buttons button {
+    width: 100%; /* Tugmalar to'liq kenglikda */
+    height: 45px;
+  }
+
+  .primary {
+    width: 100%; /* "Click here" tugmasi ham kengayadi */
+  }
+}

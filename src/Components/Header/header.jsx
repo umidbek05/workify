@@ -33,12 +33,6 @@ export default function Header() {
         >
           Join now
         </button>
-
-        <select value={language} onChange={handleLanguageChange}>
-          <option value="EN">Eng</option>
-          <option value="Ru">Rus</option>
-          <option value="UZ">Uzb</option>
-        </select>
       </div>
     </header>
   );

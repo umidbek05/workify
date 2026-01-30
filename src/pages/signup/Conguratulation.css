@@ -52,3 +52,46 @@
 .dashboard-btn:hover {
   background-color: #16a34a;
 }
+
+/* --- CONGRATULATION RESPONSIVE --- */
+
+@media (max-width: 768px) {
+  .congrats-card {
+    width: 90%; /* Ekran chetiga yopishib qolmasligi uchun */
+    padding: 30px 20px;
+    margin: 20px;
+  }
+
+  .congrats-card h1 {
+    font-size: 26px; /* Sarlavhani biroz kichraytiramiz */
+  }
+
+  .congrats-card p {
+    font-size: 15px;
+  }
+
+  .congrats-card img {
+    max-width: 200px; /* Rasmni mobilga moslaymiz */
+  }
+}
+
+@media (max-width: 480px) {
+  .congrats-wrapper {
+    min-height: 80vh; /* Mobil qurilmalarda Footer bilan oraliqni saqlash uchun */
+  }
+
+  .congrats-card {
+    padding: 25px 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05); /* Soyani yumshatamiz */
+  }
+
+  .congrats-card h1 {
+    font-size: 22px;
+  }
+
+  .dashboard-btn {
+    width: 100%; /* Tugmani to'liq kenglikda qilamiz */
+    padding: 12px;
+    font-size: 15px;
+  }
+}

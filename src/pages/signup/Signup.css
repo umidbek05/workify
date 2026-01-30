@@ -1,3 +1,4 @@
+/* --- ASOSIY STYLLAR --- */
 .signup-container {
   min-height: 100vh;
   display: flex;
@@ -16,7 +17,6 @@
   box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
 }
 
-/* tabs */
 .tabs {
   padding: 5px;
   display: flex;
@@ -26,6 +26,7 @@
   width: 500px;
   height: 50px;
 }
+
 .tabs > button {
   font-size: 20px;
 }
@@ -50,7 +51,6 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
 }
 
-/* form */
 .form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -61,14 +61,12 @@
   display: flex;
   flex-direction: column;
 }
-
 .field label {
   font-size: 14px;
   margin-bottom: 6px;
   color: #444;
 }
 
-/* input box */
 .input-box {
   display: flex;
   align-items: center;
@@ -80,14 +78,12 @@
   background: #fff;
 }
 
-/* icon block */
 .icon {
   width: 40px;
   height: 40px;
   min-width: 40px;
   background: #f1f4f8;
   border-radius: 10px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -97,8 +93,6 @@
   color: #163d5c;
   font-size: 16px;
 }
-
-/* inputs */
 .input-box input,
 .input-box select {
   flex: 1;
@@ -107,18 +101,14 @@
   font-size: 14px;
   background: transparent;
 }
-
-/* eye icon */
 .eye {
   cursor: pointer;
   padding: 0 10px;
 }
-
 .eye svg {
   color: #163d5c;
 }
 
-/* buttons */
 .buttons {
   grid-column: span 2;
   display: flex;
@@ -133,30 +123,95 @@
   font-size: 14px;
   cursor: pointer;
 }
-
 .btn.back {
   border: 1px solid #c7d0dd;
   background: #fff;
   color: #163d5c;
 }
-
 .btn.next {
   border: none;
   background: #163d5c;
   color: #fff;
 }
 
-/* responsive */
+/* --- MODAL (ALERT) ASOSIY --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.custom-alert {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 400px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.alert-btn {
+  margin-top: 20px;
+  padding: 10px 25px;
+  background: linear-gradient(135deg, #1d3f61, #c25dc5);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* --- RESPONSIVE (MEDIA QUERIES) --- */
+
 @media (max-width: 768px) {
   .signup-box {
     width: 95%;
+    padding: 20px;
   }
-
+  .tabs {
+    width: 100%;
+  }
   .form {
     grid-template-columns: 1fr;
   }
-
   .buttons {
     grid-column: span 1;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  .btn {
+    width: 100%;
+    height: 48px;
+  }
+
+  /* Alert responsive */
+  .custom-alert {
+    width: 85%;
+    padding: 20px;
+    font-size: 14px;
+  }
+  .alert-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-box {
+    padding: 15px;
+  }
+  .input-box {
+    height: 45px;
+  }
+  .icon {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
   }
 }

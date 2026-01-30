@@ -22,6 +22,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("company");
+  const [modal, setModal] = useState({ show: false, message: "" });
 
   const [formData, setFormData] = useState({
     companyName: "",
@@ -34,6 +35,24 @@ const Signup = () => {
     city: "",
   });
 
+  // --- FOIZNI HISOBLASH QISMI ---
+  const fieldsToTrack = [
+    "companyName",
+    "phone",
+    "email",
+    "website",
+    "industry",
+    "country",
+    "city",
+  ];
+  const filledFields = fieldsToTrack.filter(
+    (field) => formData[field] && formData[field].toString().trim() !== ""
+  ).length;
+  const completionPercentage = Math.round(
+    (filledFields / fieldsToTrack.length) * 100
+  );
+  // ------------------------------
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -42,7 +61,7 @@ const Signup = () => {
     e.preventDefault();
 
     if (!formData.phone || !formData.email || !formData.password) {
-      alert("Phone, Email va Password majburiy!");
+      setModal({ show: true, message: "Phone, Email va Password majburiy!" });
       return;
     }
 
@@ -53,21 +72,73 @@ const Signup = () => {
     })
       .then((res) => res.json())
       .then(() => {
-        // 🟢 MANA SHU YERDA EMAILNI SAQLAB QOLAMIZ
         localStorage.setItem("email", formData.email);
-        alert("Form submitted successfully!");
-        navigate("/register");
+        setModal({ show: true, message: "Form submitted successfully!" });
       })
-      .catch(() => alert("Something went wrong!"));
+      .catch(() => setModal({ show: true, message: "Something went wrong!" }));
   };
 
   return (
     <div>
       <Header />
-
+      {modal.show && (
+        <div className="modal-overlay">
+          <div className="custom-alert">
+            <p>{modal.message}</p>
+            <button
+              className="alert-btn"
+              onClick={() => {
+                setModal({ show: false, message: "" });
+                if (modal.message === "Form submitted successfully!")
+                  navigate("/register");
+              }}
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      )}
       <div className="signup-container">
         <div className="signup-box">
-          {/* TABS */}
+          {/* PROGRESS BAR JOYLASHTIRILDI */}
+          <div
+            className="registration-progress"
+            style={{ padding: "0 20px 20px 20px" }}
+          >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                fontSize: "14px",
+                marginBottom: "8px",
+                fontWeight: "bold",
+                color: "#555",
+              }}
+            >
+              <span>Profile Completion</span>
+              <span>{completionPercentage}%</span>
+            </div>
+            <div
+              style={{
+                width: "100%",
+                height: "10px",
+                backgroundColor: "#eee",
+                borderRadius: "5px",
+                overflow: "hidden",
+              }}
+            >
+              <div
+                style={{
+                  width: `${completionPercentage}%`,
+                  height: "100%",
+                  backgroundColor:
+                    completionPercentage === 100 ? "#4CAF50" : "#3b82f6",
+                  transition: "width 0.4s ease-in-out",
+                }}
+              ></div>
+            </div>
+          </div>
+
           <div className="tabs">
             <button
               type="button"
@@ -86,7 +157,6 @@ const Signup = () => {
             </button>
           </div>
 
-          {/* FORM */}
           <form className="form" onSubmit={handleSubmit}>
             <div className="field">
               <label>Company name</label>
@@ -248,7 +318,6 @@ const Signup = () => {
           </form>
         </div>
       </div>
-
       <Footer />
     </div>
   );

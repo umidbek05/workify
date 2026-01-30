@@ -1,327 +1,250 @@
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;800;900&display=swap);
+
 /* Hero qismi */
 .hero {
   position: relative;
+  width: 100%;
+  max-width: 1440px;
   margin: 0 auto 60px;
-  height: 500px;
-  border-radius: 20px;
+  min-height: 600px; /* Balandlikni moslashuvchan qildik */
+  display: flex;
+  align-items: center;
+  background-color: #fcfcfc;
   overflow: hidden;
-}
-
-.herofoto img {
-  width: 145px;
-  position: absolute;
-  height: 230px;
-  margin-left: 650px;
-  margin-top: 260px;
+  font-family: "Montserrat", sans-serif;
 }
 
 .hero-bg {
-  width: 850px;
-  height: 450px;
-  object-fit: cover;
-  margin-left: 550px;
-  margin-top: 60px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50%; /* Ekran yarmini egallaydi */
+  height: auto;
+  max-height: 90%;
+  object-fit: contain;
+  z-index: 1;
+}
+
+.herofoto img {
+  position: absolute;
+  right: 35%;
+  bottom: 10%;
+  width: 120px;
+  z-index: 2;
 }
 
 .hero-content {
-  position: absolute;
-  top: 50%;
-  left: 80px;
-  transform: translateY(-50%);
-  color: #140e0e;
-  max-width: 700px;
+  position: relative;
+  z-index: 3;
+  padding-left: 5%;
+  width: 100%;
+  max-width: 650px;
 }
 
 .hero-content h1 {
-  width: 491px;
-  height: 110px;
-  margin-top: 40px;
-  margin-left: 100px;
   font-weight: 600;
-  font-size: 40px;
-  line-height: 40px;
-  letter-spacing: 0%;
-}
+  font-size: clamp(32px, 5vw, 56px); /* Ekran o'lchamiga qarab o'zgaradi */
+  line-height: 1.1;
 
-.Texta {
-  display: flex;
-  align-items: center;
-}
-.texta1 h2 {
-  margin-left: 100px;
-  font-weight: 600;
-  font-size: 18px;
-  position: absolute;
-  margin-top: 50px;
-}
-.texta2 h3 {
-  margin-left: 445px;
-  margin-top: 50px;
-  font-weight: 600;
-  position: absolute;
+  margin-bottom: 25px;
+  font-size: 50px;
+  line-height: 55px;
+  color: #343c44;
 }
 
 .hero-content p {
-  width: 491px;
-  height: 48px;
-  margin-top: -25px;
-  margin-left: 100px;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
-  letter-spacing: 0.3px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 40px;
+}
+
+/* Search qismini markazlash */
+.find-talent {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  color: #343c44;
+}
+
+.find-job {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  color: #343c44;
 }
 
 .search {
   display: flex;
-  background-color: rgb(53, 25, 25);
-  gap: 50px;
+  align-items: center;
   background: white;
   padding: 5px;
   border-radius: 12px;
-  width: 770px;
-  border: 1px solid rgb(6, 3, 3);
-  margin-left: 100px;
-  margin-top: 80px;
-  height: 48px;
-  gap: 1px;
-  border: none;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-}
-
-.search p {
-  border: 1px solid silver;
-  width: 0px;
-  height: 50px;
-  margin-top: -7px;
-}
-
-.search img {
-  width: 16.97px;
-  height: 14.98px;
-  align-items: center;
-  margin-top: 12px;
-  position: relative;
-  margin-left: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  margin-top: 5px;
 }
 
 .search input {
-  padding: 12px 19px;
+  flex: 1;
+  padding: 12px;
   border: none;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .search input:focus {
   outline: none;
-  border: none; /* yoki border-color: transparent; */
+  border: none;
+  box-shadow: none;
 }
 
 .search button {
-  width: 200px;
+  background-color: #163d5c;
+  color: white;
   border: none;
-  margin-left: 21px;
+  padding: 12px 30px;
   border-radius: 8px;
-  padding: 12px 60px;
-  height: 40px;
-  /* max-width: 170px; */
-  margin-top: -1px;
-  color: rgb(254, 254, 254);
-  background-color: rgba(22, 61, 92, 1);
-}
-
-.search button:hover {
-  background-color: white;
-  color: rgba(22, 61, 92, 1);
   font-weight: 600;
-  border: 1px solid rgba(22, 61, 92, 1);
+  cursor: pointer;
+  transition: 0.3s;
 }
 
 .Card {
-  display: flex;
-  align-items: center;
-  gap: 140px;
-  margin-left: 140px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  width: 90%;
+  margin: 0 auto;
+  padding-bottom: 50px;
 }
 
-.first img {
-  width: 35px;
-  height: 30px;
-  margin-top: 60px;
-  color: silver;
-}
-
-.first h1 {
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.first p {
-  font-weight: 100;
-  margin-top: 40px;
-  line-height: 20px;
-  font-size: 17px;
-}
-
-.first {
-  color: rgba(22, 61, 92, 1);
-  width: 190px;
-  height: 270px;
-  border: none;
-}
-
-.first:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background-color: #f9f9f9;
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 200px;
-  border-radius: 25px;
-  padding-left: 20px;
-  transition: 0.5s;
-}
-
-.first:hover .img img {
-  display: block;
-}
-
-.first:hover img {
-  padding-left: 75px;
-}
-
-.first:hover h1 {
-  padding-left: 40px;
-}
-
-.thirst img {
-  width: 35px;
-  height: 30px;
-  margin-top: 60px;
-  color: silver;
-}
-
-.thirst h1 {
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.thirst p {
-  font-weight: 100;
-  margin-top: 40px;
-  line-height: 20px;
-  font-size: 17px;
-}
-
-.thirst {
-  color: rgba(22, 61, 92, 1);
-  width: 190px;
-  height: 270px;
-  border: none;
-}
-
-.thirst:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background-color: #f9f9f9;
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 200px;
-  border-radius: 25px;
-  padding-left: 20px;
-  transition: 0.5s;
-}
-
-.thirst:hover img {
-  padding-left: 75px;
-}
-
-.thirst:hover h1 {
-  padding-left: 20px;
-}
-.thirst:hover p {
-  padding-left: 20px;
-}
-
-.second img {
-  width: 35px;
-  height: 30px;
-  margin-top: 60px;
-  color: silver;
-}
-
-.second h1 {
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.second p {
-  font-weight: 100;
-  margin-top: 20px;
-  line-height: 20px;
-  font-size: 17px;
-}
-
-.second {
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 220px;
-  height: 270px;
-  border: none;
-}
-
-.second:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background-color: #f9f9f9;
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 200px;
-  border-radius: 25px;
-  padding-left: 20px;
-  transition: 0.5s;
-}
-
-.second:hover img {
-  padding-left: 75px;
-}
-
-.second:hover h1 {
-  padding-left: 20px;
-}
-
-.fourth img {
-  width: 35px;
-  height: 30px;
-  margin-top: 60px;
-  color: silver;
-}
-
-.fourth h1 {
-  font-size: 20px;
-  font-weight: 400;
-}
-
-.fourth p {
-  font-weight: 100;
-  margin-top: 20px;
-  line-height: 20px;
-  font-size: 17px;
-}
-
+/* Barcha cardlar uchun umumiy stil */
+.first,
+.second,
+.thirst,
 .fourth {
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 220px;
-  height: 270px;
-  border: none;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  transition: all 0.4s ease;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
 }
 
+.first:hover,
+.second:hover,
+.thirst:hover,
 .fourth:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  background-color: #f9f9f9;
-  border: 1px solid rgba(22, 61, 92, 1);
-  width: 200px;
-  border-radius: 25px;
-  padding-left: 20px;
-  transition: 0.5s;
+  transform: translateY(-10px);
+  border-color: #163d5c;
+  box-shadow: 0 15px 35px rgba(22, 61, 92, 0.1);
 }
 
-.fourth:hover img {
-  padding-left: 75px;
+.Card img {
+  width: 45px;
+  height: auto;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.Card h1 {
+  font-size: 22px;
+  color: #163d5c;
+  margin-bottom: 15px;
+}
+
+.find-job {
+  margin-left: 180px;
+}
+/* --- RESPONSIVE --- */
+
+/* --- RESPONSIVE MEDIA QUERIES --- */
+
+/* Planshetlar uchun (992px gacha) */
+@media (max-width: 992px) {
+  .hero-bg {
+    opacity: 0.3; /* Matn o'qilishi uchun fonni xiralashtiramiz */
+    width: 80%;
+  }
+  .hero-content {
+    max-width: 90%;
+    padding-left: 20px;
+  }
+}
+
+/* Smartfonlar uchun (768px gacha) */
+@media (max-width: 768px) {
+  .hero {
+    min-height: auto;
+    padding: 100px 0 60px;
+    text-align: center;
+  }
+
+  .hero-bg {
+    display: none; /* Kichik ekranda fon rasmini olib tashlaymiz */
+  }
+
+  .hero-content {
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+
+  .hero-content h1 {
+    font-size: 36px;
+    line-height: 1.2;
+  }
+
+  .search {
+    flex-direction: column;
+    padding: 15px;
+    gap: 10px;
+  }
+
+  .search input {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+  }
+
+  .search button {
+    width: 100%;
+  }
+
+  .find-job {
+    margin-left: 20px; /* Masofani kamaytirdik */
+  }
+}
+
+/* Eng kichik smartfonlar uchun (480px va 320px) */
+@media (max-width: 480px) {
+  .hero-content h1 {
+    font-size: 28px;
+  }
+
+  .find-talent,
+  .find-job {
+    display: block; /* Ularni ustma-ust tushiramiz */
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .find-job {
+    margin-left: 0;
+  }
+
+  .Card {
+    grid-template-columns: 1fr; /* Cardlarni bittadan qator qilamiz */
+    width: 95%;
+  }
+
+  .herofoto img {
+    right: 5%;
+    width: 80px;
+  }
 }
