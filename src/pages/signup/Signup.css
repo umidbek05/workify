@@ -1,5 +1,6 @@
 /* --- ASOSIY STYLLAR --- */
 .signup-container {
+  padding-top: 20px;
   min-height: 100vh;
   display: flex;
   align-items: center;

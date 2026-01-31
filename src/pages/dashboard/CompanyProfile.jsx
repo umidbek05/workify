@@ -1,5 +1,5 @@
 import React from "react";
-import "../../pages/dashboard/companyprofile.css";
+import "./CompanyProfile";
 
 import Dashboard from "./Dashboard";
 
@@ -34,13 +34,27 @@ const CompanyProfile = () => {
           </div>
 
           <div className="company-info">
-            <p><b>Since:</b> 2015</p>
-            <p><b>City:</b> Tashkent</p>
-            <p><b>Country:</b> Uzbekistan</p>
-            <p><b>Phone:</b> +99894-498-65-65</p>
-            <p><b>Email:</b> TechCells@gmail.ru</p>
-            <p><b>Telegram:</b> @TechCells</p>
-            <p><b>Website:</b> www.TechCells.com</p>
+            <p>
+              <b>Since:</b> 2015
+            </p>
+            <p>
+              <b>City:</b> Tashkent
+            </p>
+            <p>
+              <b>Country:</b> Uzbekistan
+            </p>
+            <p>
+              <b>Phone:</b> +99894-498-65-65
+            </p>
+            <p>
+              <b>Email:</b> TechCells@gmail.ru
+            </p>
+            <p>
+              <b>Telegram:</b> @TechCells
+            </p>
+            <p>
+              <b>Website:</b> www.TechCells.com
+            </p>
           </div>
         </div>
 
