@@ -83,11 +83,14 @@ function Login() {
         return;
       }
 
-      // ✅ MUHIM: Foydalanuvchi ma'lumotlarini saqlash
-      // Bu userId keyinchalik parolni o'zgartirish sahifasida kerak bo'ladi
+      // ✅ 1. Emailni saqlash (Boshqa sahifalarda ma'lumotni fetch qilish uchun kerak)
+      localStorage.setItem("email", formData.email);
+
+      // ✅ 2. Foydalanuvchi ID va ma'lumotlarini saqlash
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("user", JSON.stringify(data.user));
 
+      // ✅ 3. Remember Me funksiyasi
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
       } else {
@@ -95,6 +98,8 @@ function Login() {
       }
 
       alert("Muvaffaqiyatli login!");
+
+      // ✅ 4. Dashboardga o'tish
       navigate("/dashboard");
     } catch (err) {
       setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
@@ -123,13 +128,15 @@ function Login() {
           <h1 className="title">Login</h1>
 
           {errors.submit && (
-            <p className="error-text" style={{ color: "red", textAlign: "center" }}>
+            <p
+              className="error-text"
+              style={{ color: "red", textAlign: "center" }}
+            >
               {errors.submit}
             </p>
           )}
 
           <form onSubmit={handleSubmit}>
-            {/* EMAIL */}
             <div className="form-group">
               <label>Email</label>
               <div className={`input-box ${errors.email ? "error" : ""}`}>
@@ -142,10 +149,11 @@ function Login() {
                   onChange={handleChange}
                 />
               </div>
-              {errors.email && <span className="error-text">{errors.email}</span>}
+              {errors.email && (
+                <span className="error-text">{errors.email}</span>
+              )}
             </div>
 
-            {/* PASSWORD */}
             <div className="form-group">
               <label>Password</label>
               <div className={`input-box ${errors.password ? "error" : ""}`}>
@@ -157,7 +165,10 @@ function Login() {
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <span className="eye" onClick={() => setShowPassword(!showPassword)}>
+                <span
+                  className="eye"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </span>
               </div>
@@ -177,7 +188,6 @@ function Login() {
                 Remember me
               </label>
 
-              {/* ✅ Forgot password bosilganda /forget sahifasiga o'tadi */}
               <span className="forgot" onClick={() => navigate("/forget")}>
                 Forgot password?
               </span>
@@ -190,7 +200,7 @@ function Login() {
 
           <p className="footer">
             Have no account?{" "}
-            <span onClick={() => navigate("/register")}>Register</span>
+            <span onClick={() => navigate("/signup")}>Register</span>
           </p>
         </div>
       </div>

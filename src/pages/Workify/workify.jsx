@@ -14,9 +14,8 @@ export default function Workify() {
     <>
       <Header />
       <section className="hero">
-        <div className="herofoto">
-          <img src={Gul} alt="" />
-        </div>
+        <div className="herofoto"></div>
+
         <img src={Group} alt="hero background" className="hero-bg" />
 
         <div className="hero-content">
@@ -35,6 +34,7 @@ export default function Workify() {
       <div className="Card">
         <div className="first">
           <img src={Mask} alt="" />
+
           <h1>
             Professional <br /> recruiter
           </h1>

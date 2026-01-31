@@ -24,8 +24,6 @@ export default function Footer() {
               <a href="/signup">Sign up</a> <br />
               <a href="">Contacts</a> <br />
               <a href="">About</a> <br />
-              <a href="">FAQ</a> <br />
-              <a href="">Partners</a>
             </ul>
           </div>
 
@@ -35,7 +33,6 @@ export default function Footer() {
               <a href="">Post a job</a> <br />
               <a href="">Search talents</a> <br />
               <a href="">Company login</a> <br />
-              <a href="">Company advice</a>
             </ul>
           </div>
 
@@ -44,7 +41,6 @@ export default function Footer() {
             <ul>
               <a href="">Search jobs</a> <br />
               <a href="">Talent login</a> <br />
-              <a href="">Talent advice</a>
             </ul>
           </div>
         </div>

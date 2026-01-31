@@ -307,7 +307,7 @@ const Signup = () => {
               <button
                 type="button"
                 className="btn back"
-                onClick={() => alert("Going back!")}
+                onClick={() => navigate("/")}
               >
                 Back
               </button>
