@@ -1,11 +1,11 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../pages/forgot/Kod.css";
+import "../../pages/signup/Register.css";
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
 
-function Kod() {
+function Register() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -112,4 +112,4 @@ function Kod() {
   );
 }
 
-export default Kod;
+export default Register;

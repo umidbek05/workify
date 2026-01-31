@@ -1,0 +1,125 @@
+header {
+  width: 100%; /* Qat'iy 1460px ni o'chirdik */
+  max-width: 1440px; /* Maksimal kenglik */
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Elementlarni ikki chetga suradi */
+  background-color: white;
+  margin: 0 auto; /* Markazga olish */
+  padding: 0 5%; /* Yonlardan bo'sh joy */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.head a {
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 30px;
+  color: #404040;
+  line-height: 100%;
+}
+
+.header1 {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.header1 a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+}
+
+.header1 a:hover {
+  color: #38bdf8;
+}
+
+.header2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.header2 button {
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+  border: 2px solid #163d5c;
+  background: transparent;
+  color: #163d5c;
+}
+
+.header2 button:last-of-type {
+  background-color: #163d5c;
+  color: white;
+}
+
+.header2 button:hover {
+  opacity: 0.8;
+}
+
+.header2 select {
+  border: 1px solid #ddd;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* --- RESPONSIVE --- */
+
+@media (max-width: 1024px) {
+  .header1 {
+    gap: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  header {
+    height: auto;
+    padding: 15px 5%;
+    flex-wrap: wrap; /* Elementlar sig'masa pastga tushadi */
+  }
+
+  .header1 {
+    order: 3; /* Linklarni eng pastga tushiradi */
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
+    border-top: 1px solid #f1f1f1;
+    padding-top: 10px;
+  }
+
+  .header2 {
+    gap: 8px;
+  }
+
+  .header2 button {
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .head a {
+    font-size: 22px;
+  }
+
+  .header2 button {
+    width: auto; /* Qat'iy widthni bekor qilish */
+    padding: 6px 10px;
+  }
+
+  .header1 a {
+    font-size: 14px;
+  }
+}

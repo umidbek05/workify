@@ -1,186 +1,170 @@
-import { useState } from "react";
-import "../../pages/dashboard/dashboard.css";
+import { useState, useEffect } from "react";
+import "./Dashboard.css";
+import C from "../dashboard/C.png"; // Bu default rasm bo'lib qoladi
+import page1 from "./page1.png";
+import page2 from "./page2.png";
+import page3 from "./page3.png";
+import page4 from "./page4.png";
+import page5 from "./page5.png";
+import { useNavigate, NavLink, Outlet } from "react-router-dom";
+import { Contact, LogOut } from "lucide-react";
 
 const Dashboard = () => {
-  const [timeFilter, setTimeFilter] = useState("week");
-  const [profileProgress] = useState(25); // 25% profile completed
+  const [company, setCompany] = useState({
+    name: "Loading...", // Yuklanish holati uchun
+    city: "",
+  });
+
+  const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || C);
+
+  useEffect(() => {
+    const currentUserEmail = localStorage.getItem("email");
+
+    if (!currentUserEmail) return;
+
+    fetch("http://localhost:5000/register/getRegister")
+      .then((res) => res.json())
+      .then((resp) => {
+        const data = resp.data || resp;
+
+        if (Array.isArray(data)) {
+          // Emaili mos keladigan oxirgi ro'yxatdan o'tgan ma'lumotni olamiz
+          const myData = data
+            .filter(
+              (c) => c.email?.toLowerCase() === currentUserEmail?.toLowerCase()
+            )
+            .pop(); // Eng oxirgi qo'shilgan ma'lumotni olish
+
+          if (myData) {
+            setCompany({
+              // Bu yerda bazadagi ustun nomi 'companyName' ekanligiga e'tibor bering
+              name: myData.companyName || "No Company Name",
+              city: myData.city || "No City",
+            });
+
+            if (myData.logo) {
+              setLogo(myData.logo);
+              localStorage.setItem("companyLogo", myData.logo);
+            }
+          }
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err);
+        setCompany({ name: "Error loading", city: "" });
+      });
+  }, []);
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (window.confirm("Tizimdan chiqishni xohlaysizmi?")) {
+      localStorage.clear();
+      sessionStorage.clear();
+      navigate("/", { replace: true });
+    } 
+  };
 
   return (
     <div className="dashboard">
-      {/* SIDEBAR */}
       <aside className="sidebar">
-        <div className="logo">
-          <div className="logo-icon">TC</div>
-          <div>
-            <h4>TechCells Corp.</h4>
-              <p>Tashkent</p>
+        <div className="company-info">
+          {/* 3. Bu yerda statik 'C' emas, 'logo' statini ishlatamiz */}
+          <img
+            src={logo}
+            alt="Company logo"
+            className="sidebar-logo"
+            onError={(e) => (e.target.src = C)} // Rasm yuklanmasa default rasmga qaytadi
+          />
+          <div className="sidebar-text">
+            <h1>{company.name}</h1>
+            <p>{company.city}</p>
           </div>
         </div>
 
-        <nav>
-          <a className="active">Dashboard</a>
-          <a>My company</a>
-          <a>My jobs</a>
-          <a>Talents</a>
-          <a>FAQ</a>
-          <a>Contacts</a>
-        </nav>
+        <div className="sidebar-menu">
+          <NavLink
+            to="/dashboard"
+            end
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <img src={page1} alt="Dashboard" />
+            <span className="menu-link">Dashboard</span>
+          </NavLink>
+
+          <NavLink
+            to="companyprofil"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <img src={page2} alt="MyCompany" />
+            <span className="menu-link">My company</span>
+          </NavLink>
+
+          <NavLink
+            to="myjobs"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <img src={page3} alt="myJobs" />
+            <span className="menu-link">My jobs</span>
+          </NavLink>
+
+          <NavLink
+            to="talents"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <img src={page4} alt="Talents" />
+            <span className="menu-link">Talents</span>
+          </NavLink>
+
+
+          <NavLink
+            to="faq"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
+          >
+            <img src={page5} alt="Faq" />
+            <span className="menu-link">FAQ</span>
+          </NavLink>
+
+          <NavLink to="contacts" className="menu-item">
+            <Contact />
+            <span className="menu-link">Contacts</span>
+          </NavLink>
+
+          {/* Logout tugmasini ham qo'shib qo'ydim */}
+          <button
+            onClick={handleLogout}
+            className="menu-item logout-btn"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              width: "100%",
+              textAlign: "left",
+            }}
+          >
+            <span className="menu-link" style={{ color: "red" }}>
+              Logout
+              <LogOut className="logg" />
+            </span>
+          </button>
+        </div>
       </aside>
 
-      {/* MAIN */}
-      <main className="main">
-        {/* TOP */}
-        <div className="topbar">
-          <h2>Dashboard</h2>
-          <button className="post-btn">Post a Job</button>
-        </div>
-
-        {/* TOP CARDS SECTION */}
-        <div className="top-cards">
-          {/* PROFILE COMPLETED CARD */}
-          <div className="card profile-card">
-            <div className="card-header">
-              <h4>Profile completed</h4>
-              <span className="progress-percent">{profileProgress}%</span>
-            </div>
-            <p className="card-description">
-              Complete all parts of your profile and increase your chances
-            </p>
-            <div className="progress-bar-container">
-              <div 
-                className="progress-bar-fill" 
-                style={{ width: `${profileProgress}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* PROFILE VIEWS CARD */}
-          <div className="card views-card">
-            <div className="card-header">
-              <h4>Profile views</h4>
-              <span className="views-count">2,245</span>
-            </div>
-            <p className="card-description">This week</p>
-            <div className="views-bars">
-              {[50, 80, 60, 90, 70, 85, 95].map((height, index) => (
-                <div key={index} className="bar-container">
-                  <div 
-                    className="bar" 
-                    style={{ height: `${height}%` }}
-                  ></div>
-                  <span className="day-label">
-                    {["M", "T", "W", "T", "F", "S", "S"][index]}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* JOB POSTS */}
-        <div className="job-posts">
-          <div className="job-posts-header">
-            <h4>Job posts</h4>
-
-            <div className="time-filters">
-              <button
-                className={timeFilter === "week" ? "active" : ""}
-                onClick={() => setTimeFilter("week")}
-              >
-                This week
-              </button>
-              <button
-                className={timeFilter === "month" ? "active" : ""}
-                onClick={() => setTimeFilter("month")}
-              >
-                This month
-              </button>
-            </div>
-          </div>
-
-          <p className="date-text">24 Dec 2021</p>
-
-          <div className="chart-wrapper">
-            {/* Y-AXIS */}
-            <div className="y-axis">
-              <span>500</span>
-              <span>100</span>
-              <span>0</span>
-            </div>
-
-            {/* SVG AREA CHART */}
-            <div className="green-chart">
-              <svg viewBox="0 0 700 250" className="area-chart">
-                <defs>
-                  <linearGradient id="greenGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#6FCF97" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#6FCF97" stopOpacity="0.05" />
-                  </linearGradient>
-                </defs>
-
-                {/* AREA */}
-                <path
-                  d="
-                    M 0 220
-                    C 80 80, 140 100, 200 120
-                    C 260 140, 320 60, 380 90
-                    C 440 120, 500 160, 560 110
-                    C 620 60, 660 80, 700 100
-                    L 700 250
-                    L 0 250
-                    Z
-                  "
-                  fill="url(#greenGradient)"
-                />
-
-                {/* LINE */}
-                <path
-                  d="
-                    M 0 220
-                    C 80 80, 140 100, 200 120
-                    C 260 140, 320 60, 380 90
-                    C 440 120, 500 160, 560 110
-                    C 620 60, 660 80, 700 100
-                  "
-                  fill="none"
-                  stroke="#58B989"
-                  strokeWidth="5"
-                  strokeLinecap="round"
-                />
-
-                {/* ACTIVE DOT */}
-                <circle
-                  cx="560"
-                  cy="110"
-                  r="8"
-                  fill="#58B989"
-                  stroke="#fff"
-                  strokeWidth="4"
-                />
-              </svg>
-
-              {/* TOOLTIP */}
-              <div className="green-tooltip">
-                You have posted<br />
-                <strong>50 jobs</strong>
-              </div>
-
-              {/* X AXIS */}
-              <div className="x-axis">
-                <span>M</span>
-                <span>T</span>
-                <span>W</span>
-                <span>T</span>
-                <span>F</span>
-                <span>S</span>
-                <span>S</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <main className="main-content">
+        <Outlet />
       </main>
     </div>
   );
 };
 
-export default Dashboard;  
+export default Dashboard;

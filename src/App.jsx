@@ -1,25 +1,48 @@
 import { Routes, Route } from "react-router-dom";
-import Signup from './pages/signup/Signup';
-import Dashboard from "./pages/dashboard/dashboard";
+import Signup from "./pages/signup/Signup";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Workify from "./pages/Workify/workify";
+import Talents from "./pages/Talents/talents";
+import Jobs from "./pages/Jobs/jobs";
+import Register from "./pages/signup/Register";
+import Conguratulation from "./pages/signup/Conguratulation";
+import MyJobs from "./pages/dashboard/MyJobs";
+import DashboardHome from "./pages/dashboard/DashboardHome";
+import CompanyProfile from "./pages/dashboard/MyCompany";
+import FAQ from "./pages/dashboard/FAQ";
+import Contacts from "./pages/dashboard/Contacts";
+import Talentss from "./pages/dashboard/Talents";
 import Login from "./pages/login/Login";
-import Forget from "./pages/forgot/Forget";
-import SetNewPassword from "./pages/setpassword/Setpassword";
-import CompanyProfile from "./pages/dashboard/CompanyProfile";
 import Kod from "./pages/forgot/kod";
+import Forget from "./pages/forgot/Forget";
+import Setpassword from "./pages/setpassword/Setpassword";
 
 const App = () => {
   return (
     <div>
       <Routes>
-        <Route path="/" element={<h2>home page</h2>} />
-        <Route path="/about" element={<h2>about page</h2>} />
-        <Route path="/signup" element= {<Signup />} />
-        <Route path="/dashboard" element= {<Dashboard />} />
-        <Route path="/login" element= {<Login/>} />
-        <Route path="/forget" element={<Forget/>} />
-        <Route path="/kod" element={<Kod/>} />
-        <Route path="/setpassword" element={<SetNewPassword/>} />
-        <Route path="/company-profile" element={<CompanyProfile/>} />
+        <Route path="/" element={<Workify />} />
+        <Route path="/talents" element={<Talents />} />
+        <Route path="/jobs" element={<Jobs />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/congratulation" element={<Conguratulation />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/forget" element= {<Forget/>}/>
+        <Route path="/setpassword" element={<Setpassword/>} />
+        <Route path="/kod" element= {<Kod/>}/>
+        <Route path="/dashboard" element={<Dashboard />}>
+          {/* DEFAULT PAGE */}
+          <Route index element={<DashboardHome />} />
+
+          {/* SIDEBAR PAGES */}
+          <Route path="companyprofil" element={<CompanyProfile />} />
+          <Route path="myjobs" element={<MyJobs />} />
+          <Route path="talents" element={<Talentss />} />
+          <Route path="faq" element={<FAQ />} />
+          <Route path="contacts" element={<Contacts />} />
+
+        </Route>
       </Routes>
     </div>
   );

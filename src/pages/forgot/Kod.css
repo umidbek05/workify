@@ -1,68 +1,111 @@
 .kod-wrapper {
-  min-height: 100vh;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #f7f4ee;
-  font-family: Arial, sans-serif;
-  color: rgb(41, 38, 38);
+  min-height: 80vh;
+  background-color: #f9fafb;
+  padding: 20px;
 }
 
-.kod-wrapper h2 {
-  margin-bottom: 20px;
-  font-size: 26px;
-}
-
-.kod-box {
-  display: flex;
-  gap: 12px;
-}
-
-.kod-box input {
-  width: 55px;
-  height: 65px;
+.kod-card {
+  background: white;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  max-width: 450px;
+  width: 100%;
   text-align: center;
-  font-size: 26px;
-  font-weight: bold;
-  border-radius: 10px;
-  border: none;
-  outline: none;
-  background: rgb(19, 18, 18);
-  color: #fdf9f9;
-  box-shadow: 0 6px 15px rgba(238, 235, 235, 0.25);
-  transition: all 0.2s ease;
 }
 
-.kod-box input:focus {
-  transform: scale(1.1);
-  box-shadow: 0 0 0 3px #ffd700;
+.kod-title {
+  font-size: 22px;
+  color: #1a202c;
+  margin-bottom: 25px;
+  font-weight: 700;
 }
 
-.info {
-  margin-top: 25px;
-  font-size: 18px;
-}
-.next-btn {
-  margin-top: 30px;
-  padding: 14px 50px;
-  font-size: 18px;
-  font-weight: bold;
+.telegram-link-btn {
+  background-color: #0088cc;
+  color: white;
   border: none;
-  border-radius: 30px;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
   cursor: pointer;
-  background: #ffd700;
-  color: #333;
-  transition: all 0.3s ease;
+  transition: background 0.3s;
+  margin-bottom: 20px;
 }
 
-.next-btn:hover {
-  background: #ffcc00;
-  transform: translateY(-2px);
+.telegram-link-btn:hover {
+  background-color: #0077b5;
 }
 
-.next-btn:disabled {
-  background: #ccc;
+.kod-image-container img {
+  width: 100%;
+  max-width: 250px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.kod-inputs {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.kod-inputs input {
+  width: 45px;
+  height: 55px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.kod-inputs input:focus {
+  border-color: #0088cc;
+  box-shadow: 0 0 0 3px rgba(0, 136, 204, 0.1);
+}
+
+.kod-inputs input.input-filled {
+  border-color: #0088cc;
+  background-color: #f0f9ff;
+}
+
+.kod-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.kod-back, .kod-next {
+  padding: 12px 25px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s;
+}
+
+.kod-back {
+  background-color: #edf2f7;
+  color: #4a5568;
+}
+
+.kod-next {
+  background-color: #1a202c;
+  color: white;
+}
+
+.kod-next:disabled {
+  background-color: #cbd5e0;
   cursor: not-allowed;
-  transform: none;
+}
+
+.kod-next:hover:not(:disabled) {
+  opacity: 0.9;
 }

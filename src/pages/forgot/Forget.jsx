@@ -1,10 +1,14 @@
 import { MdEmail } from "react-icons/md";
 import "../../pages/forgot/forget.css";
 import { useNavigate } from "react-router-dom";
+import Header from "../../Components/Header/header";
+import Footer from "../../Components/Footer/footer";
 const Forget = () => {
 
   const navigate = useNavigate();
   return (
+    <>
+      <Header/>
     <div className="forget-wrapper">
       <div className="forget-card">
 
@@ -23,6 +27,8 @@ const Forget = () => {
 
       </div>
     </div>
+    <Footer/>
+    </>
   );
 };
 

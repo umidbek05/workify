@@ -4,12 +4,16 @@ import "../../pages/login/login.css";
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
+import Header from "../../Components/Header/header";
+import Footer from "../../Components/Footer/footer";
 
 function Login() {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    rememberMe: false
+    rememberMe: false,
   });
 
   const [showPassword, setShowPassword] = useState(false);
@@ -18,9 +22,10 @@ function Login() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
+
     setFormData((prev) => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
 
     if (errors[name]) {
@@ -33,15 +38,15 @@ function Login() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!formData.email.trim()) {
-      newErrors.email = "Email is required";
+      newErrors.email = "Email kiritilishi shart";
     } else if (!emailRegex.test(formData.email)) {
-      newErrors.email = "Please enter a valid email";
+      newErrors.email = "Email noto'g'ri formatda";
     }
 
     if (!formData.password) {
-      newErrors.password = "Password is required";
+      newErrors.password = "Parol kiritilishi shart";
     } else if (formData.password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters";
+      newErrors.password = "Parol kamida 6 ta belgi bo'lishi kerak";
     }
 
     return newErrors;
@@ -51,7 +56,7 @@ function Login() {
     e.preventDefault();
 
     const validationErrors = validateForm();
-    if (Object.keys(validationErrors).length > 0) {
+    if (Object.keys(validationErrors).length) {
       setErrors(validationErrors);
       return;
     }
@@ -60,26 +65,28 @@ function Login() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:3000/register/login", {
+      const response = await fetch("http://localhost:5000/register/login", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email: formData.email,
-          password: formData.password
-        })
+          password: formData.password,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        setErrors({ submit: data.message || "Login error" });
-        setIsLoading(false);
+        setErrors({
+          password: data.message || "Email yoki parol noto'g'ri",
+        });
         return;
       }
 
-      alert("Login successful!");
+      // ✅ MUHIM: Foydalanuvchi ma'lumotlarini saqlash
+      // Bu userId keyinchalik parolni o'zgartirish sahifasida kerak bo'ladi
+      localStorage.setItem("userId", data.user.id);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
@@ -87,33 +94,13 @@ function Login() {
         localStorage.removeItem("rememberedEmail");
       }
 
-      console.log("Logged user:", data.user);
-
-      // window.location.href = "/dashboard";
-
-    } catch (error) {
-      setErrors({ submit: "Server bilan ulanishda xato" });
+      alert("Muvaffaqiyatli login!");
+      navigate("/dashboard");
+    } catch (err) {
+      setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
     } finally {
       setIsLoading(false);
     }
-  };
-
-  const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleForgotPassword = (e) => {
-    e.preventDefault();
-    if (!formData.email) {
-      alert("Please enter your email first");
-      return;
-    }
-    alert(`Reset link will be sent to ${formData.email}`);
-  };
-
-  const handleRegisterClick = () => {
-    alert("Redirecting to register...");
-    // window.location.href = "/register";
   };
 
   useEffect(() => {
@@ -122,85 +109,93 @@ function Login() {
       setFormData((prev) => ({
         ...prev,
         email: rememberedEmail,
-        rememberMe: true
+        rememberMe: true,
       }));
     }
   }, []);
-const navigate = useNavigate();
+
   return (
-    <div className="login-wrapper">
-      <div className="login-card">
-        <h1 className="title">Login</h1>
+    <div>
+      <Header />
 
-        {errors.submit && (
-          <div style={{ color: "red", marginBottom: "10px" }}>
-            {errors.submit}
-          </div>
-        )}
+      <div className="login-wrapper">
+        <div className="login-card">
+          <h1 className="title">Login</h1>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <div className="input-box">
-              <MdEmail className="icon" />
-              <input
-                type="email"
-                name="email"
-                placeholder="example@mail.ru"
-                value={formData.email}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
+          {errors.submit && (
+            <p className="error-text" style={{ color: "red", textAlign: "center" }}>
+              {errors.submit}
+            </p>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            {/* EMAIL */}
+            <div className="form-group">
+              <label>Email</label>
+              <div className={`input-box ${errors.email ? "error" : ""}`}>
+                <MdEmail className="icon" />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="example@mail.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </div>
+              {errors.email && <span className="error-text">{errors.email}</span>}
             </div>
-            {errors.email && <span style={{ color: "red" }}>{errors.email}</span>}
-          </div>
 
+            {/* PASSWORD */}
+            <div className="form-group">
+              <label>Password</label>
+              <div className={`input-box ${errors.password ? "error" : ""}`}>
+                <IoIosLock className="icon" />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={formData.password}
+                  onChange={handleChange}
+                />
+                <span className="eye" onClick={() => setShowPassword(!showPassword)}>
+                  {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                </span>
+              </div>
+              {errors.password && (
+                <span className="error-text">{errors.password}</span>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label>Password</label>
-            <div className="input-box">
-              <IoIosLock className="icon" />
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                disabled={isLoading}
-              />
-              <span className="eye" onClick={togglePasswordVisibility}>
-                {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+            <div className="options">
+              <label className="remember">
+                <input
+                  type="checkbox"
+                  name="rememberMe"
+                  checked={formData.rememberMe}
+                  onChange={handleChange}
+                />
+                Remember me
+              </label>
+
+              {/* ✅ Forgot password bosilganda /forget sahifasiga o'tadi */}
+              <span className="forgot" onClick={() => navigate("/forget")}>
+                Forgot password?
               </span>
             </div>
-            {errors.password && (
-              <span style={{ color: "red" }}>{errors.password}</span>
-            )}
-          </div>
 
-          <div className="options">
-            <label>
-              <input
-                type="checkbox"
-                name="rememberMe"
-                checked={formData.rememberMe}
-                onChange={handleChange}
-              />
-              Remember me
-            </label>
-            <a href="/forget" onClick={() => navigate('/forget')}>
-              Forgot password?
-            </a>
-          </div>
+            <button className="butot" type="submit" disabled={isLoading}>
+              {isLoading ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
 
-          <button className="butot" type="submit" disabled={isLoading}>
-            {isLoading ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
-
-        <p className="footer">
-          Have no account yet? <span onClick={handleRegisterClick}>Register</span>
-        </p>
+          <p className="footer">
+            Have no account?{" "}
+            <span onClick={() => navigate("/register")}>Register</span>
+          </p>
+        </div>
       </div>
+
+      <Footer />
     </div>
   );
 }
