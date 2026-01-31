@@ -15,7 +15,7 @@ import Contacts from "./pages/dashboard/Contacts";
 
 import Talentss from "./pages/dashboard/Talents";
 import Login from "./pages/login/Login";
-import Kod from "./pages/forgot/kod";
+import Kod from "./pages/forgot/Kod";
 import Forget from "./pages/forgot/Forget";
 import Setpassword from "./pages/setpassword/Setpassword";
 
