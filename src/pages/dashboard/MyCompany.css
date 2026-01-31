@@ -1,436 +1,571 @@
-.top-nav {
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap);
+
+.main-content-area {
+  min-height: 100vh;
+}
+
+.company-profile-wrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
+  gap: 24px; /* Bloklar orasidagi masofa */
+  /* Sidebar'dan uzoqlik */
+  margin-top: 10px;
+  align-items: flex-start;
+}
+
+/* CHAP TARAFI (Profile Card - 300x654) */
+.company-info-card {
+  width: 300px;
+  height: 654px;
   background: #ffffff;
-  width: 785px;
-  height: 60px;
-  border-radius: 15px;
-  padding: 10px;
-}
-
-.nav-title {
-  font-family: Gilroy;
-  font-weight: 600;
-  font-style: SemiBold;
-  font-size: 25px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  color: #505151;
-}
-
-.nav-actions {
-  display: flex;
-  align-items: center;
-}
-
-.post-btn {
-  font-family: Gilroy;
-  font-weight: 600;
-  /* tugma sarlavhasi qalinroq bo'lsin */
-  font-style: Regular;
-  font-size: 15px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  color: white;
-  width: 200px;
-  height: 60px;
-  cursor: pointer;
-  padding: 5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
-
-  /* Gradient ranglar #1D3F61 → #C25DC5 */
-  background: linear-gradient(135deg, #1d3f61, #c25dc5);
-
-  /* Chapga surish */
-  position: relative;
-  left: 230px;
-
-  border: none;
-  border-radius: 8px;
-  /* biroz yumaloqlik */
-}
-
-.post-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-
-  /* Hoverda gradientni biroz o'zgartirish */
-  background: linear-gradient(135deg, #c25dc5, #1d3f61);
-}
-
-/* Asosiy kontent */
-.company-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  padding: 30px 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* TecCells Block */
-.TecCells {
-  background-color: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  grid-row: span 2;
-  margin-left: -445px;
-  margin-top: 60px;
-  width: 430px;
-}
-
-.company-logo {
-  width: 80px;
-  height: 80px;
-  margin-left: 35%;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-bottom: 20px;
-  border: 1px solid #eee;
-  background-color: #f8f9fa;
-}
-
-.TecCells h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  /* margin-left: 130px; */
-  text-align: center;
-}
-
-.TecCells h2 {
-  font-size: 16px;
-  font-weight: 500;
-  color: #666;
-  margin: 0 0 20px 0;
-  margin-left: 90px;
-}
-
-.TecCells > p {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 25px 0;
-  margin-left: 110px;
-}
-
-.TecCells > p::before {
-  content: "★★★★★";
-  color: #ffc107;
-  font-size: 18px;
-  margin-right: 8px;
-  letter-spacing: 2px;
-}
-
-/* Ichki ma'lumotlar qismi */
-.ichki {
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.ichki h1 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 20px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.info-row:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.info-row p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.info-row p:first-child {
-  font-weight: 500;
-  color: #555;
-}
-
-.info-row p:last-child {
-  color: #333;
-  font-weight: 400;
-}
-
-/* Statistics Block */
-.Statistcs {
-  width: 550px;
-  margin-top: 60px;
-  height: 230px;
-  background: #fff;
-  border-radius: 10px;
+  border-radius: 20px;
   padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  position: relative;
+  flex-shrink: 0; /* O'lcham o'zgarmasligi uchun */
+}
+
+.edit-profile-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* LOGO QISMI */
+.profile-logo-wrapper {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.main-logo-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #f8f9fa;
+}
+
+.edit-logo-btn {
+  position: absolute;
+  bottom: 0px;
+
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+}
+
+.edit-logo-btn:hover {
+  background: #f0f0f0;
+}
+
+/* TEXTLAR */
+.company-name-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d3f61;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.industry-text {
+  text-align: center;
+  color: #7d8592;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.rating-stars {
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* INFO RO'YXATI */
+.info-list {
+  margin-top: 15px;
+  border-top: 1px solid #f5f5f5;
+  padding-top: 20px;
+}
+
+.info-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.info-label {
+  color: #9ca3af;
+}
+
+.info-value {
+  color: #1d3f61;
+  font-weight: 600;
+  text-align: right;
+  max-width: 180px;
+  word-wrap: break-word;
+}
+
+/* O'NG TARAFI (718px konteyner) */
+.right-side-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* STATISTIKA (718x230) */
+.stats-card {
+  width: 718px;
+  height: 230px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stats-header {
+  text-align: center;
+  color: #1d3f61;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
   align-items: center;
 }
 
-/* Statistics title */
-.Statistcs h1 {
-  font-family: Gilroy;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 20px;
-  letter-spacing: 0px;
-  color: #000;
-  margin-bottom: 32px;
-}
-
-/* Numbers wrapper */
-.Statistcs {
+.stat-box {
+  text-align: center;
+  flex: 1;
   position: relative;
 }
 
-.Statistcs > .stat-item {
-  text-align: center;
+.stat-box:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: #eee; /* O'rtadagi chiziqlar */
 }
 
-/* Stats row */
-.Statistcs {
-  gap: 20px;
-}
-
-.stat-item h2 {
-  font-family: Gilroy;
+.stat-box h2 {
+  font-size: 36px;
   font-weight: 700;
-  font-size: 32px;
-  color: #000;
-  margin-bottom: 6px;
+  color: #1d3f61;
+  margin-bottom: 5px;
 }
 
-.stat-item p {
-  font-family: Gilroy;
-  font-weight: 400;
+.stat-box p {
+  color: #7d8592;
   font-size: 14px;
-  color: #6b7280;
 }
 
-/* 3ta statni yonma-yon qilish */
-.Statistcs {
-  display: flex;
-  flex-direction: column;
-}
-
-.Statistcs .stat-item {
-  flex: 1;
-}
-
-.stats-row {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-/* Divider (tosiq) */
-.stat-item:not(:last-child) {
-  border-right: 1px solid #e5e7eb;
-  padding-right: 40px;
-}
-
-.stat-item:not(:first-child) {
-  padding-left: 40px;
-}
-
-.about-company {
-  width: 550px;
+/* ABOUT (718x394) */
+.about-card {
+  width: 718px;
   height: 394px;
   background: #ffffff;
-  border-radius: 12px;
-  padding: 20px 24px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
-  font-family: Gilroy;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
 }
-.about-input {
+
+.about-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.about-header-row h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.about-text-area {
+  flex-grow: 1;
   width: 100%;
-  height: 300px;
   border: none;
   outline: none;
   resize: none;
-
-  font-family: Gilroy;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-
-  color: #111827;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  background: transparent;
 }
 
-.about-input::placeholder {
-  color: #9ca3af;
-}
-
-/* Header */
-.about-header {
+/* My Profile yozuvi turgan oq blok */
+.nav-title-container {
+  width: 825px;
+  height: 60px;
+  border-radius: 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 14px;
+  padding-left: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-.about-header h1 {
-  font-size: 16px;
+.nav-title {
+  font-size: 20px;
+  color: #505151;
   font-weight: 600;
-  color: #111827;
+  margin: 0;
+  line-height: 100%;
 }
 
-/* Edit icon */
-.edit-icon {
-  width: 16px;
-  height: 16px;
+/* Post a Job tugmasi */
+.post-job-btn {
+  width: 200px;
+  height: 60px;
+  background: linear-gradient(135deg, #2a4e75, #c25dc5);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
   cursor: pointer;
-  opacity: 0.6;
-  transition: 0.2s;
+  line-height: 100%;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  font-family: "Inter", sans-serif;
 }
 
-.edit-icon:hover {
-  opacity: 1;
+.post-job-btn:hover {
+  opacity: 0.9;
 }
 
-/* Placeholder text */
-.about-placeholder {
-  font-size: 14px;
-  font-weight: 400;
-  color: #9ca3af;
-  line-height: 20px;
+/* About Modal Styles */
+.about-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
-/* Responsive design */
-.logo-wrapper {
-  position: relative;
-  /* width: 120px; */
-  /* height: 120px; */
+.about-modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-modal-content h3 {
   margin-bottom: 15px;
+  color: #1d3f61;
 }
 
-.company-logo {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #e5e5e5;
-}
-
-/* QALAMCHA */
-.edit-logo-btn {
-  position: absolute;
-  bottom: 10px;
-  right: 160px;
-  width: 36px;
-  height: 36px;
-  background: #ffffff;
-  border-radius: 50%;
-  border: 1px solid #ddd;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: all 0.25s ease;
-}
-
-.edit-logo-btn img {
-  width: 18px;
-  height: 18px;
-}
-
-.edit-logo-btn:hover img {
-  filter: brightness(0) invert(1);
-}
-
-.h22 {
-  padding-left: 45px;
-}
-
-<<<<<<< HEAD
-.ichki-btn {
-  /* Fon rangi: Och zangor (Teal/Cyan) */
-  background-color: #e0f2f1;
-  /* Ikonka rangi: To'qroq zangor */
-  color: #00897b;
-  margin-left: 340px;
-  border: 1px solid #b2dfdb;
-  width: 40px;
-  height: 40px;
+.about-modal-content textarea {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #eee;
   border-radius: 10px;
+  padding: 15px;
+  resize: none;
+  font-family: inherit;
+  outline: none;
+}
+
+.about-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: #f1f1f1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-save {
+  background: #2a4e75;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.about-display-text {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Textdagi qatorlarni saqlaydi */
+}
+
+/* About kartasi ichidagi textarea */
+.about-direct-input {
+  width: 100%;
+  height: 280px; /* Karta balandligiga mos */
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  resize: none; /* Foydalanuvchi o'lchamni o'zgartirolmaydi */
+  outline: none;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Textarea ustiga borganda chegara paydo bo'ladi */
+.about-direct-input:hover,
+.about-direct-input:focus {
+  border-color: #eee;
+  background: #fafafa;
+}
+
+/* Kichkina saqlash tugmasi */
+.inline-save-btn {
+  background: #2a4e75;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.inline-save-btn:hover {
+  background: #1d3f61;
+}
+/* ===== UNIVERSAL RESPONSIVE REPAIR ===== */
+
+/* 💻 IPAD PRO, IPAD AIR VA PLANSHEETLAR (1200px gacha) */
+/* ===== SIDEBAR & HAMBURGER REPAIR ===== */
+
+/* Desktopda (1100px dan katta) mobil headerni yashiramiz */
+.mobile-header {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .sidebar-container {
+    position: fixed;
+    left: -280px; /* Boshida yashirin */
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: white;
+    z-index: 1001;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-container.open {
+    left: 0; /* Gamburg bosilganda chiqadi */
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+  }
+
+  /* Gamburg chiziqchalari (X bo'lib ochiladigan) */
+  .hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background: #1d3f61;
+    transition: 0.3s;
+  }
+
+  .bar.active:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+  .bar.active:nth-child(2) {
+    opacity: 0;
+  }
+  .bar.active:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6deg);
+  }
+
+  /* Kontentni surishni to'xtatamiz */
+  .main-content-area {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 15px !important;
+  }
+
+  .company-profile-wrapper {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .right-side-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Kichik qat'iy o'lchamlarni buzib tashlash */
+@media (max-width: 1100px) {
+  .nav-title-container,
+  .stats-card,
+  .about-card,
+  .company-info-card {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+}
+
+/* Custom Alert Styles */
+.custom-alert-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.custom-alert-content {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 20px; /* Ikonka hajmi */
+  gap: 15px;
+  background: #ffffff;
+  padding: 16px 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  position: relative;
+  overflow: hidden;
+  border-left: 5px solid #4caf50;
 }
 
-.ichki-btn:hover {
-  /* Hover bo'lganda ranglar biroz to'yinadi */
-  background-color: #b2dfdb;
-  color: #00695c;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0, 137, 123, 0.15);
+.custom-alert-overlay.error .custom-alert-content {
+  border-left-color: #f44336;
 }
 
-.ichki-btn:active {
-  transform: translateY(0);
+.alert-icon {
+  font-size: 22px;
 }
 
-/* Ikonka ichida markazlashganini ta'minlash */
-.ichki-btn svg {
-  display: block;
+.custom-alert-content p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
 }
-=======
 
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #4caf50;
+  width: 100%;
+  animation: progress 3s linear forwards;
+}
 
+.custom-alert-overlay.error .progress-bar {
+  background: #f44336;
+}
 
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
 
+/* Media Queries (Mobil uchun) */
+@media (max-width: 480px) {
+  .custom-alert-overlay {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
+  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
->>>>>>> 2347117ec594801e21bf63c42665d9f91aaa1dc8
+  .custom-alert-content {
+    min-width: auto;
+    width: 100%;
+  }
+}

@@ -27,7 +27,7 @@ const Dashboard = () => {
     const currentUserEmail = localStorage.getItem("email");
     if (!currentUserEmail) return;
 
-    fetch("http://localhost:5000/register/getRegister")
+    fetch("https://workifyback-production.up.railway.app/register/getRegister")
       .then((res) => res.json())
       .then((resp) => {
         const data = resp.data || resp;
@@ -69,17 +69,41 @@ const Dashboard = () => {
     <div className="dashboard">
       {/* Mobil qurilmalar uchun tepa qism (Header) */}
       <header className="mobile-nav">
-        <div className="mobile-logo" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <img src={logo} alt="logo" style={{ width: '35px', height: '35px', borderRadius: '50%', objectFit: 'cover' }} />
-          <span style={{ fontWeight: '600', fontSize: '14px' }}>{company.name !== "Loading..." ? company.name : ""}</span>
+        <div
+          className="mobile-logo"
+          style={{ display: "flex", alignItems: "center", gap: "10px" }}
+        >
+          <img
+            src={logo}
+            alt="logo"
+            style={{
+              width: "35px",
+              height: "35px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
+          <span style={{ fontWeight: "600", fontSize: "14px" }}>
+            {company.name !== "Loading..." ? company.name : ""}
+          </span>
         </div>
-        <button className="hamburger-btn" onClick={toggleMenu} style={{ background: 'none', border: 'none', cursor: 'pointer' }}>
-          {isMenuOpen ? <X size={28} color="#1d3f61" /> : <Menu size={28} color="#1d3f61" />}
+        <button
+          className="hamburger-btn"
+          onClick={toggleMenu}
+          style={{ background: "none", border: "none", cursor: "pointer" }}
+        >
+          {isMenuOpen ? (
+            <X size={28} color="#1d3f61" />
+          ) : (
+            <Menu size={28} color="#1d3f61" />
+          )}
         </button>
       </header>
 
       {/* Menyu ochilganda orqa fonni yopish (Overlay) */}
-      {isMenuOpen && <div className="sidebar-overlay" onClick={closeMenu}></div>}
+      {isMenuOpen && (
+        <div className="sidebar-overlay" onClick={closeMenu}></div>
+      )}
 
       {/* Sidebar - isMenuOpen holatiga qarab 'open' klassi qo'shiladi */}
       <aside className={`sidebar ${isMenuOpen ? "open" : ""}`}>
@@ -100,7 +124,9 @@ const Dashboard = () => {
           <NavLink
             to="/dashboard"
             end
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu} // Bosilganda menyu yopiladi
           >
             <img src={page1} alt="Dashboard" />
@@ -109,7 +135,9 @@ const Dashboard = () => {
 
           <NavLink
             to="companyprofil"
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu}
           >
             <img src={page2} alt="MyCompany" />
@@ -118,7 +146,9 @@ const Dashboard = () => {
 
           <NavLink
             to="myjobs"
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu}
           >
             <img src={page3} alt="myJobs" />
@@ -127,7 +157,9 @@ const Dashboard = () => {
 
           <NavLink
             to="talents"
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu}
           >
             <img src={page4} alt="Talents" />
@@ -136,16 +168,20 @@ const Dashboard = () => {
 
           <NavLink
             to="faq"
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu}
           >
             <img src={page5} alt="Faq" />
             <span className="menu-link">FAQ</span>
           </NavLink>
 
-          <NavLink 
-            to="contacts" 
-            className={({ isActive }) => isActive ? "menu-item active" : "menu-item"}
+          <NavLink
+            to="contacts"
+            className={({ isActive }) =>
+              isActive ? "menu-item active" : "menu-item"
+            }
             onClick={closeMenu}
           >
             <Contact size={22} />
@@ -164,7 +200,7 @@ const Dashboard = () => {
               textAlign: "left",
               display: "flex",
               alignItems: "center",
-              gap: "12px"
+              gap: "12px",
             }}
           >
             <LogOut size={22} color="red" />
