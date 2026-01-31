@@ -9,8 +9,8 @@ import Conguratulation from "./pages/signup/Conguratulation";
 import MyJobs from "./pages/dashboard/MyJobs";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import CompanyProfile from "./pages/dashboard/MyCompany";
-import FAQ from "../../dashboard/workify/src/pages/dashboard/FAQ";
-import Contacts from "../../dashboard/workify/src/pages/dashboard/Contacts";
+import FAQ from "../src/pages/dashboard/FAQ";
+import Contacts from "../src/pages/dashboard/Contacts";
 import Talentss from "./pages/dashboard/Talents";
 
 const App = () => {

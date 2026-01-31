@@ -28,34 +28,10 @@
   line-height: 1.5;
 }
 
-/* TOP NAVIGATION */
-.top-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  background: #ffffff;
-  width: 785px;
-  height: 60px;
-  border-radius: 15px;
-  padding: 10px;
-}
 
-.nav-title {
-  font-family: Gilroy;
-  font-weight: 600;
-  font-style: SemiBold;
-  font-size: 25px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  color: #505151;
-}
 
-.nav-actions {
-  display: flex;
-  align-items: center;
-}
+
+
 
 .post-job-btn {
   font-family: Gilroy;
@@ -344,58 +320,10 @@
 }
 
 /* RESPONSIVE DESIGN */
-@media (max-width: 1200px) {
-  .main-content {
-    grid-template-columns: 1fr 1fr;
-  }
 
-  .profile-card {
-    grid-column: 1 / -1;
-    height: auto;
-  }
-}
 
-@media (max-width: 768px) {
-  .dashboard-container {
-    padding: 16px;
-  }
 
-  .main-content {
-    grid-template-columns: 1fr;
-  }
-
-  .top-nav {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .post-job-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .simple-bar-chart {
-    gap: 4px;
-  }
-
-  .bar {
-    width: 28px;
-  }
-}
-
-/* ANIMATIONS */
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    
 
 .card {
   animation: slideIn 0.5s ease-out;
@@ -561,3 +489,130 @@
    border-radius: 999px;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   RESPONSIVE DESIGN (Media Queries)
+   ============================================================ */
+
+/* 1. Katta monitorlar va Noutbuklar uchun (1200px gacha) */
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr 1fr; /* 3 ta ustun 2 taga aylanadi */
+  }
+
+  .chart-card, .chart-cart, .custom-job-card {
+    width: 100% !important; /* Qat'iy o'lchamlarni bekor qilamiz */
+    margin-left: 0 !important;
+  }
+}
+
+/* 2. Planshetlar uchun (992px gacha) */
+@media (max-width: 992px) {
+  .post-job-btn {
+    position: static !important; /* left: 230px butunlay o'chiriladi */
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .profile-completed-card {
+    width: 100% !important;
+    min-height: auto;
+    padding: 30px;
+  }
+
+  .custom-job-card .time-tabs-pilll {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* 3. Kichik planshetlar va mobil qurilmalar (768px gacha) */
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr; /* Hammasi bitta ustun bo'lib qoladi */
+  }
+
+  .summary-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  .bar {
+    width: 20px; /* Grafik ustunlarini kichraytiramiz */
+  }
+}
+
+/* 4. Telefonlar uchun (480px gacha) */
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+  }
+
+  .tab-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .custom-job-card .time-tabs-pilll button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
