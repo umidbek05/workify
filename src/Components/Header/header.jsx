@@ -4,7 +4,7 @@ import "../Header/header.css";
 import "../../Components/Header/header";
 import Vector from "../../assets/Vector.png";
 import Base from "../../assets/Base.png";
-
+import { FiBriefcase } from "react-icons/fi";
 export default function Header() {
   const [language, setLanguage] = useState("EN");
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ export default function Header() {
       <div className="header1">
         <img src={Vector} alt="" />
         <Link to="/talents">Talents</Link>
-        <img src={Base} alt="" />
+        <FiBriefcase />
         <Link to="/jobs">Jobs</Link>
       </div>
       <div className="header2">

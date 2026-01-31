@@ -2,6 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import TecCells from "./pompany.png";
 import Qalam from "./qalam.png";
 import "./MyCompany.css";
+import Update from "./Update";
+
+import { BsCamera } from "react-icons/bs";
+import { RiPencilFill } from "react-icons/ri";
 
 const CompanyProfile = () => {
   const [companyData, setCompanyData] = useState({
@@ -15,6 +19,9 @@ const CompanyProfile = () => {
     about: "",
     logo: "",
   });
+
+  // 1. State nomi to'g'rilandi: [holat, funksiya]
+  const [open, setOpen] = useState(false);
 
   const [logo, setLogo] = useState(() => {
     return localStorage.getItem("companyLogo") || TecCells;
@@ -34,7 +41,6 @@ const CompanyProfile = () => {
     formData.append("image", file);
 
     try {
-      // 1. Rasmni uploaderga yuborish
       const res = await fetch("http://localhost:5000/uploader/upload", {
         method: "POST",
         body: formData,
@@ -45,7 +51,6 @@ const CompanyProfile = () => {
         const imageUrl = uploadData.url;
         const currentUserEmail = localStorage.getItem("email");
 
-        // 2. PostgreSQL bazasiga rasm URL'ini saqlash
         const dbRes = await fetch("http://localhost:5000/uploader/save-image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -56,18 +61,19 @@ const CompanyProfile = () => {
         });
 
         if (dbRes.ok) {
-          // UI'ni yangilash
           setLogo(imageUrl);
           setCompanyData((prev) => ({ ...prev, logo: imageUrl }));
           localStorage.setItem("companyLogo", imageUrl);
-          alert("Logotip bazaga saqlandi va endi o'chib ketmaydi!");
+          alert("Logotip bazaga saqlandi!");
         }
       }
     } catch (err) {
       console.error("Xatolik:", err);
     }
   };
-  useEffect(() => {
+
+  // Ma'lumotlarni yuklash funksiyasi
+  const fetchData = () => {
     const currentUserEmail = localStorage.getItem("email");
     if (!currentUserEmail) return;
 
@@ -86,7 +92,6 @@ const CompanyProfile = () => {
             const latestCompany = userCompanies[userCompanies.length - 1];
             setCompanyData(latestCompany);
 
-            // AGAR BAZADA RASM BO'LSA, UNI O'RNATAMIZ
             if (latestCompany.logo) {
               setLogo(latestCompany.logo);
               localStorage.setItem("companyLogo", latestCompany.logo);
@@ -95,6 +100,10 @@ const CompanyProfile = () => {
         }
       })
       .catch((err) => console.error("Xatolik:", err));
+  };
+
+  useEffect(() => {
+    fetchData();
   }, []);
 
   return (
@@ -108,6 +117,9 @@ const CompanyProfile = () => {
 
       <div className="company-main">
         <div className="TecCells">
+          <button className="ichki-btn" onClick={() => setOpen(true)}>
+            <RiPencilFill />
+          </button>
           <div className="logo-wrapper">
             <img
               src={logo}
@@ -116,7 +128,7 @@ const CompanyProfile = () => {
               onError={(e) => (e.target.src = TecCells)}
             />
             <button className="edit-logo-btn" onClick={handleEditLogo}>
-              <img src={Qalam} alt="edit logo" />
+              <BsCamera />
             </button>
             <input
               type="file"
@@ -132,7 +144,10 @@ const CompanyProfile = () => {
           <p>4.0 | 1K reviews</p>
 
           <div className="ichki">
+            {/* 2. Tugma endi setOpen(true) ni to'g'ri chaqiradi */}
+
             <h1>Company info:</h1>
+
             <div className="info-row">
               <p>City:</p> <p>{companyData.city || "N/A"}</p>
             </div>
@@ -177,16 +192,23 @@ const CompanyProfile = () => {
 
           <textarea
             className="about-input"
-            // value ni companyData dan oladi
             value={companyData.about || ""}
             placeholder="Please tell us something about your company..."
-            // readOnly olib tashlandi, endi yozib bo'ladi
             onChange={(e) =>
               setCompanyData({ ...companyData, about: e.target.value })
             }
           />
         </div>
       </div>
+
+      {/* 3. Update komponenti qo'shildi */}
+      {open && (
+        <Update
+          setOpen={setOpen}
+          currentData={companyData}
+          onUpdate={fetchData}
+        />
+      )}
     </>
   );
 };
