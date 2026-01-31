@@ -1,0 +1,389 @@
+/* ASOSIY STILLAR */
+.dashboard {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f7fb;
+  padding: 15px;
+  gap: 25px;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  width: 300px;
+  background-color: white;
+  border-radius: 15px;
+  padding: 25px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  flex-shrink: 0; /* Sidebar qisqarib ketmasligi uchun */
+}
+
+.company-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-bottom: 25px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 30px;
+}
+
+.company-info img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e0e0e0;
+}
+
+.sidebar-text h1 {
+  font-size: 18px;
+  color: #333;
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.sidebar-text p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* MENU ITEMS */
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #505151;
+  font-family: "Gilroy", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.menu-item img {
+  width: 22px;
+  height: 22px;
+  filter: brightness(0) saturate(100%) invert(83%);
+  transition: all 0.3s ease;
+}
+
+.menu-item svg {
+  width: 20px;
+  height: 20px;
+  stroke: #505151;
+  fill: none;
+}
+
+/* Hover & Active States */
+.menu-item:hover {
+  background-color: #f0f4ff;
+  color: #1d3f61;
+}
+
+.menu-item:hover img {
+  filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(500%)
+    hue-rotate(180deg);
+}
+
+.menu-item.active {
+  background: linear-gradient(135deg, #1d3f61, #4361ee);
+  color: #ffffff;
+}
+
+.menu-item.active img {
+  filter: brightness(0) invert(1);
+}
+
+.menu-item.active svg {
+  stroke: #ffffff;
+}
+
+.menu-item.logout {
+  color: #ef4444;
+  margin-top: auto;
+}
+
+.menu-item span .logg {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+.menu-item.logout:hover {
+  background-color: #fef2f2;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  min-width: 0;
+}
+
+/* TOP DASHBOARD NAV (Asosiy sahifa ichidagi tepa qism) */
+.nav-dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  padding: 20px 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.nav-dashboard h1 {
+  color: #333;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.post-job-btn {
+  background-color: #50c594;
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* MOBIL NAVIGATSIYA (Header) */
+.mobile-nav {
+  display: none; /* Desktopda yashirin */
+}
+
+/* 🔹 RESPONSIVE DESIGN (Planshet va Telefonlar) */
+@media (max-width: 992px) {
+  .dashboard {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+
+  .mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+  }
+
+  .sidebar {
+    position: fixed;
+    left: -100%;
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 2000;
+    border-radius: 0 15px 15px 0;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .sidebar.open {
+    left: 0;
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    z-index: 1500;
+  }
+
+  .main-content {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .nav-dashboard {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    padding: 20px;
+  }
+
+  .post-job-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Grid va Cardlarni moslash */
+  .job-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .chart-card,
+  .profil-wiev,
+  .section-completed {
+    width: 100% !important;
+    margin-left: 0 !important;
+    height: auto !important;
+  }
+
+  .toggle-wrapper {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .job-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .nav-dashboard h1 {
+    font-size: 20px;
+  }
+}
+
+/* Dashboard.css ga qo'shing */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10001; /* Sidebar-dan balandroq turishi uchun */
+}
+
+.custom-alert {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 350px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.alert-btn {
+  padding: 10px 20px;
+  background: #163d5c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+
+
+
+
+
+
+
+/* 🔹 RESPONSIVE DESIGN */
+@media (max-width: 992px) {
+  .dashboard {
+    flex-direction: column;
+    padding: 0;
+    gap: 0;
+  }
+
+  /* Gamburg header qismi */
+  .mobile-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    height: 60px;
+  }
+
+  .hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #1d3f61;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+  }
+
+  /* Sidebar mobil holati */
+  .sidebar {
+    position: fixed;
+    left: -100%; /* Default yopiq */
+    top: 0;
+    height: 100vh;
+    width: 280px;
+    z-index: 2000;
+    border-radius: 0 15px 15px 0;
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+  }
+
+  /* Sidebar ochilganda */
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* Qora parda */
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1500;
+  }
+
+  .main-content {
+    padding: 15px;
+    width: 100%;
+    /* iPhone SE kabi kichik ekranlarda kontent sig'ishi uchun */
+    overflow-x: hidden;
+  }
+}
+
+/* iPhone SE (320px - 375px) va kichik ekranlar uchun maxsus */
+@media (max-width: 375px) {
+  .sidebar {
+    width: 250px; /* Biroq torroq sidebar */
+  }
+
+  .sidebar-text h1 {
+    font-size: 16px;
+  }
+
+  .menu-item {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+
+  .nav-dashboard h1 {
+    font-size: 18px;
+  }
+}

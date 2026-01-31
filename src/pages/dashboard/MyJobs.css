@@ -1,0 +1,176 @@
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  background: #ffffff;
+  width: 785px;
+  height: 60px;
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.nav-title {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-style: SemiBold;
+  font-size: 25px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: #505151;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.post-btn {
+  font-family: Gilroy;
+  font-weight: 600;
+  font-style: Regular;
+  font-size: 15px;
+  line-height: 100%;
+  letter-spacing: 0%;
+  color: white;
+  width: 200px;
+  height: 60px;
+  cursor: pointer;
+  padding: 5px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
+
+  background: linear-gradient(135deg, #1d3f61, #c25dc5);
+
+  position: relative;
+  left: 230px;
+
+  border: none;
+  border-radius: 8px;
+}
+
+.post-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+
+  background: linear-gradient(135deg, #c25dc5, #1d3f61);
+}
+
+.jobs-search {
+  width: 1100px;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.jobs-search input {
+  width: 1000px;
+  height: 60px;
+}
+
+/* Input */
+/* Input */
+.search-input {
+  /* balandlik */
+  padding: 0 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  outline: none;
+
+  font-family: Gilroy;
+  font-size: 14px;
+  color: #111827;
+
+  transition: width 0.4s ease, border-color 0.3s ease;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Hover yoki focus bo‘lganda */
+.search-input:hover,
+.search-input:focus {
+  width: 1050px;
+  /* uzunlashadi */
+  border-color: #8b39e5;
+}
+
+/* Button */
+.search-btn {
+  width: 150px;
+  height: 50px;
+  padding: 0 24px;
+  margin-left: -170px;
+  background-color: #8b39e5;
+  color: #ffffff;
+
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+
+  font-family: Gilroy;
+  font-size: 14px;
+  font-weight: 600;
+
+  transition: 0.2s ease;
+}
+
+.search-btn:hover {
+  opacity: 0.9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
