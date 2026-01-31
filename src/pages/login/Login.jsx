@@ -65,14 +65,18 @@ function Login() {
     setErrors({});
 
     try {
-      const response = await fetch("http://localhost:5000/register/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      // Localhost o'rniga Railway URL manzili o'rnatildi
+      const response = await fetch(
+        "https://workifyback-production.up.railway.app/register/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: formData.email,
+            password: formData.password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
