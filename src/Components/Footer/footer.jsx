@@ -3,7 +3,6 @@ import Insta from "../../assets/insta.png";
 import Face from "../../assets/face.png";
 import Youtube from "../../assets/youtube.png";
 import Telegram from "../../assets/telegram.png";
-import Signup from "../../pages/signup/Signup";
 
 export default function Footer() {
   return (

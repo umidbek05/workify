@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import TecCells from "./pompany.png";
-import Qalam from "./qalam.png";
+
 import "./MyCompany.css";
 import Update from "./Update";
 
