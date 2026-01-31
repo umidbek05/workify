@@ -1,4 +1,4 @@
-import "./update.css";
+import "./Update.css";
 
 // setOpen funksiyasini prop sifatida qabul qilamiz
 const Update = ({ setOpen }) => {
