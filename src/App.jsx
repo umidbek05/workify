@@ -9,9 +9,13 @@ import Conguratulation from "./pages/signup/Conguratulation";
 import MyJobs from "./pages/dashboard/MyJobs";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import CompanyProfile from "./pages/dashboard/MyCompany";
-import FAQ from "../../dashboard/workify/src/pages/dashboard/FAQ";
-import Contacts from "../../dashboard/workify/src/pages/dashboard/Contacts";
+import FAQ from "./pages/dashboard/FAQ";
+import Contacts from "./pages/dashboard/Contacts";
 import Talentss from "./pages/dashboard/Talents";
+import Login from "./pages/login/Login";
+import Kod from "./pages/forgot/kod";
+import Forget from "./pages/forgot/Forget";
+import Setpassword from "./pages/setpassword/Setpassword";
 
 const App = () => {
   return (
@@ -23,6 +27,10 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/register" element={<Register />} />
         <Route path="/congratulation" element={<Conguratulation />} />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/forget" element= {<Forget/>}/>
+        <Route path="/setpassword" element={<Setpassword/>} />
+        <Route path="/kod" element= {<Kod/>}/>
         <Route path="/dashboard" element={<Dashboard />}>
           {/* DEFAULT PAGE */}
           <Route index element={<DashboardHome />} />
@@ -33,6 +41,7 @@ const App = () => {
           <Route path="talents" element={<Talentss />} />
           <Route path="faq" element={<FAQ />} />
           <Route path="contacts" element={<Contacts />} />
+
         </Route>
       </Routes>
     </div>

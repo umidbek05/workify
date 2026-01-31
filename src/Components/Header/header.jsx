@@ -12,7 +12,7 @@ export default function Header() {
   const handleLanguageChange = (e) => {
     setLanguage(e.target.value);
   };
-
+  
   return (
     <header>
       <div className="head">
@@ -25,7 +25,7 @@ export default function Header() {
         <Link to="/jobs">Jobs</Link>
       </div>
       <div className="header2">
-        <button>Sign in</button>
+        <button onClick={() => navigate('/login')}>Sign in</button>
         <button
           onClick={() => {
             navigate("/signup");
