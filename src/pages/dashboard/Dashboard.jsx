@@ -62,7 +62,7 @@ const Dashboard = () => {
       localStorage.clear();
       sessionStorage.clear();
       navigate("/", { replace: true });
-    }
+    } 
   };
 
   return (
@@ -123,6 +123,7 @@ const Dashboard = () => {
             <img src={page4} alt="Talents" />
             <span className="menu-link">Talents</span>
           </NavLink>
+
 
           <NavLink
             to="faq"
