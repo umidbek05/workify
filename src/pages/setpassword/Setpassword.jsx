@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../pages/setpassword/setpassword.css";
+import "./Setpassword.css";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
 
@@ -33,7 +33,8 @@ const SetNewPassword = () => {
 
     try {
       // ✅ ID ni Login yoki Forgot Password'dan olamiz
-      const userId = localStorage.getItem("userId") || localStorage.getItem("resetUserId");
+      const userId =
+        localStorage.getItem("userId") || localStorage.getItem("resetUserId");
 
       if (!userId) {
         setError("Foydalanuvchi aniqlanmadi. Iltimos, qaytadan login qiling.");
@@ -56,7 +57,7 @@ const SetNewPassword = () => {
         alert("Parol muvaffaqiyatli yangilandi!");
         // ✅ Xavfsizlik uchun vaqtinchalik ID larni o'chiramiz
         localStorage.removeItem("resetUserId");
-        navigate("/login"); 
+        navigate("/login");
       } else {
         setError(data.message || "Xatolik yuz berdi");
       }
@@ -74,7 +75,14 @@ const SetNewPassword = () => {
         <div className="reset-card">
           <h2>Set new password</h2>
 
-          {error && <p className="error-msg" style={{ color: "red", textAlign: "center" }}>{error}</p>}
+          {error && (
+            <p
+              className="error-msg"
+              style={{ color: "red", textAlign: "center" }}
+            >
+              {error}
+            </p>
+          )}
 
           <div className="form-group">
             <label>New password</label>
@@ -98,7 +106,11 @@ const SetNewPassword = () => {
             />
           </div>
 
-          <button className="reset-btn" onClick={handleConfirm} disabled={isLoading}>
+          <button
+            className="reset-btn"
+            onClick={handleConfirm}
+            disabled={isLoading}
+          >
             {isLoading ? "Updating..." : "Confirm"}
           </button>
         </div>
