@@ -10,7 +10,9 @@ function Register() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const USER_ID = 25;
+  
+  // Eslatma: USER_ID har bir foydalanuvchi uchun unikal bo'lishi kerak.
+  const USER_ID = 25; 
 
   const handleKeyDown = (e) => {
     if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
@@ -35,17 +37,21 @@ function Register() {
     setCode(newCode);
   };
 
-  // Telegram ochish
+  // Telegram botni ochish - Yangilangan username: @workifyBot_bot
   const handleClickHere = () => {
-    window.open(`https://t.me/workfy_login_bot?start=${USER_ID}`, "_blank");
-    alert("Telegram ochildi! 🔐 Botga ulaning va code ni oling.");
+    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
+    Swal.fire({
+      icon: "info",
+      title: "Telegram ochildi",
+      text: "Botga ulaning va tasdiqlash kodini oling.",
+      confirmButtonColor: "#3085d6",
+    });
   };
 
-  // Next tugma → code verify
+  // Kodni tekshirish (Verify)
   const handleNext = async () => {
     const enteredCode = code.join("");
 
-    // Agar kod to'liq kiritilmagan bo'lsa
     if (enteredCode.length < 6) {
       Swal.fire({
         icon: "warning",
@@ -56,7 +62,6 @@ function Register() {
       return;
     }
 
-    // Yuklanish (Loading) ko'rsatish
     Swal.fire({
       title: "Tekshirilmoqda...",
       allowOutsideClick: false,
@@ -67,7 +72,7 @@ function Register() {
 
     try {
       const res = await fetch(
-        "https://workify-bot-production.up.railway.app/verify-code",
+        "https://workifybot-production.up.railway.app/verify-code",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -78,7 +83,6 @@ function Register() {
       const data = await res.json();
 
       if (res.ok && data.valid) {
-        // Muvaffaqiyatli xabar
         Swal.fire({
           icon: "success",
           title: "Tasdiqlandi!",
@@ -89,25 +93,24 @@ function Register() {
           navigate("/congratulation");
         });
       } else {
-        // Noto'g'ri kod xabari
         Swal.fire({
           icon: "error",
           title: "Xatolik",
-          text: "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
+          text: data.message || "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
           confirmButtonColor: "#d33",
         });
       }
     } catch (err) {
       console.error("Xatolik tafsiloti:", err);
-      // Server ulanish xabari
       Swal.fire({
         icon: "warning",
         title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi. Internetni tekshiring.",
+        text: "Server bilan bog‘lanishda muammo yuz berdi. Backend ishlayotganini tekshiring.",
         confirmButtonColor: "#f39c12",
       });
     }
   };
+
   return (
     <div>
       <Header />
@@ -131,6 +134,7 @@ function Register() {
             onKeyDown={handleKeyDown}
             className="hidden-input"
             autoFocus
+            style={{ opacity: 0, position: "absolute", zIndex: -1 }}
           />
 
           <div className="digits" onClick={() => inputRef.current.focus()}>

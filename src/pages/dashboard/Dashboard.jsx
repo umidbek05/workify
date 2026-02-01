@@ -62,7 +62,7 @@ const Dashboard = () => {
       localStorage.clear();
       sessionStorage.clear();
       navigate("/", { replace: true });
-    }
+    } 
   };
 
   return (

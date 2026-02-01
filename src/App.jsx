@@ -13,6 +13,7 @@ import CompanyProfile from "./pages/dashboard/MyCompany";
 import FAQ from "./pages/dashboard/FAQ";
 import Contacts from "./pages/dashboard/Contacts";
 
+
 import Talentss from "./pages/dashboard/Talents";
 import Login from "./pages/login/Login";
 import Kod from "./pages/forgot/Kod";
