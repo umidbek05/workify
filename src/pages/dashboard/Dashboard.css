@@ -1,23 +1,32 @@
 /* ASOSIY STILLAR */
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  margin: 0;
+  background-color: #f5f7fb;
+}
+
 .dashboard {
   display: flex;
   min-height: 100vh;
-  background-color: #f5f7fb;
-  padding: 15px;
+  padding: 20px;
   gap: 25px;
 }
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-  width: 300px;
+  width: 280px;
   background-color: white;
-  border-radius: 15px;
-  padding: 25px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  padding: 30px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: column;
+  flex-shrink: 0;
   transition: all 0.3s ease;
-  flex-shrink: 0; /* Sidebar qisqarib ketmasligi uchun */
 }
 
 .company-info {
@@ -25,267 +34,206 @@
   align-items: center;
   gap: 15px;
   padding-bottom: 25px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid #f0f0f0;
   margin-bottom: 30px;
 }
 
-.company-info img {
+.sidebar-logo {
   width: 50px;
   height: 50px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e0e0e0;
 }
 
 .sidebar-text h1 {
   font-size: 18px;
-  color: #333;
-  font-weight: 600;
-  margin-bottom: 5px;
+  color: #1d3f61;
+  font-weight: 700;
+  margin: 0;
 }
 
 .sidebar-text p {
   font-size: 14px;
-  color: #666;
+  color: #999;
+  margin: 5px 0 0 0;
 }
 
 /* MENU ITEMS */
 .sidebar-menu {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 }
 
 .menu-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  border-radius: 10px;
+  gap: 15px;
+  padding: 14px 20px;
+  border-radius: 12px;
   text-decoration: none;
-  color: #505151;
-  font-family: "Gilroy", sans-serif;
+  color: #7d8592;
   font-weight: 500;
   font-size: 16px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .menu-item img {
   width: 22px;
   height: 22px;
-  filter: brightness(0) saturate(100%) invert(83%);
-  transition: all 0.3s ease;
+  opacity: 0.6;
 }
 
-.menu-item svg {
-  width: 20px;
-  height: 20px;
-  stroke: #505151;
-  fill: none;
-}
-
-/* Hover & Active States */
-.menu-item:hover {
-  background-color: #f0f4ff;
-  color: #1d3f61;
-}
-
-.menu-item:hover img {
-  filter: brightness(0) saturate(100%) invert(20%) sepia(50%) saturate(500%)
-    hue-rotate(180deg);
-}
-
+/* Active State - Rasmdagidek ko'k rang */
 .menu-item.active {
-  background: linear-gradient(135deg, #1d3f61, #4361ee);
+  background-color: #1d3f61;
   color: #ffffff;
 }
 
 .menu-item.active img {
   filter: brightness(0) invert(1);
+  opacity: 1;
 }
 
-.menu-item.active svg {
-  stroke: #ffffff;
+.menu-item:hover:not(.active) {
+  background-color: #f0f4ff;
+  color: #1d3f61;
 }
 
-.menu-item.logout {
-  color: #ef4444;
+.logout-btn {
   margin-top: auto;
+  color: #ef4444 !important;
 }
 
-.menu-item span .logg {
-  margin-left: 20px;
-  margin-top: 5px;
-}
-.menu-item.logout:hover {
-  background-color: #fef2f2;
-}
-
-/* MAIN CONTENT */
+/* ===== MAIN CONTENT ===== */
 .main-content {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
   min-width: 0;
 }
 
-/* TOP DASHBOARD NAV (Asosiy sahifa ichidagi tepa qism) */
-.nav-dashboard {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 20px 30px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.nav-dashboard h1 {
-  color: #333;
-  font-size: 26px;
-  font-weight: 600;
-}
-
-.post-job-btn {
-  background-color: #50c594;
-  color: white;
-  border: none;
-  padding: 12px 28px;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-/* MOBIL NAVIGATSIYA (Header) */
+/* ===== MOBILE NAVIGATION ===== */
 .mobile-nav {
-  display: none; /* Desktopda yashirin */
+  display: none;
 }
 
-/* 🔹 RESPONSIVE DESIGN (Planshet va Telefonlar) */
+.sidebar-overlay {
+  display: none;
+}
+
+/* 🔹 RESPONSIVE DESIGN */
+/* 🔹 RESPONSIVE DESIGN - YANGILANGAN */
+/* 1. Umumiy (Desktop va hamma joy uchun) */
+.close-sidebar-btn {
+  display: none; /* Desktopda ko'rinmaydi */
+}
+
+.burger-menu-btn {
+  display: none; /* Desktopda ko'rinmaydi */
+}
+
+/* 2. PLANSHEET VA TELEFONLAR UCHUN (992px dan kichik hamma narsa) */
 @media (max-width: 992px) {
   .dashboard {
     flex-direction: column;
-    padding: 0;
-    gap: 0;
+    padding: 0 !important;
+    gap: 0 !important;
+    min-height: 100vh;
   }
 
+  /* Mobil Navigatsiya */
   .mobile-nav {
-    display: flex;
+    display: flex !important;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background-color: #fff;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    padding: 10px 20px;
+    background: #ffffff;
+    border-bottom: 1px solid #eee;
     position: sticky;
     top: 0;
-    z-index: 1100;
+    width: 100%;
+    height: 60px;
+    z-index: 1000;
   }
 
+  .burger-menu-btn {
+    display: block !important;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #1d3f61;
+    padding: 5px;
+  }
+
+  /* SIDEBAR - Universal Joylashuv */
   .sidebar {
-    position: fixed;
-    left: -100%;
+    position: fixed !important;
+    left: -100%; /* To'liq yashirish */
     top: 0;
+    width: 280px; /* Telefonlar uchun standart kenglik */
+    max-width: 80%; /* Juda kichik ekranlarda ekran boyiga qarab moslashadi */
     height: 100vh;
-    width: 280px;
-    z-index: 2000;
-    border-radius: 0 15px 15px 0;
-    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: -webkit-fill-available; /* iOS Safari uchun maxsus */
+    background: white;
+    z-index: 3000 !important; /* Hamma narsadan ustun */
+    margin: 0 !important;
+    border-radius: 0 20px 20px 0;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto; /* Ichidagi kontent sig'masa scroll bo'ladi */
   }
 
   .sidebar.open {
     left: 0;
   }
 
+  /* Yopish tugmasi - iPhone XR va boshqalarda chiroyli turishi uchun */
+  .close-sidebar-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    background: #f5f7fb;
+    border: none;
+    border-radius: 50%;
+    font-size: 16px;
+    cursor: pointer;
+    color: #1d3f61;
+    z-index: 3001;
+  }
+
+  /* Qorong'u fon (Overlay) */
   .sidebar-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
-    z-index: 1500;
+    -webkit-backdrop-filter: blur(4px); /* Safari uchun */
+    z-index: 2500 !important;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
+  .sidebar-overlay.show {
+    display: block;
+    opacity: 1;
+  }
+
+  /* Asosiy kontent mobil holati */
   .main-content {
-    padding: 20px;
+    padding: 15px;
     width: 100%;
   }
-
-  .nav-dashboard {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 20px;
-  }
-
-  .post-job-btn {
-    width: 100%;
-    text-align: center;
-  }
-
-  /* Grid va Cardlarni moslash */
-  .job-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-  }
-
-  .chart-card,
-  .profil-wiev,
-  .section-completed {
-    width: 100% !important;
-    margin-left: 0 !important;
-    height: auto !important;
-  }
-
-  .toggle-wrapper {
-    width: 100% !important;
-    margin-left: 0 !important;
-  }
 }
 
-@media (max-width: 480px) {
-  .job-grid {
-    grid-template-columns: 1fr !important;
+/* 3. JUDA KICHIK TELEFONLAR UCHUN (iPhone SE kabi) */
+@media (max-width: 380px) {
+  .sidebar {
+    width: 250px;
   }
-
-  .nav-dashboard h1 {
-    font-size: 20px;
-  }
-}
-
-/* Dashboard.css ga qo'shing */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10001; /* Sidebar-dan balandroq turishi uchun */
-}
-
-.custom-alert {
-  background: white;
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  width: 350px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.alert-btn {
-  padding: 10px 20px;
-  background: #163d5c;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
 }

@@ -1,7 +1,7 @@
 import "../../pages/Jobs/jobs.css";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
-import { LocateIcon, Stars, StarsIcon } from "lucide-react";
+import { LocateIcon } from "lucide-react";
 import Logo from "../../assets/Logo.png";
 import Star from "../../assets/Star 1.png";
 import Star1 from "../../assets/Star 2.png";

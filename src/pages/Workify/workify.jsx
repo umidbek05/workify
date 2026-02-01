@@ -2,21 +2,17 @@ import "../../pages/Workify/workify.css";
 import Header from "../../Components/Header/header";
 import Group from "../../assets/Group.png";
 import Footer from "../../Components/Footer/footer";
-import Diplomat from "../../assets/diplomat.png";
-import Gul from "../../assets/Gul.png";
 import Mask from "../../assets/Mask.png";
 import Person from "../../assets/person.png";
 import Message from "../../assets/message.png";
 import Search from "../../assets/search.png";
-import Rectangle from "../../assets/Rectangle.png";
 export default function Workify() {
   return (
     <>
       <Header />
       <section className="hero">
-        <div className="herofoto">
-          <img src={Gul} alt="" />
-        </div>
+        <div className="herofoto"></div>
+
         <img src={Group} alt="hero background" className="hero-bg" />
 
         <div className="hero-content">
@@ -35,6 +31,7 @@ export default function Workify() {
       <div className="Card">
         <div className="first">
           <img src={Mask} alt="" />
+
           <h1>
             Professional <br /> recruiter
           </h1>

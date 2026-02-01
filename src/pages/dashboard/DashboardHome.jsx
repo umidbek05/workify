@@ -22,8 +22,7 @@ const DashboardHome = () => {
   useEffect(() => {
     const currentUserEmail = localStorage.getItem("email");
     if (!currentUserEmail) return;
-
-    fetch("http://localhost:5000/register/getRegister")
+    fetch("https://workifyback-production.up.railway.app/register/getRegister")
       .then((res) => res.json())
       .then((resp) => {
         const data = resp.data || resp;
@@ -110,13 +109,6 @@ const DashboardHome = () => {
 
   return (
     <div className="dashboard-container">
-      <div className="top-nav">
-        <h1 className="nav-title">Dashboard</h1>
-        <div className="nav-actions">
-          <button className="post-job-btn">Post a Job</button>
-        </div>
-      </div>
-
       <div className="main-content">
         {/* 1. FOIZ KO'RSATKICHI (Circular Progress) */}
         <div className="card profile-completed-card">

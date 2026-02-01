@@ -165,3 +165,30 @@ button {
     width: 100%; /* "Click here" tugmasi ham kengayadi */
   }
 }
+
+/* Mobil uchun moslashuvchanlik */
+@media (max-width: 480px) {
+  .digits {
+    gap: 6px; /* Katakchalar orasini kichraytiramiz */
+  }
+
+  .digits div {
+    width: 40px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 6px;
+  }
+
+  .next {
+    padding: 12px 0;
+    font-size: 18px;
+    width: 100%; /* Mobil ekranda tugma to'liq kenglikda */
+    border-radius: 10px;
+  }
+}
+
+/* Tugma bosilgandagi animatsiya */
+.next:active {
+  transform: scale(0.95);
+  transition: 0.1s;
+}

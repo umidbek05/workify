@@ -168,83 +168,83 @@
 /* --- RESPONSIVE MEDIA QUERIES --- */
 
 /* Planshetlar uchun (992px gacha) */
-@media (max-width: 992px) {
-  .hero-bg {
-    opacity: 0.3; /* Matn o'qilishi uchun fonni xiralashtiramiz */
-    width: 80%;
-  }
-  .hero-content {
-    max-width: 90%;
-    padding-left: 20px;
-  }
-}
+/* --- RESPONSIVE MEDIA QUERIES --- */
 
-/* Smartfonlar uchun (768px gacha) */
+/* Planshetlar uchun (992px gacha) */
 @media (max-width: 768px) {
   .hero {
     min-height: auto;
-    padding: 100px 0 60px;
+    padding: 20px 0 40px;
+    flex-direction: column;
     text-align: center;
+    background-color: #fcfcfc;
   }
 
+  /* Rasm guruhi uchun umumiy tartib */
+  .hero-bg,
+  .herofoto {
+    order: 1;
+  }
+
+  /* Odam rasmi - Markazda va nisbiy (relative) bo'lishi shart */
   .hero-bg {
-    display: none; /* Kichik ekranda fon rasmini olib tashlaymiz */
+    display: block;
+    position: relative; /* Gul unga yopishishi uchun */
+    width: 90%;
+    max-width: 320px;
+    height: auto;
+    margin: 0 auto;
+    transform: none;
+    top: 0;
+    right: 0;
+    z-index: 1;
   }
 
-  .hero-content {
-    padding: 0 20px;
+  /* Gul tuvagi - Odam rasmining aniq chap pastki burchagiga */
+  .herofoto {
+    position: relative;
+    width: 90%;
+    max-width: 320px;
     margin: 0 auto;
+    height: 0; /* Bo'sh joy egallamasligi uchun */
+    z-index: 2;
+    order: 1;
+  }
+
+  .herofoto img {
+    position: absolute;
+    display: block;
+    width: 75px; /* Rasmga mos hajm */
+
+    /* Rasmdagi kabi odamning chap tomoniga qo'yish: */
+    left: 10%; /* Chapdan masofa */
+    bottom: 15px; /* Pastdan (chiziq ustida turgandek) masofa */
+
+    right: auto;
+    top: auto;
+  }
+
+  /* Matn qismi - Rasmlar ostidan */
+  .hero-content {
+    order: 2;
+    width: 100%;
+    padding: 0 20px;
+    margin-top: 30px; /* Rasm va matn orasidagi masofa */
   }
 
   .hero-content h1 {
     font-size: 36px;
+    font-weight: 800;
     line-height: 1.2;
+    color: #1a1a1a;
+    margin-bottom: 20px;
   }
 
-  .search {
-    flex-direction: column;
-    padding: 15px;
-    gap: 10px;
-  }
-
-  .search input {
-    width: 100%;
-    border-bottom: 1px solid #eee;
-  }
-
-  .search button {
-    width: 100%;
-  }
-
-  .find-job {
-    margin-left: 20px; /* Masofani kamaytirdik */
-  }
-}
-
-/* Eng kichik smartfonlar uchun (480px va 320px) */
-@media (max-width: 480px) {
-  .hero-content h1 {
-    font-size: 28px;
-  }
-
-  .find-talent,
-  .find-job {
-    display: block; /* Ularni ustma-ust tushiramiz */
-    margin: 10px 0;
-    text-align: center;
-  }
-
-  .find-job {
-    margin-left: 0;
-  }
-
-  .Card {
-    grid-template-columns: 1fr; /* Cardlarni bittadan qator qilamiz */
-    width: 95%;
-  }
-
-  .herofoto img {
-    right: 5%;
-    width: 80px;
+  .hero-content p {
+    font-size: 17px;
+    line-height: 1.5;
+    color: #666;
+    max-width: 90%;
+    margin: 0 auto;
   }
 }

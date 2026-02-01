@@ -1,0 +1,73 @@
+.forget-wrapper {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f7f4ee;
+}
+
+.forget-card {
+  width: 420px;
+  background: #fff;
+  padding: 36px;
+  border-radius: 22px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 🔥 pastma-past masofa */
+}
+
+/* INPUT */
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #ddd;
+  border-radius: 14px;
+  padding: 14px 16px;
+}
+
+.input-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 16px;
+}
+
+.icon {
+  font-size: 22px;
+  color: #0f2a44;
+}
+
+/* BUTTONLAR */
+.forget-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* send password */
+.forget-btn.send {
+  background: #eef2f7;
+  border: 1px solid #dce3ee;
+  color: #0f2a44;
+}
+
+.forget-btn.send:hover {
+  background: #e2e8f0;
+}
+
+/* next */
+.forget-btn.next {
+  background: #0f2a44;
+  border: none;
+  color: #fff;
+}
+
+.forget-btn.next:hover {
+  background: #0b2136;
+}
