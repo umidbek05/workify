@@ -94,7 +94,7 @@ const Signup = () => {
         if (toast.message === "Form submitted successfully!") {
           navigate("/register");
         }
-      }, 1000); // 4 soniyadan keyin yo'qoladi
+      }, 2500); // 4 soniyadan keyin yo'qoladi
       return () => clearTimeout(timer);
     }
   }, [toast.show, navigate]);
@@ -127,7 +127,7 @@ const Signup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Telefon raqami to'liq kiritilganini tekshirish (+998 90-123-45-67 = 17 ta belgi)
+    // 1. Validatsiya
     if (formData.phone.length < 17 || !formData.email || !formData.password) {
       setToast({
         show: true,
@@ -137,6 +137,7 @@ const Signup = () => {
       return;
     }
 
+    // 2. So'rov yuborish
     fetch(
       "https://workifyback-production.up.railway.app/register/createRegister",
       {
@@ -146,34 +147,39 @@ const Signup = () => {
       }
     )
       .then(async (res) => {
+        const data = await res.json();
         if (!res.ok) {
-          // Server qaytargan xato xabarini o'qish
-          const errorData = await res.json();
-          throw new Error(errorData.message || "Serverda xatolik");
+          // Serverdan kelgan aniq xatoni (masalan: "Email band") chiqarish
+          throw new Error(data.message || "Serverda xatolik yuz berdi");
         }
-        return res.json();
+        return data;
       })
       .then((data) => {
-        // Muvaffaqiyatli holat...
+        // MUVAFFARIYATLI HOLAT
+        setToast({
+          show: true,
+          message: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
+          type: "success",
+        });
+
+        // Formani tozalash va localStorage-ni o'chirish (ixtiyoriy)
+        localStorage.removeItem("signup_form_storage");
+
+        // Navigatsiya toast-dagi useEffect orqali amalga oshadi
       })
       .catch((err) => {
+        // XATOLIK HOLATI
         console.error("Xatolik tafsiloti:", err.message);
         setToast({
           show: true,
-          message: err.message, // "Serverga ulanishda xatolik" emas, aynan nima xato bo'lganini ko'rsatadi
-          type: "error",
-        });
-      })
-      .catch((err) => {
-        console.error("Xatolik:", err);
-        setToast({
-          show: true,
-          message: "Serverga ulanishda xatolik yuz berdi!",
+          message:
+            err.message === "Failed to fetch"
+              ? "Server bilan aloqa yo'q (Internetni tekshiring)"
+              : err.message,
           type: "error",
         });
       });
   };
-
   const fieldsToTrack = [
     "companyName",
     "phone",
