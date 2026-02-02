@@ -61,9 +61,8 @@ const countryOptions = Object.keys(locationData).map((country) => ({
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState("company");
+  const [activeTab, setActiveTab] = useState("company"); // TOAST holati (modal o'rniga)
 
-  // TOAST holati (modal o'rniga)
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
   const [formData, setFormData] = useState(() => {
@@ -83,14 +82,12 @@ const Signup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
+  }, []); // Toastni avtomatik yo'qotish mantiqi
 
-  // Toastni avtomatik yo'qotish mantiqi
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
-        setToast({ ...toast, show: false });
-        // Agar muvaffaqiyatli bo'lsa, yo'qolgandan keyin navigate qilish
+        setToast({ ...toast, show: false }); // Agar muvaffaqiyatli bo'lsa, yo'qolgandan keyin navigate qilish
         if (toast.message === "Form submitted successfully!") {
           navigate("/register");
         }
@@ -125,9 +122,8 @@ const Signup = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // 1. Validatsiya
 
-    // 1. Validatsiya
     if (formData.phone.length < 17 || !formData.email || !formData.password) {
       setToast({
         show: true,
@@ -135,9 +131,8 @@ const Signup = () => {
         type: "error",
       });
       return;
-    }
+    } // 2. So'rov yuborish
 
-    // 2. So'rov yuborish
     fetch(
       "https://workifyback-production.up.railway.app/register/createRegister",
       {
@@ -160,12 +155,9 @@ const Signup = () => {
           show: true,
           message: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
           type: "success",
-        });
+        }); // Formani tozalash va localStorage-ni o'chirish (ixtiyoriy)
 
-        // Formani tozalash va localStorage-ni o'chirish (ixtiyoriy)
-        localStorage.removeItem("signup_form_storage");
-
-        // Navigatsiya toast-dagi useEffect orqali amalga oshadi
+        localStorage.removeItem("signup_form_storage"); // Navigatsiya toast-dagi useEffect orqali amalga oshadi
       })
       .catch((err) => {
         // XATOLIK HOLATI
@@ -198,27 +190,31 @@ const Signup = () => {
 
   return (
     <div>
-      <Header />
-
-      {/* MODERN TOAST NOTIFICATION */}
+            <Header />      {/* MODERN TOAST NOTIFICATION */}     {" "}
       {toast.show && (
         <div className={`toast-container ${toast.type}`}>
+                   {" "}
           <div className="toast-content">
+                       {" "}
             <div className="toast-icon">
-              {toast.type === "success" ? "✓" : "!"}
+                            {toast.type === "success" ? "✓" : "!"}           {" "}
             </div>
-            <div className="toast-message">{toast.message}</div>
+                        <div className="toast-message">{toast.message}</div>   
+                 {" "}
           </div>
-          <div className="toast-progress"></div>
+                    <div className="toast-progress"></div>       {" "}
         </div>
       )}
-
+           {" "}
       <div className="signup-container">
+               {" "}
         <div className="signup-box">
+                   {" "}
           <div
             className="registration-progress"
             style={{ padding: "0 20px 20px 20px", width: "100%" }}
           >
+                       {" "}
             <div
               style={{
                 display: "flex",
@@ -229,9 +225,10 @@ const Signup = () => {
                 color: "#555",
               }}
             >
-              <span>Profile Completion</span>
-              <span>{completionPercentage}%</span>
+                            <span>Profile Completion</span>             {" "}
+              <span>{completionPercentage}%</span>           {" "}
             </div>
+                       {" "}
             <div
               style={{
                 width: "100%",
@@ -241,6 +238,7 @@ const Signup = () => {
                 overflow: "hidden",
               }}
             >
+                           {" "}
               <div
                 style={{
                   width: `${completionPercentage}%`,
@@ -250,33 +248,42 @@ const Signup = () => {
                   transition: "width 0.4s ease-in-out",
                 }}
               ></div>
+                         {" "}
             </div>
+                     {" "}
           </div>
-
+                   {" "}
           <div className="tabs">
+                       {" "}
             <button
               type="button"
               className={`tab ${activeTab === "talent" ? "active" : ""}`}
               onClick={() => setActiveTab("talent")}
             >
-              <FaUser className="tab-icon" /> Talent
+                            <FaUser className="tab-icon" /> Talent            {" "}
             </button>
+                       {" "}
             <button
               type="button"
               className={`tab ${activeTab === "company" ? "active" : ""}`}
               onClick={() => setActiveTab("company")}
             >
-              <FaBuilding className="tab-icon" /> Company
+                            <FaBuilding className="tab-icon" /> Company        
+                 {" "}
             </button>
+                     {" "}
           </div>
-
+                   {" "}
           <form className="form" onSubmit={handleSubmit}>
+                       {" "}
             <div className="field">
-              <label>Company name</label>
+                            <label>Company name</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaBuilding />
+                                    <FaBuilding />               {" "}
                 </span>
+                               {" "}
                 <input
                   type="text"
                   placeholder="Company name"
@@ -284,15 +291,19 @@ const Signup = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Phone</label>
+                            <label>Phone</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaPhone />
+                                    <FaPhone />               {" "}
                 </span>
+                               {" "}
                 <input
                   type="tel"
                   name="phone"
@@ -301,15 +312,19 @@ const Signup = () => {
                   placeholder="+998 90-123-45-67"
                   required
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Email</label>
+                            <label>Email</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaEnvelope />
+                                    <FaEnvelope />               {" "}
                 </span>
+                               {" "}
                 <input
                   type="email"
                   placeholder="Email"
@@ -318,15 +333,19 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Password</label>
+                            <label>Password</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaLock />
+                                    <FaLock />               {" "}
                 </span>
+                               {" "}
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
@@ -335,21 +354,27 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
+                               {" "}
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />} 
+                               {" "}
                 </span>
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Website</label>
+                            <label>Website</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaGlobe />
+                                    <FaGlobe />               {" "}
                 </span>
+                               {" "}
                 <input
                   type="text"
                   placeholder="Website"
@@ -357,15 +382,19 @@ const Signup = () => {
                   value={formData.website}
                   onChange={handleChange}
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Industry</label>
+                            <label>Industry</label>             {" "}
               <div className="input-box">
+                               {" "}
                 <span className="icon">
-                  <FaIndustry />
+                                    <FaIndustry />               {" "}
                 </span>
+                               {" "}
                 <input
                   type="text"
                   placeholder="Industry"
@@ -373,12 +402,15 @@ const Signup = () => {
                   value={formData.industry}
                   onChange={handleChange}
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>Country</label>
+                            <label>Country</label>             {" "}
               <div style={{ position: "relative" }}>
+                               {" "}
                 <span
                   className="icon"
                   style={{
@@ -388,8 +420,9 @@ const Signup = () => {
                     left: "6px",
                   }}
                 >
-                  <FaFlag />
+                                    <FaFlag />               {" "}
                 </span>
+                               {" "}
                 <Select
                   options={countryOptions}
                   placeholder="Select country"
@@ -404,12 +437,15 @@ const Signup = () => {
                   }
                   styles={customSelectStyles}
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="field">
-              <label>City / Region</label>
+                            <label>City / Region</label>             {" "}
               <div style={{ position: "relative" }}>
+                               {" "}
                 <span
                   className="icon"
                   style={{
@@ -419,8 +455,9 @@ const Signup = () => {
                     left: "6px",
                   }}
                 >
-                  <FaCity />
+                                    <FaCity />               {" "}
                 </span>
+                               {" "}
                 <Select
                   options={
                     formData.country
@@ -449,25 +486,33 @@ const Signup = () => {
                   }
                   styles={customSelectStyles}
                 />
+                             {" "}
               </div>
+                         {" "}
             </div>
-
+                       {" "}
             <div className="buttons">
+                           {" "}
               <button
                 type="button"
                 className="btn back"
                 onClick={() => navigate("/")}
               >
-                Back
+                                Back              {" "}
               </button>
+                           {" "}
               <button type="submit" className="btn next">
-                Next
+                                Next              {" "}
               </button>
+                         {" "}
             </div>
+                     {" "}
           </form>
+                 {" "}
         </div>
+             {" "}
       </div>
-      <Footer />
+            <Footer />   {" "}
     </div>
   );
 };
