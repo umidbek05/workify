@@ -91,7 +91,7 @@ const Signup = () => {
     if (digits.length >= 8) formatted += "-" + digits.substring(7, 9);
     return formatted;
   };
-
+ 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = (name === "phone") ? formatPhoneNumber(value) : value;
