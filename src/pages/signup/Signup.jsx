@@ -19,7 +19,6 @@ import {
 } from "react-icons/fa";
 import "./Signup.css";
 
-// 1. Ma'lumotlarni komponentdan tashqariga chiqaramiz (xato bermasligi uchun)
 const locationData = {
   Uzbekistan: ["Tashkent city", "Andijan", "Bukhara", "Fergana", "Jizzakh", "Namangan", "Navoi", "Kashkadarya", "Samarkand", "Sirdarya", "Surkhandarya", "Tashkent region", "Khorezm", "Karakalpakstan"],
   Kazakhstan: ["Almaty", "Astana", "Shymkent", "Aktobe", "Karaganda"],
@@ -42,19 +41,22 @@ const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [activeTab, setActiveTab] = useState("company");
-  const [modal, setModal] = useState({ show: false, message: "" });
+  
+  // TOAST holati (modal o'rniga)
+  const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
   const [formData, setFormData] = useState(() => {
     const savedData = localStorage.getItem("signup_form_storage");
-    return savedData ? JSON.parse(savedData) : {
-      companyName: "",
-      phone: "",
-      email: "",
-      password: "",
-      website: "",
-      industry: "",
-      country: "",
-      city: "",
+    const parsedData = savedData ? JSON.parse(savedData) : null;
+    return {
+      companyName: parsedData?.companyName || "",
+      phone: parsedData?.phone || "+998 ", 
+      email: parsedData?.email || "",
+      password: parsedData?.password || "",
+      website: parsedData?.website || "",
+      industry: parsedData?.industry || "",
+      country: parsedData?.country || "",
+      city: parsedData?.city || "",
     };
   });
 
@@ -62,28 +64,47 @@ const Signup = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  const fieldsToTrack = ["companyName", "phone", "email", "website", "industry", "country", "city"];
-  const filledFields = fieldsToTrack.filter(
-    (field) => formData[field] && formData[field].toString().trim() !== ""
-  ).length;
-  const completionPercentage = Math.round((filledFields / fieldsToTrack.length) * 100);
+  // Toastni avtomatik yo'qotish mantiqi
+  useEffect(() => {
+    if (toast.show) {
+      const timer = setTimeout(() => {
+        setToast({ ...toast, show: false });
+        // Agar muvaffaqiyatli bo'lsa, yo'qolgandan keyin navigate qilish
+        if (toast.message === "Form submitted successfully!") {
+            navigate("/register");
+        }
+      }, 1000); // 4 soniyadan keyin yo'qoladi
+      return () => clearTimeout(timer);
+    }
+  }, [toast.show, navigate]);
+
+  const formatPhoneNumber = (value) => {
+    if (!value) return "+998 ";
+    const phoneNumber = value.replace(/[^\d]/g, "");
+    const code = "998";
+    let digits = phoneNumber.startsWith(code) ? phoneNumber.slice(3) : phoneNumber;
+    digits = digits.slice(0, 9);
+    let formatted = "+998 ";
+    if (digits.length > 0) formatted += digits.substring(0, 2);
+    if (digits.length >= 3) formatted += "-" + digits.substring(2, 5);
+    if (digits.length >= 6) formatted += "-" + digits.substring(5, 7);
+    if (digits.length >= 8) formatted += "-" + digits.substring(7, 9);
+    return formatted;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let updatedData = { ...formData, [name]: value };
-
-    if (name === "country") {
-      updatedData.city = "";
-    }
-
+    let newValue = (name === "phone") ? formatPhoneNumber(value) : value;
+    const updatedData = { ...formData, [name]: newValue };
+    if (name === "country") updatedData.city = "";
     setFormData(updatedData);
     localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formData.phone || !formData.email || !formData.password) {
-      setModal({ show: true, message: "Phone, Email va Password majburiy!" });
+    if (formData.phone.length < 17 || !formData.email || !formData.password) {
+      setToast({ show: true, message: "Iltimos, barcha maydonlarni to'ldiring!", type: "error" });
       return;
     }
 
@@ -95,28 +116,34 @@ const Signup = () => {
       .then((res) => res.json())
       .then(() => {
         localStorage.setItem("email", formData.email);
-        setModal({ show: true, message: "Form submitted successfully!" });
+        setToast({ show: true, message: "Form submitted successfully!", type: "success" });
       })
-      .catch(() => setModal({ show: true, message: "Something went wrong!" }));
+      .catch(() => setToast({ show: true, message: "Something went wrong!", type: "error" }));
   };
+
+  const fieldsToTrack = ["companyName", "phone", "email", "website", "industry", "country", "city"];
+  const filledFields = fieldsToTrack.filter(f => f === "phone" ? formData[f].length >= 17 : formData[f]?.trim() !== "").length;
+  const completionPercentage = Math.round((filledFields / fieldsToTrack.length) * 100);
 
   return (
     <div>
       <Header />
-      {modal.show && (
-        <div className="modal-overlay">
-          <div className="custom-alert">
-            <p>{modal.message}</p>
-            <button
-              className="alert-btn"
-              onClick={() => {
-                setModal({ show: false, message: "" });
-                if (modal.message === "Form submitted successfully!") navigate("/register");
-              }}
-            >OK</button>
-          </div>
-        </div>
-      )}
+      
+     {/* MODERN TOAST NOTIFICATION */}
+{toast.show && (
+  <div className={`toast-container ${toast.type}`}>
+    <div className="toast-content">
+      <div className="toast-icon">
+        {toast.type === "success" ? "✓" : "!"}
+      </div>
+      <div className="toast-message">
+        {toast.message}
+      </div>
+    </div>
+    <div className="toast-progress"></div>
+  </div>
+)}
+
       <div className="signup-container">
         <div className="signup-box">
           <div className="registration-progress" style={{ padding: "0 20px 20px 20px", width: '100%' }}>
@@ -151,7 +178,7 @@ const Signup = () => {
               <label>Phone</label>
               <div className="input-box">
                 <span className="icon"><FaPhone /></span>
-                <input type="text" placeholder="+998" name="phone" value={formData.phone} onChange={handleChange} required />
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+998 90-123-45-67" required />
               </div>
             </div>
 
@@ -190,7 +217,6 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* Country qismi */}
             <div className="field">
               <label>Country</label>
               <div style={{ position: 'relative' }}>
@@ -205,7 +231,6 @@ const Signup = () => {
               </div>
             </div>
 
-            {/* City qismi */}
             <div className="field">
               <label>City / Region</label>
               <div style={{ position: 'relative' }}>
@@ -253,7 +278,7 @@ const customSelectStyles = {
     '&:active': { backgroundColor: '#163d5c' }
   }),
   placeholder: (provided) => ({ ...provided, color: '#8b8b8b' }),
-  menu: (provided) => ({ ...provided, zIndex: 9999 }) // Ro'yxat boshqa elementlar ostida qolib ketmasligi uchun
+  menu: (provided) => ({ ...provided, zIndex: 9999 })
 };
 
 export default Signup;
