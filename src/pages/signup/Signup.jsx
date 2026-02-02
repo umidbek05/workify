@@ -145,25 +145,24 @@ const Signup = () => {
         body: JSON.stringify(formData),
       }
     )
-      .then((res) => {
-        if (!res.ok) throw new Error("Serverda xatolik");
+      .then(async (res) => {
+        if (!res.ok) {
+          // Server qaytargan xato xabarini o'qish
+          const errorData = await res.json();
+          throw new Error(errorData.message || "Serverda xatolik");
+        }
         return res.json();
       })
       .then((data) => {
-        // 1. Eng muhimi: Emailni localStorage ga yozish
-        // Ba'zida formData.email emas, serverdan qaytgan data.email ni olish xavfsizroq
-        localStorage.setItem("email", formData.email.trim().toLowerCase());
-
-        // 2. Formani tozalash (ixtiyoriy)
-        localStorage.removeItem("signup_form_storage");
-
+        // Muvaffaqiyatli holat...
+      })
+      .catch((err) => {
+        console.error("Xatolik tafsiloti:", err.message);
         setToast({
           show: true,
-          message: "Form submitted successfully!",
-          type: "success",
+          message: err.message, // "Serverga ulanishda xatolik" emas, aynan nima xato bo'lganini ko'rsatadi
+          type: "error",
         });
-
-        // Toast useEffect ichida navigate qiladi
       })
       .catch((err) => {
         console.error("Xatolik:", err);
