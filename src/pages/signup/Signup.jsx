@@ -275,7 +275,7 @@ const customSelectStyles = {
     backgroundColor: state.isSelected ? '#163d5c' : state.isFocused ? '#f1f4f8' : '#fff',
     color: state.isSelected ? '#fff' : '#333',
     cursor: 'pointer',
-    '&:active': { backgroundColor: '#163d5c' }
+    '&:active': { backgroundColor: '#0b3150', color: '#fff' }
   }),
   placeholder: (provided) => ({ ...provided, color: '#8b8b8b' }),
   menu: (provided) => ({ ...provided, zIndex: 9999 })
