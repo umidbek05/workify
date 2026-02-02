@@ -61,8 +61,7 @@ const countryOptions = Object.keys(locationData).map((country) => ({
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [activeTab, setActiveTab] = useState("company"); // TOAST holati (modal o'rniga)
-
+  const [activeTab, setActiveTab] = useState("company");
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
   const [formData, setFormData] = useState(() => {
@@ -82,101 +81,105 @@ const Signup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []); // Toastni avtomatik yo'qotish mantiqi
+  }, []);
 
   useEffect(() => {
     if (toast.show) {
       const timer = setTimeout(() => {
-        setToast({ ...toast, show: false }); // Agar muvaffaqiyatli bo'lsa, yo'qolgandan keyin navigate qilish
-        if (toast.message === "Form submitted successfully!") {
+        setToast((prev) => ({ ...prev, show: false }));
+        if (toast.type === "success") {
           navigate("/register");
         }
-      }, 2500); // 4 soniyadan keyin yo'qoladi
+      }, 2000);
       return () => clearTimeout(timer);
     }
-  }, [toast.show, navigate]);
+  }, [toast.show, toast.type, navigate]);
 
   const formatPhoneNumber = (value) => {
-    if (!value) return "+998 ";
+    // Faqat raqamlarni qoldiramiz
     const phoneNumber = value.replace(/[^\d]/g, "");
-    const code = "998";
-    let digits = phoneNumber.startsWith(code)
-      ? phoneNumber.slice(3)
-      : phoneNumber;
-    digits = digits.slice(0, 9);
+
+    // Agar foydalanuvchi hamma narsani o'chirib yuborsa
+    if (phoneNumber.length <= 3) return "+998 ";
+
+    let digits = phoneNumber.slice(3, 12); // Faqat koddan keyingi 9 ta raqam
     let formatted = "+998 ";
+
     if (digits.length > 0) formatted += digits.substring(0, 2);
     if (digits.length >= 3) formatted += "-" + digits.substring(2, 5);
     if (digits.length >= 6) formatted += "-" + digits.substring(5, 7);
     if (digits.length >= 8) formatted += "-" + digits.substring(7, 9);
+
     return formatted;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = name === "phone" ? formatPhoneNumber(value) : value;
+
     const updatedData = { ...formData, [name]: newValue };
-    if (name === "country") updatedData.city = "";
+
+    // Davlat o'zgarganda shaharni tozalash
+    if (name === "country") {
+      updatedData.city = "";
+    }
+
     setFormData(updatedData);
     localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); // 1. Validatsiya
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (formData.phone.length < 17 || !formData.email || !formData.password) {
+    // Validatsiya
+    if (
+      formData.phone.length < 17 ||
+      !formData.email ||
+      !formData.password ||
+      !formData.country
+    ) {
       setToast({
         show: true,
-        message: "Iltimos, barcha maydonlarni to'ldiring!",
+        message: "Please fill in all required fields!",
         type: "error",
       });
       return;
-    } // 2. So'rov yuborish
+    }
 
-    fetch(
-      "https://workifyback-production.up.railway.app/register/createRegister",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      }
-    )
-      .then(async (res) => {
-        const data = await res.json();
-        if (!res.ok) {
-          // Serverdan kelgan aniq xatoni (masalan: "Email band") chiqarish
-          throw new Error(data.message || "Serverda xatolik yuz berdi");
+    try {
+      const response = await fetch(
+        "https://workifyback-production.up.railway.app/register/createRegister",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...formData, role: activeTab }),
         }
-        return data;
-      })
-      .then((data) => {
-        // MUVAFFARIYATLI HOLAT
-        setToast({
-          show: true,
-          message: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
-          type: "success",
-        }); // Formani tozalash va localStorage-ni o'chirish (ixtiyoriy)
+      );
 
-        localStorage.removeItem("signup_form_storage"); // Navigatsiya toast-dagi useEffect orqali amalga oshadi
-      })
-      .catch((err) => {
-        // XATOLIK HOLATI
-        console.error("Xatolik tafsiloti:", err.message);
+      if (response.ok) {
+        localStorage.setItem("email", formData.email);
+        localStorage.removeItem("signup_form_storage"); // Muvaffaqiyatli bo'lsa keshlarni o'chirish
         setToast({
           show: true,
-          message:
-            err.message === "Failed to fetch"
-              ? "Server bilan aloqa yo'q (Internetni tekshiring)"
-              : err.message,
-          type: "error",
+          message: "Form submitted successfully!",
+          type: "success",
         });
+      } else {
+        throw new Error();
+      }
+    } catch (error) {
+      setToast({
+        show: true,
+        message: "Something went wrong! Please try again.",
+        type: "error",
       });
+    }
   };
+
   const fieldsToTrack = [
     "companyName",
     "phone",
     "email",
-    "website",
     "industry",
     "country",
     "city",
@@ -189,32 +192,27 @@ const Signup = () => {
   );
 
   return (
-    <div>
-            <Header />      {/* MODERN TOAST NOTIFICATION */}     {" "}
+    <div className="signup-page">
+      <Header />
+
       {toast.show && (
         <div className={`toast-container ${toast.type}`}>
-                   {" "}
           <div className="toast-content">
-                       {" "}
             <div className="toast-icon">
-                            {toast.type === "success" ? "✓" : "!"}           {" "}
+              {toast.type === "success" ? "✓" : "!"}
             </div>
-                        <div className="toast-message">{toast.message}</div>   
-                 {" "}
+            <div className="toast-message">{toast.message}</div>
           </div>
-                    <div className="toast-progress"></div>       {" "}
+          <div className="toast-progress"></div>
         </div>
       )}
-           {" "}
+
       <div className="signup-container">
-               {" "}
         <div className="signup-box">
-                   {" "}
           <div
             className="registration-progress"
             style={{ padding: "0 20px 20px 20px", width: "100%" }}
           >
-                       {" "}
             <div
               style={{
                 display: "flex",
@@ -225,10 +223,9 @@ const Signup = () => {
                 color: "#555",
               }}
             >
-                            <span>Profile Completion</span>             {" "}
-              <span>{completionPercentage}%</span>           {" "}
+              <span>Profile Completion</span>
+              <span>{completionPercentage}%</span>
             </div>
-                       {" "}
             <div
               style={{
                 width: "100%",
@@ -238,7 +235,6 @@ const Signup = () => {
                 overflow: "hidden",
               }}
             >
-                           {" "}
               <div
                 style={{
                   width: `${completionPercentage}%`,
@@ -248,62 +244,54 @@ const Signup = () => {
                   transition: "width 0.4s ease-in-out",
                 }}
               ></div>
-                         {" "}
             </div>
-                     {" "}
           </div>
-                   {" "}
+
           <div className="tabs">
-                       {" "}
             <button
               type="button"
               className={`tab ${activeTab === "talent" ? "active" : ""}`}
               onClick={() => setActiveTab("talent")}
             >
-                            <FaUser className="tab-icon" /> Talent            {" "}
+              <FaUser className="tab-icon" /> Talent
             </button>
-                       {" "}
             <button
               type="button"
               className={`tab ${activeTab === "company" ? "active" : ""}`}
               onClick={() => setActiveTab("company")}
             >
-                            <FaBuilding className="tab-icon" /> Company        
-                 {" "}
+              <FaBuilding className="tab-icon" /> Company
             </button>
-                     {" "}
           </div>
-                   {" "}
+
           <form className="form" onSubmit={handleSubmit}>
-                       {" "}
             <div className="field">
-                            <label>Company name</label>             {" "}
+              <label>
+                {activeTab === "company" ? "Company name" : "Full name"}
+              </label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaBuilding />               {" "}
+                  {activeTab === "company" ? <FaBuilding /> : <FaUser />}
                 </span>
-                               {" "}
                 <input
                   type="text"
-                  placeholder="Company name"
+                  placeholder={
+                    activeTab === "company" ? "Company name" : "Full name"
+                  }
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
+                  required
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Phone</label>             {" "}
+              <label>Phone</label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaPhone />               {" "}
+                  <FaPhone />
                 </span>
-                               {" "}
                 <input
                   type="tel"
                   name="phone"
@@ -312,19 +300,15 @@ const Signup = () => {
                   placeholder="+998 90-123-45-67"
                   required
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Email</label>             {" "}
+              <label>Email</label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaEnvelope />               {" "}
+                  <FaEnvelope />
                 </span>
-                               {" "}
                 <input
                   type="email"
                   placeholder="Email"
@@ -333,19 +317,15 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Password</label>             {" "}
+              <label>Password</label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaLock />               {" "}
+                  <FaLock />
                 </span>
-                               {" "}
                 <input
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
@@ -354,75 +334,61 @@ const Signup = () => {
                   onChange={handleChange}
                   required
                 />
-                               {" "}
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                                    {showPassword ? <FaEyeSlash /> : <FaEye />} 
-                               {" "}
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Website</label>             {" "}
+              <label>Website (Optional)</label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaGlobe />               {" "}
+                  <FaGlobe />
                 </span>
-                               {" "}
                 <input
                   type="text"
-                  placeholder="Website"
+                  placeholder="https://example.com"
                   name="website"
                   value={formData.website}
                   onChange={handleChange}
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Industry</label>             {" "}
+              <label>Industry</label>
               <div className="input-box">
-                               {" "}
                 <span className="icon">
-                                    <FaIndustry />               {" "}
+                  <FaIndustry />
                 </span>
-                               {" "}
                 <input
                   type="text"
-                  placeholder="Industry"
+                  placeholder="e.g. IT, Finance"
                   name="industry"
                   value={formData.industry}
                   onChange={handleChange}
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>Country</label>             {" "}
+              <label>Country</label>
               <div style={{ position: "relative" }}>
-                               {" "}
                 <span
                   className="icon"
                   style={{
                     position: "absolute",
-                    zIndex: 1,
-                    top: "5px",
-                    left: "6px",
+                    zIndex: 2,
+                    top: "14px",
+                    left: "15px",
                   }}
                 >
-                                    <FaFlag />               {" "}
+                  <FaFlag />
                 </span>
-                               {" "}
                 <Select
                   options={countryOptions}
                   placeholder="Select country"
@@ -437,27 +403,23 @@ const Signup = () => {
                   }
                   styles={customSelectStyles}
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="field">
-                            <label>City / Region</label>             {" "}
+              <label>City / Region</label>
               <div style={{ position: "relative" }}>
-                               {" "}
                 <span
                   className="icon"
                   style={{
                     position: "absolute",
-                    zIndex: 1,
-                    top: "5px",
-                    left: "6px",
+                    zIndex: 2,
+                    top: "14px",
+                    left: "15px",
                   }}
                 >
-                                    <FaCity />               {" "}
+                  <FaCity />
                 </span>
-                               {" "}
                 <Select
                   options={
                     formData.country
@@ -486,36 +448,29 @@ const Signup = () => {
                   }
                   styles={customSelectStyles}
                 />
-                             {" "}
               </div>
-                         {" "}
             </div>
-                       {" "}
+
             <div className="buttons">
-                           {" "}
               <button
                 type="button"
                 className="btn back"
                 onClick={() => navigate("/")}
               >
-                                Back              {" "}
+                Back
               </button>
-                           {" "}
               <button type="submit" className="btn next">
-                                Next              {" "}
+                Next
               </button>
-                         {" "}
             </div>
-                     {" "}
           </form>
-                 {" "}
         </div>
-             {" "}
       </div>
-            <Footer />   {" "}
+      <Footer />
     </div>
   );
 };
+
 const customSelectStyles = {
   control: (provided, state) => ({
     ...provided,
@@ -524,7 +479,7 @@ const customSelectStyles = {
     border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
     boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
     "&:hover": { border: "1px solid #163d5c" },
-    paddingLeft: "45px",
+    paddingLeft: "35px",
     fontSize: "14px",
     background: "#fff",
   }),
@@ -537,12 +492,7 @@ const customSelectStyles = {
       : "#fff",
     color: state.isSelected ? "#fff" : "#333",
     cursor: "pointer",
-    "&:active": {
-      backgroundColor: "#0b3150",
-      color: "#fff",
-    },
   }),
-  placeholder: (provided) => ({ ...provided, color: "#8b8b8b" }),
   menu: (provided) => ({ ...provided, zIndex: 9999 }),
 };
 
