@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import "../../pages/Workify/workify.css";
 import Header from "../../Components/Header/header";
 import Group from "../../assets/Group.png";
@@ -6,7 +7,21 @@ import Mask from "../../assets/Mask.png";
 import Person from "../../assets/person.png";
 import Message from "../../assets/message.png";
 import Search from "../../assets/search.png";
+
 export default function Workify() {
+  
+  // Sahifa yangilanganda yoki kirilganda har doim tepadan boshlanishi uchun
+  useEffect(() => {
+    // 1. Scrollni darhol tepaga qaytarish
+    window.scrollTo(0, 0);
+
+    // 2. Ba'zi brauzerlarda refreshdan keyin scrollni eslab qolish xususiyati bor, 
+    // uni o'chirib qo'yamiz (ixtiyoriy lekin foydali)
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   return (
     <>
       <Header />
