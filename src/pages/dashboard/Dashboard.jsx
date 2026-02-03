@@ -11,7 +11,6 @@ import { Contact, LogOut, Menu, X } from "lucide-react";
 
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Modal uchun yangi state
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
   const [company, setCompany] = useState({
@@ -45,8 +44,13 @@ const Dashboard = () => {
           });
 
           if (myData.logo) {
-            setLogo(myData.logo);
-            localStorage.setItem("companyLogo", myData.logo);
+            // Localhost xatoligini oldini olish uchun
+            const finalLogo = myData.logo.includes("localhost") 
+              ? myData.logo.replace(/http:\/\/localhost:\d+/, "https://workifyback-production.up.railway.app") 
+              : myData.logo;
+            
+            setLogo(finalLogo);
+            localStorage.setItem("companyLogo", finalLogo);
           }
         }
       }
@@ -64,13 +68,11 @@ const Dashboard = () => {
     };
   }, [fetchData]);
 
-  // Modalni ochish funksiyasi
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
-    closeMenu(); // Mobil menyu ochiq bo'lsa yopadi
+    closeMenu();
   };
 
-  // Haqiqiy chiqish funksiyasi
   const confirmLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -138,7 +140,6 @@ const Dashboard = () => {
             <span className="menu-link">Contacts</span>
           </NavLink>
 
-          {/* O'zgartirilgan Logout tugmasi */}
           <button onClick={handleLogoutClick} className="menu-item logout-btn" style={{ background: "none", border: "none", padding: "12px 20px", cursor: "pointer", width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: "12px" }}>
             <LogOut size={22} color="red" />
             <span className="menu-link" style={{ color: "red" }}>Logout</span>
@@ -150,7 +151,6 @@ const Dashboard = () => {
         <Outlet />
       </main>
 
-      {/* --- LOGOUT MODAL --- */}
       {showLogoutModal && (
         <div className="custom-modal-overlay" onClick={() => setShowLogoutModal(false)}>
           <div className="custom-modal" onClick={(e) => e.stopPropagation()}>
