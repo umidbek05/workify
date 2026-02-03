@@ -22,32 +22,55 @@ const CompanyProfile = () => {
 
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
-  const [tempAbout, setTempAbout] = useState(""); // Textarea uchun state
-  const [logo, setLogo] = useState(TecCells);
+  const [tempAbout, setTempAbout] = useState("");
+  const [toast, setToast] = useState({ show: false, message: "" });
+  const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || TecCells);
 
   const fileInputRef = useRef(null);
 
-  // 1. MA'LUMOTLARNI YUKLASH
+  const showToast = (msg) => {
+    setToast({ show: true, message: msg });
+    setTimeout(() => setToast({ show: false, message: "" }), 3000);
+  };
+
+  const getCorrectUrl = (path) => {
+    if (!path) return TecCells;
+    if (path.startsWith("blob:") || path.startsWith("data:")) return path;
+    let cleanPath = path;
+    if (path.includes("localhost:5000")) {
+      cleanPath = path.split("/uploads/")[1];
+      return `${BASE_URL}/uploads/${cleanPath}`;
+    }
+    if (!path.startsWith("http")) return `${BASE_URL}/${path.replace(/^\//, "")}`;
+    return path;
+  };
+
   const fetchData = useCallback(async () => {
-    const email = localStorage.getItem("email");
-    if (!email) return;
+    const rawEmail = localStorage.getItem("email");
+    if (!rawEmail) return;
+    const email = rawEmail.trim().toLowerCase();
 
     try {
-      // Keshni tozalash uchun t=Date.now()
       const res = await fetch(`${BASE_URL}/register/getRegister?t=${Date.now()}`);
       const resp = await res.json();
       const data = resp.data || resp;
 
       if (Array.isArray(data)) {
-        const myCo = data.find(c => c.email?.toLowerCase() === email.toLowerCase());
+        const myCo = data.find((c) => c.email && c.email.trim().toLowerCase() === email);
+
         if (myCo) {
           setCompanyData(myCo);
           
-          // Agar bazada about bo'sh bo'lsa, localStorage'dan tekshiramiz
+          // 🔥 TO'G'IRLANGAN JOYI: 
+          // Avval LocalStorage'ni tekshiramiz, agar bo'sh bo'lsa keyin serverdagini olamiz
           const localAbout = localStorage.getItem(`about_${email}`);
-          setTempAbout(myCo.about || localAbout || "");
-          
-          if (myCo.logo) setLogo(myCo.logo);
+          setTempAbout(localAbout !== null ? localAbout : (myCo.about || ""));
+
+          if (myCo.logo) {
+            const finalUrl = getCorrectUrl(myCo.logo);
+            setLogo(finalUrl);
+            localStorage.setItem("companyLogo", finalUrl);
+          }
         }
       }
     } catch (e) {
@@ -61,19 +84,16 @@ const CompanyProfile = () => {
     return () => window.removeEventListener("companyUpdated", fetchData);
   }, [fetchData]);
 
-  // 2. LOGO O'ZGARTIRISH
   const handleLogoChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+    setLogo(URL.createObjectURL(file));
     const formData = new FormData();
     formData.append("image", file);
-
     try {
       const res = await fetch(`${BASE_URL}/uploader/upload`, { method: "POST", body: formData });
       const uploadData = await res.json();
       const rawPath = uploadData.url || uploadData.image || uploadData.path;
-
       if (rawPath) {
         const email = localStorage.getItem("email");
         await fetch(`${BASE_URL}/uploader/save-image`, {
@@ -81,76 +101,64 @@ const CompanyProfile = () => {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, logo: rawPath }),
         });
-        setLogo(rawPath);
-        localStorage.setItem("companyLogo", rawPath);
-        alert("Logo yangilandi!");
+        const finalUrl = getCorrectUrl(rawPath);
+        setLogo(finalUrl);
+        localStorage.setItem("companyLogo", finalUrl);
+        showToast("Logo muvaffaqiyatli yangilandi!");
         fetchData();
       }
     } catch (err) {
       console.error("Logo xatosi:", err);
+      setLogo(TecCells);
     }
   };
 
-  // 3. ABOUT QISMINI SAQLASH (Xatosiz variant)
   const handleAboutUpdate = async () => {
     const email = localStorage.getItem("email");
     const companyId = companyData?._id || companyData?.id;
-
-    if (!companyId) {
-      alert("Xatolik: Kompaniya ID topilmadi!");
-      return;
-    }
-
+    if (!companyId) return;
     try {
-      // Zaxira: LocalStorage'ga yozish (Backend saqlamasa ham refreshda qolishi uchun)
+      // Saqlashdan oldin LocalStorage'ga yozamiz
       localStorage.setItem(`about_${email}`, tempAbout);
-
-      // Backendga yuborish
+      
       const response = await fetch(`${BASE_URL}/register/updateRegister/${companyId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...companyData,
-          about: tempAbout 
-        }),
+        body: JSON.stringify({ ...companyData, about: tempAbout }),
       });
-
+      
       if (response.ok) {
-        alert("Saqlandi!");
-        setCompanyData(prev => ({ ...prev, about: tempAbout }));
+        showToast("Ma'lumotlar saqlandi!");
+        setCompanyData((prev) => ({ ...prev, about: tempAbout }));
         setOpenAbout(false);
+        // Boshqa komponentlarga xabar beramiz
         window.dispatchEvent(new Event("companyUpdated"));
         await fetchData();
-      } else {
-        alert("Server saqlamadi, lekin brauzerda vaqtinchalik saqlandi.");
       }
     } catch (error) {
       console.error("Saqlashda xato:", error);
-      alert("Tarmoq xatosi!");
     }
   };
 
   return (
     <div className="main-content-area">
-      <input type="file" ref={fileInputRef} onChange={handleLogoChange} style={{ display: "none" }} />
-      
+      {toast.show && (
+        <div className="custom-toast-overlay">
+          <div className="custom-toast-box">{toast.message}</div>
+        </div>
+      )}
+
+      <input type="file" ref={fileInputRef} onChange={handleLogoChange} style={{ display: "none" }} accept="image/*" />
+
       <div className="company-profile-wrapper">
-        {/* CHAP TOMON: Profil kartasi */}
         <div className="company-info-card">
           <button className="edit-profile-btn" onClick={() => setOpen(true)}>
             <RiPencilFill color="#9ca3af" size={20} />
           </button>
 
           <div className="profile-logo-wrapper">
-            <img 
-              src={logo} 
-              onError={(e) => { e.target.src = TecCells; }} 
-              className="main-logo-img" 
-              alt="Logo" 
-            />
-            <button className="edit-logo-btn" onClick={() => fileInputRef.current.click()}>
-              <BsCamera size={16} />
-            </button>
+            <img src={logo} onError={(e) => { if(e.target.src !== TecCells) e.target.src = TecCells; }} className="main-logo-img" alt="Logo" />
+            <button className="edit-logo-btn" onClick={() => fileInputRef.current.click()}><BsCamera size={16} /></button>
           </div>
 
           <h1 className="company-name-text">{companyData.companyName || "Company Name"}</h1>
@@ -159,7 +167,6 @@ const CompanyProfile = () => {
 
           <div className="info-list">
             <h3 className="info-title">Company info:</h3>
-            <div className="info-item"><span className="info-label">Since:</span> <span className="info-value">2015</span></div>
             <div className="info-item"><span className="info-label">City:</span> <span className="info-value">{companyData.city || "N/A"}</span></div>
             <div className="info-item"><span className="info-label">Country:</span> <span className="info-value">{companyData.country || "N/A"}</span></div>
             <div className="info-item"><span className="info-label">Phone:</span> <span className="info-value">{companyData.phone || "N/A"}</span></div>
@@ -168,7 +175,6 @@ const CompanyProfile = () => {
           </div>
         </div>
 
-        {/* O'NG TOMON: Statistika va About */}
         <div className="right-side-layout">
           <div className="stats-card">
             <h3 className="stats-header">Statistics</h3>
@@ -183,62 +189,47 @@ const CompanyProfile = () => {
             <div className="about-header-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <h3>About company</h3>
               <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                {/* Faqat matn o'zgargandagina Save tugmasi chiqadi */}
                 {tempAbout !== (companyData.about || "") && (
                   <button className="inline-save-btn" onClick={handleAboutUpdate} style={{ backgroundColor: "#1d3f61", color: "white", border: "none", padding: "5px 12px", borderRadius: "4px", cursor: "pointer" }}>
                     Save Changes
                   </button>
                 )}
-                <RiPencilFill
-                  style={{ cursor: "pointer", color: "#9ca3af" }}
-                  onClick={() => setOpenAbout(true)}
-                />
+                <RiPencilFill style={{ cursor: "pointer", color: "#9ca3af" }} onClick={() => setOpenAbout(true)} />
               </div>
             </div>
-
             <textarea
               className="about-direct-input"
-              value={tempAbout} 
-              onChange={(e) => setTempAbout(e.target.value)} // Bu qator yozishga imkon beradi
-              placeholder="Tell us something about your company..."
-              style={{
-                width: "100%",
-                minHeight: "150px",
-                border: "none",
-                outline: "none",
-                fontSize: "16px",
-                color: "#4b5563",
-                resize: "none",
-                marginTop: "15px",
-                background: "transparent"
+              value={tempAbout}
+              onChange={(e) => {
+                setTempAbout(e.target.value);
+                // Har bir harf yozilganda xotiraga saqlab borish ixtiyoriy, lekin refresh uchun foydali:
+                localStorage.setItem(`about_${localStorage.getItem("email")}`, e.target.value);
               }}
+              placeholder="Tell us something about your company..."
+              style={{ width: "100%", minHeight: "150px", border: "none", outline: "none", fontSize: "16px", color: "#4b5563", resize: "none", marginTop: "15px", background: "transparent" }}
             />
           </div>
         </div>
       </div>
 
-      {/* MODALLAR */}
-      {open && (
-        <Update 
-          setOpen={setOpen} 
-          currentData={companyData} 
-          onUpdate={fetchData} 
-        />
-      )}
-      
+      {open && <Update setOpen={setOpen} currentData={companyData} onUpdate={fetchData} />}
+
       {openAbout && (
         <div className="about-modal-overlay">
           <div className="about-modal-content">
             <h3>Edit Company Description</h3>
             <textarea
               className="about-modal-textarea"
-              value={tempAbout} 
+              value={tempAbout}
               onChange={(e) => setTempAbout(e.target.value)}
-              placeholder="Write here..."
               style={{ width: "100%", minHeight: "200px", padding: "10px" }}
             />
             <div className="about-modal-actions">
-              <button onClick={() => { setTempAbout(companyData.about || ""); setOpenAbout(false); }} className="btn-cancel">Cancel</button>
+              <button onClick={() => { 
+                const oldAbout = localStorage.getItem(`about_${localStorage.getItem("email")}`) || companyData.about;
+                setTempAbout(oldAbout); 
+                setOpenAbout(false); 
+              }} className="btn-cancel">Cancel</button>
               <button onClick={handleAboutUpdate} className="btn-save">Save</button>
             </div>
           </div>

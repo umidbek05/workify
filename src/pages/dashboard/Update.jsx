@@ -12,23 +12,35 @@ const Update = ({ setOpen, currentData, onUpdate }) => {
     about: currentData?.about || "",
   });
 
+  // 🔥 Toast (xabarnoma) uchun state
+  const [toast, setToast] = useState({ show: false, message: "" });
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const showToast = (msg) => {
+    setToast({ show: true, message: msg });
+    setTimeout(() => setToast({ show: false, message: "" }), 3000);
+  };
+
   const handleSave = async () => {
-    // Eng muhim nuqta: Bazadagi haqiqiy ID-ni olish
-    // Agar currentData._id bo'lmasa, currentData.id ni tekshiramiz
     const realID = currentData?._id || currentData?.id;
 
     if (!realID) {
-      alert("Xatolik: Kompaniya ID-si topilmadi!");
+      showToast("Xatolik: ID topilmadi!");
       return;
     }
 
     const API_URL = `https://workifyback-production.up.railway.app/register/updateRegister/${realID}`;
 
     try {
+      // 🔥 MUHIM: CompanyProfile dagi kabi LocalStorage ni ham yangilash
+      const email = localStorage.getItem("email");
+      if (email) {
+        localStorage.setItem(`about_${email}`, formData.about);
+      }
+
       const response = await fetch(API_URL, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -36,25 +48,32 @@ const Update = ({ setOpen, currentData, onUpdate }) => {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("Serverdan kelgan javob:", result);
+        showToast("Ma'lumotlar saqlandi! ✅");
         
-        alert("Ma'lumotlar bazaga muvaffaqiyatli yozildi!");
+        // Ma'lumot yangilangani haqida xabar berish
+        window.dispatchEvent(new Event("companyUpdated"));
         
-        // Asosiy sahifani yangilash
-        await onUpdate(); 
-        setOpen(false);
+        setTimeout(async () => {
+          await onUpdate(); 
+          setOpen(false);
+        }, 800);
       } else {
-        alert("Server ma'lumotni qabul qilmadi (404 yoki 500 xatosi)");
+        showToast("Serverda xatolik! ❌");
       }
     } catch (error) {
-      console.error("Fetch xatosi:", error);
-      alert("Internet aloqasini tekshiring!");
+      console.error("Xato:", error);
+      showToast("Internetni tekshiring!");
     }
   };
 
   return (
     <div className="modal-overlay">
+      {toast.show && (
+        <div className="custom-toast-overlay">
+          <div className="custom-toast-box">{toast.message}</div>
+        </div>
+      )}
+
       <div className="modal-box">
         <button className="close-btn" onClick={() => setOpen(false)}>×</button>
         <h2>Edit Company Details</h2>
