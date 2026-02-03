@@ -9,9 +9,10 @@ import page5 from "./page5.png";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { Contact, LogOut, Menu, X } from "lucide-react";
 
+const BASE_URL = "https://workifyback-production.up.railway.app";
+
 const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // Modal uchun yangi state
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
   const [company, setCompany] = useState({
@@ -29,7 +30,7 @@ const Dashboard = () => {
     if (!currentUserEmail) return;
 
     try {
-      const res = await fetch(`https://workifyback-production.up.railway.app/register/getRegister?t=${Date.now()}`);
+      const res = await fetch(`${BASE_URL}/register/getRegister?t=${Date.now()}`);
       const resp = await res.json();
       const data = resp.data || resp;
 
@@ -45,8 +46,16 @@ const Dashboard = () => {
           });
 
           if (myData.logo) {
-            setLogo(myData.logo);
-            localStorage.setItem("companyLogo", myData.logo);
+            // 🔥 MUHIM: Localhost yoki noto'g'ri yo'lni tozalab, Railway manzilini qo'yamiz
+            let cleanPath = myData.logo;
+            if (cleanPath.includes("/uploads/")) {
+              cleanPath = "uploads/" + cleanPath.split("/uploads/")[1];
+            }
+            
+            const finalLogo = `${BASE_URL}/${cleanPath.replace(/^\//, "")}`;
+            
+            setLogo(finalLogo);
+            localStorage.setItem("companyLogo", finalLogo);
           }
         }
       }
@@ -58,19 +67,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchData();
+    // Boshqa sahifadan (CompanyProfile) rasm o'zgarganda Dashboard ham yangilanishi uchun
     window.addEventListener("companyUpdated", fetchData);
     return () => {
       window.removeEventListener("companyUpdated", fetchData);
     };
   }, [fetchData]);
 
-  // Modalni ochish funksiyasi
   const handleLogoutClick = () => {
     setShowLogoutModal(true);
-    closeMenu(); // Mobil menyu ochiq bo'lsa yopadi
+    closeMenu();
   };
 
-  // Haqiqiy chiqish funksiyasi
   const confirmLogout = () => {
     localStorage.clear();
     sessionStorage.clear();
@@ -85,7 +93,9 @@ const Dashboard = () => {
             src={logo}
             alt="logo"
             style={{ width: "35px", height: "35px", borderRadius: "50%", objectFit: "cover" }}
-            onError={(e) => (e.target.src = C)}
+            onError={(e) => {
+              if (e.target.src !== C) e.target.src = C;
+            }}
           />
           <span style={{ fontWeight: "600", fontSize: "14px" }}>
             {company.name !== "Loading..." ? company.name : ""}
@@ -100,7 +110,14 @@ const Dashboard = () => {
 
       <aside className={`sidebar ${isMenuOpen ? "open" : ""}`}>
         <div className="company-info">
-          <img src={logo} alt="Company logo" className="sidebar-logo" onError={(e) => (e.target.src = C)} />
+          <img 
+            src={logo} 
+            alt="Company logo" 
+            className="sidebar-logo" 
+            onError={(e) => {
+              if (e.target.src !== C) e.target.src = C;
+            }} 
+          />
           <div className="sidebar-text">
             <h1>{company.name}</h1>
             <p>{company.city}</p>
@@ -138,7 +155,6 @@ const Dashboard = () => {
             <span className="menu-link">Contacts</span>
           </NavLink>
 
-          {/* O'zgartirilgan Logout tugmasi */}
           <button onClick={handleLogoutClick} className="menu-item logout-btn" style={{ background: "none", border: "none", padding: "12px 20px", cursor: "pointer", width: "100%", textAlign: "left", display: "flex", alignItems: "center", gap: "12px" }}>
             <LogOut size={22} color="red" />
             <span className="menu-link" style={{ color: "red" }}>Logout</span>
@@ -150,7 +166,6 @@ const Dashboard = () => {
         <Outlet />
       </main>
 
-      {/* --- LOGOUT MODAL --- */}
       {showLogoutModal && (
         <div className="custom-modal-overlay" onClick={() => setShowLogoutModal(false)}>
           <div className="custom-modal" onClick={(e) => e.stopPropagation()}>
