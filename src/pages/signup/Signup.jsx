@@ -112,7 +112,7 @@ const Signup = () => {
 
     return formatted;
   };
- 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = name === "phone" ? formatPhoneNumber(value) : value;
@@ -131,20 +131,35 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validatsiya
+    // 1. Telefonni backend formatiga keltirish (+998XXXXXXXXX)
+    const cleanPhone = formData.phone.replace(/[^\d+]/g, "");
+
+    // 2. Validatsiya
     if (
-      formData.phone.length < 17 ||
+      cleanPhone.length !== 13 ||
       !formData.email ||
       !formData.password ||
       !formData.country
     ) {
       setToast({
         show: true,
-        message: "Please fill in all required fields!",
+        message: "Please fill in all required fields correctly!",
         type: "error",
       });
       return;
     }
+
+    // 3. Backendga faqat u kutyotgan ma'lumotlarni yuboramiz
+    const payload = {
+      companyName: formData.companyName || "",
+      email: formData.email,
+      phone: cleanPhone,
+      password: formData.password,
+      website: formData.website || "",
+      country: formData.country,
+      city: formData.city,
+      industry: formData.industry || "",
+    };
 
     try {
       const response = await fetch(
@@ -152,25 +167,28 @@ const Signup = () => {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...formData, role: activeTab }),
+          body: JSON.stringify(payload), // 'role' ni yubormaymiz, chunki Joi da yo'q
         }
       );
 
+      const result = await response.json();
+
       if (response.ok) {
         localStorage.setItem("email", formData.email);
-        localStorage.removeItem("signup_form_storage"); // Muvaffaqiyatli bo'lsa keshlarni o'chirish
+        localStorage.removeItem("signup_form_storage");
         setToast({
           show: true,
           message: "Form submitted successfully!",
           type: "success",
         });
       } else {
-        throw new Error();
+        // Backenddan kelgan aniq xabarni toastga chiqaramiz
+        throw new Error(result.message || "Registration failed");
       }
     } catch (error) {
       setToast({
         show: true,
-        message: "Something went wrong! Please try again.",
+        message: error.message || "Something went wrong!",
         type: "error",
       });
     }
