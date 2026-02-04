@@ -11,7 +11,15 @@ import DashboardHome from "./pages/dashboard/DashboardHome";
 import CompanyProfile from "./pages/dashboard/MyCompany";
 import FAQ from "../src/pages/dashboard/FAQ";
 import Contacts from "../src/pages/dashboard/Contacts";
+<<<<<<< Updated upstream
 import Talentss from "./pages/dashboard/Talents";
+=======
+import Talentss from "../src/pages/dashboard/Talents";
+import Login from "./pages/login/Login";
+import Kod from "./pages/forgot/Kod";
+import Forget from "./pages/forgot/Forget";
+import Setpassword from "./pages/setpassword/Setpassword";
+>>>>>>> Stashed changes
 
 const App = () => {
   return (
@@ -23,6 +31,10 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/register" element={<Register />} />
         <Route path="/congratulation" element={<Conguratulation />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/forget" element={<Forget />} />
+        <Route path="/setpassword" element={<Setpassword />} />
+        <Route path="/kod" element={<Kod />} />
         <Route path="/dashboard" element={<Dashboard />}>
           {/* DEFAULT PAGE */}
           <Route index element={<DashboardHome />} />

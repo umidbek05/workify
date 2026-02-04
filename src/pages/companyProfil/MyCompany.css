@@ -1,0 +1,155 @@
+/* Hover effect */
+.post-job-btn:hover {
+  background: linear-gradient(135deg, #1D3F61 10%, #C25DC5 90%);
+  box-shadow: 0 6px 20px rgba(29, 63, 97, 0.4);
+  transform: translateY(-3px);
+}
+
+/* Active state */
+.post-job-btn:active {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(29, 63, 97, 0.3);
+}
+
+/* Focus state for accessibility */
+.post-job-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(29, 63, 97, 0.2), 
+              0 6px 20px rgba(29, 63, 97, 0.4);
+}
+
+/* Shine effect on hover */
+.post-job-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: left 0.7s ease;
+}
+
+.post-job-btn:hover::before {
+  left: 100%;
+}
+
+/* Disabled state */
+.post-job-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Loading state */
+.post-job-btn.loading {
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.post-job-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: button-spinner 0.8s linear infinite;
+}
+
+/* Spinner animation */
+@keyframes button-spinner {
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+/* Button sizes */
+.post-job-btn.small {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
+
+.post-job-btn.medium {
+  padding: 16px 32px;
+  font-size: 1.1rem;
+}
+
+.post-job-btn.large {
+  padding: 20px 40px;
+  font-size: 1.3rem;
+  border-radius: 60px;
+}
+
+/* With icon */
+.post-job-btn.with-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.post-job-btn .btn-icon {
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.post-job-btn:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* Outline variant */
+.post-job-btn.outline {
+  background: transparent;
+  color: #1D3F61;
+  border: 2px solid #1D3F61;
+  box-shadow: none;
+}
+
+.post-job-btn.outline:hover {
+  background: linear-gradient(135deg, #1D3F61 10%, #C25DC5 90%);
+  color: white;
+  border-color: transparent;
+}
+
+/* Animation for entrance */
+.post-job-btn.animated {
+  animation: button-fade-in 0.5s ease-out;
+}
+
+@keyframes button-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button with pulse animation */
+.post-job-btn.pulse {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 4px 15px rgba(29, 63, 97, 0.3);
+  }
+  50% {
+    box-shadow: 0 4px 20px rgba(194, 93, 197, 0.4);
+  }
+  100% {
+    box-shadow: 0 4px 15px rgba(29, 63, 97, 0.3);
+  }
+}

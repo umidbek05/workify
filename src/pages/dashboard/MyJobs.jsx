@@ -3,12 +3,11 @@ import "./MyJobs.css";
 const MyJobs = () => {
   return (
     <div className="myjobs-container">
-      {/* Top Navigation Bar */}
-      <div className="top-nav">
-        <h1 className="nav-title">Dashboard</h1>
-        <div className="nav-actions">
-          <button className="post-job-btn">Post a Job</button>
+      <div className="dashboard-big">
+        <div className="dashboard-h1">
+          <h1>Dashboard</h1>
         </div>
+          <button>Post a Job</button>
       </div>
 
       {/* Search Bar */}

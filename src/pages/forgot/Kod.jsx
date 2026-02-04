@@ -1,18 +1,15 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../pages/signup/Register.css";
+import "../../pages/forgot/Kod.css";
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
-import Swal from "sweetalert2";
 
-function Register() {
+function Kod() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  
-  // Eslatma: USER_ID har bir foydalanuvchi uchun unikal bo'lishi kerak.
-  const USER_ID = 25; 
+  const USER_ID = 25;
 
   const handleKeyDown = (e) => {
     if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
@@ -37,77 +34,32 @@ function Register() {
     setCode(newCode);
   };
 
-  // Telegram botni ochish - Yangilangan username: @workifyBot_bot
+  // Telegram ochish
   const handleClickHere = () => {
-    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
-    Swal.fire({
-      icon: "info",
-      title: "Telegram ochildi",
-      text: "Botga ulaning va tasdiqlash kodini oling.",
-      confirmButtonColor: "#3085d6",
-    });
+    window.open(`https://t.me/workfy_login_bot?start=${USER_ID}`, "_blank");
+    alert("Telegram ochildi! 🔐 Botga ulaning va code ni oling.");
   };
 
-  // Kodni tekshirish (Verify)
+  // Next tugma → code verify
   const handleNext = async () => {
     const enteredCode = code.join("");
-
-    if (enteredCode.length < 6) {
-      Swal.fire({
-        icon: "warning",
-        title: "Diqqat!",
-        text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }
-
-    Swal.fire({
-      title: "Tekshirilmoqda...",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
     try {
-      const res = await fetch(
-        "https://workifybot-production.up.railway.app/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: USER_ID, code: enteredCode }),
-        }
-      );
+      const res = await fetch("http://localhost:3000/verify-code", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user_id: USER_ID, code: enteredCode }),
+      });
 
       const data = await res.json();
 
-      if (res.ok && data.valid) {
-        Swal.fire({
-          icon: "success",
-          title: "Tasdiqlandi!",
-          text: "Kod to‘g‘ri, xush kelibsiz!",
-          timer: 1500,
-          showConfirmButton: false,
-        }).then(() => {
-          navigate("/congratulation");
-        });
+      if (data.valid) {
+        navigate("/congratulation");
       } else {
-        Swal.fire({
-          icon: "error",
-          title: "Xatolik",
-          text: data.message || "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
-          confirmButtonColor: "#d33",
-        });
+        alert("❌ Kod noto‘g‘ri");
       }
     } catch (err) {
-      console.error("Xatolik tafsiloti:", err);
-      Swal.fire({
-        icon: "warning",
-        title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi. Backend ishlayotganini tekshiring.",
-        confirmButtonColor: "#f39c12",
-      });
+      console.error(err);
+      alert("Server bilan bog‘lanib bo‘lmadi");
     }
   };
 
@@ -134,7 +86,6 @@ function Register() {
             onKeyDown={handleKeyDown}
             className="hidden-input"
             autoFocus
-            style={{ opacity: 0, position: "absolute", zIndex: -1 }}
           />
 
           <div className="digits" onClick={() => inputRef.current.focus()}>
@@ -161,4 +112,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Kod;

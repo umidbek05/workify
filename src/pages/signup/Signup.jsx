@@ -65,11 +65,14 @@ const Signup = () => {
       return;
     }
 
-    fetch("http://localhost:5000/register/createRegister", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    })
+    fetch(
+      "https://workifyback-production.up.railway.app/register/createRegister",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      }
+    )
       .then((res) => res.json())
       .then(() => {
         localStorage.setItem("email", formData.email);
@@ -307,7 +310,7 @@ const Signup = () => {
               <button
                 type="button"
                 className="btn back"
-                onClick={() => alert("Going back!")}
+                onClick={() => navigate("/")}
               >
                 Back
               </button>

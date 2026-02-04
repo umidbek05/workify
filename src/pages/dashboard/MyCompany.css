@@ -1,289 +1,50 @@
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap);
+
+.main-content-area {
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.company-profile-wrapper {
+  display: flex;
+  gap: 24px; /* Bloklar orasidagi masofa */
+  margin-top: 10px;
+  align-items: flex-start;
+}
+
 .top-nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 32px;
-  padding-bottom: 16px;
-  background: #ffffff;
-  width: 785px;
+  width: 100%;
+  margin-bottom: 24px;
+  gap: 20px; /* Dashboard va Tugma orasida masofa */
+}
+
+.nav-title-container {
+  flex: 1; /* Bo'sh joyni to'ldiradi */
+  background: white;
   height: 60px;
   border-radius: 15px;
-  padding: 10px;
-}
-
-.nav-title {
-  font-family: Gilroy;
-  font-weight: 600;
-  font-style: SemiBold;
-  font-size: 25px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  color: #505151;
-}
-
-.nav-actions {
   display: flex;
   align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  width: auto !important; /* Qat'iy o'lchamni bekor qilamiz */
 }
 
-.post-btn {
-  font-family: Gilroy;
-  font-weight: 600;
-  /* tugma sarlavhasi qalinroq bo'lsin */
-  font-style: Regular;
-  font-size: 15px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  color: white;
-  width: 200px;
-  height: 60px;
-  cursor: pointer;
-  padding: 5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
-
-  /* Gradient ranglar #1D3F61 → #C25DC5 */
-  background: linear-gradient(135deg, #1d3f61, #c25dc5);
-
-  /* Chapga surish */
-  position: relative;
-  left: 230px;
-
-  border: none;
-  border-radius: 8px;
-  /* biroz yumaloqlik */
-}
-
-.post-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
-
-  /* Hoverda gradientni biroz o'zgartirish */
-  background: linear-gradient(135deg, #c25dc5, #1d3f61);
-}
-
-/* Asosiy kontent */
-.company-main {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 30px;
-  padding: 30px 40px;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-/* TecCells Block */
-.TecCells {
-  background-color: white;
-  border-radius: 12px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-  grid-row: span 2;
-  margin-left: -445px;
-  margin-top: 60px;
-  width: 430px;
-}
-
-.company-logo {
-  width: 80px;
-  height: 80px;
-  margin-left: 35%;
-  border-radius: 10px;
-  object-fit: cover;
-  margin-bottom: 20px;
-  border: 1px solid #eee;
-  background-color: #f8f9fa;
-}
-
-.TecCells h1 {
-  font-size: 24px;
-  font-weight: 700;
-  color: #333;
-  /* margin-left: 130px; */
-  text-align: center;
-}
-
-.TecCells h2 {
-  font-size: 16px;
-  font-weight: 500;
-  color: #666;
-  margin: 0 0 20px 0;
-  margin-left: 90px;
-}
-
-.TecCells > p {
-  display: flex;
-  align-items: center;
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 25px 0;
-  margin-left: 110px;
-}
-
-.TecCells > p::before {
-  content: "★★★★★";
-  color: #ffc107;
-  font-size: 18px;
-  margin-right: 8px;
-  letter-spacing: 2px;
-}
-
-/* Ichki ma'lumotlar qismi */
-.ichki {
-  background-color: #f8f9fa;
-  border-radius: 10px;
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.ichki h1 {
-  font-size: 18px;
-  font-weight: 600;
-  color: #333;
-  margin: 0 0 20px 0;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #dee2e6;
-}
-
-.info-row {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #eee;
-}
-
-.info-row:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.info-row p {
-  margin: 0;
-  font-size: 14px;
-}
-
-.info-row p:first-child {
-  font-weight: 500;
-  color: #555;
-}
-
-.info-row p:last-child {
-  color: #333;
-  font-weight: 400;
-}
-
-/* Statistics Block */
-.Statistcs {
-  width: 550px;
-  margin-top: 60px;
-  height: 230px;
-  background: #fff;
-  border-radius: 10px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Statistics title */
-.Statistcs h1 {
-  font-family: Gilroy;
-  font-weight: 700;
-  font-size: 18px;
-  line-height: 20px;
-  letter-spacing: 0px;
-  color: #000;
-  margin-bottom: 32px;
-}
-
-/* Numbers wrapper */
-.Statistcs {
-  position: relative;
-}
-
-.Statistcs > .stat-item {
-  text-align: center;
-}
-
-/* Stats row */
-.Statistcs {
-  gap: 20px;
-}
-
-.stat-item h2 {
-  font-family: Gilroy;
-  font-weight: 700;
-  font-size: 32px;
-  color: #000;
-  margin-bottom: 6px;
-}
-
-.stat-item p {
-  font-family: Gilroy;
-  font-weight: 400;
-  font-size: 14px;
-  color: #6b7280;
-}
-
-/* 3ta statni yonma-yon qilish */
-.Statistcs {
-  display: flex;
-  flex-direction: column;
-}
-
-.Statistcs .stat-item {
-  flex: 1;
-}
-
-.stats-row {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-}
-
-/* Divider (tosiq) */
-.stat-item:not(:last-child) {
-  border-right: 1px solid #e5e7eb;
-  padding-right: 40px;
-}
-
-.stat-item:not(:first-child) {
-  padding-left: 40px;
-}
-
-.about-company {
-  width: 550px;
-  height: 394px;
+/* CHAP TARAFI (Profile Card - 300x654) */
+.company-info-card {
+  width: 300px;
+  height: 654px;
   background: #ffffff;
-  border-radius: 12px;
-  padding: 20px 24px;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.08);
-  font-family: Gilroy;
-}
-.about-input {
-  width: 100%;
-  height: 300px;
-  border: none;
-  outline: none;
-  resize: none;
-
-  font-family: Gilroy;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-
-  color: #111827;
-}
-
-.about-input::placeholder {
-  color: #9ca3af;
-}
-
-/* Header */
-.about-header {
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   display: flex;
+<<<<<<< Updated upstream
   justify-content: space-between;
   align-items: center;
   margin-bottom: 14px;
@@ -318,53 +79,557 @@
 
 /* Responsive design */
 .logo-wrapper {
+=======
+  flex-direction: column;
+>>>>>>> Stashed changes
   position: relative;
-  /* width: 120px; */
-  /* height: 120px; */
-  margin-bottom: 15px;
+  flex-shrink: 0; /* O'lcham o'zgarmasligi uchun */
 }
 
-.company-logo {
-  width: 120px;
-  height: 120px;
+.edit-profile-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* LOGO QISMI */
+.profile-logo-wrapper {
+  text-align: center;
+  margin-bottom: 20px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.main-logo-img {
+  width: 130px;
+  height: 130px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e5e5e5;
+  border: 4px solid #f8f9fa;
 }
 
-/* QALAMCHA */
 .edit-logo-btn {
   position: absolute;
-  bottom: 6px;
-  right: 100px;
-  width: 36px;
-  height: 36px;
-  background: #ffffff;
+  bottom: 0px;
+
+  background: #fff;
+  border: 1px solid #eee;
   border-radius: 50%;
-  border: 1px solid #ddd;
-  cursor: pointer;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  transition: all 0.25s ease;
-}
-
-.edit-logo-btn img {
-  width: 18px;
-  height: 18px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
 }
 
 .edit-logo-btn:hover {
-  background: #163d5c;
+  background: #f0f0f0;
 }
 
-.edit-logo-btn:hover img {
-  filter: brightness(0) invert(1);
+/* TEXTLAR */
+.company-name-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1d3f61;
+  text-align: center;
+  margin-top: 10px;
 }
 
-.h22 {
-  padding-left: 45px;
+.industry-text {
+  text-align: center;
+  color: #7d8592;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+<<<<<<< Updated upstream
+=======
+.rating-stars {
+  text-align: center;
+  font-size: 13px;
+  color: #9ca3af;
+  margin-bottom: 20px;
+}
+
+/* INFO RO'YXATI */
+.info-list {
+  margin-top: 15px;
+  border-top: 1px solid #f5f5f5;
+  padding-top: 20px;
+}
+
+.info-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.info-label {
+  color: #9ca3af;
+}
+
+.info-value {
+  color: #1d3f61;
+  font-weight: 600;
+  text-align: right;
+  max-width: 180px;
+  word-wrap: break-word;
+}
+
+/* O'NG TARAFI (718px konteyner) */
+.right-side-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* STATISTIKA (718x230) */
+.stats-card {
+  width: 718px;
+  height: 230px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stats-header {
+  text-align: center;
+  color: #1d3f61;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.stat-box {
+  text-align: center;
+  flex: 1;
+  position: relative;
+}
+
+.stat-box:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background-color: #eee; /* O'rtadagi chiziqlar */
+}
+
+.stat-box h2 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1d3f61;
+  margin-bottom: 5px;
+}
+
+.stat-box p {
+  color: #7d8592;
+  font-size: 14px;
+}
+
+/* ABOUT (718x394) */
+.about-card {
+  width: 718px;
+  height: 394px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+}
+
+.about-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.about-header-row h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.about-text-area {
+  flex-grow: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  background: transparent;
+}
+
+/* My Profile yozuvi turgan oq blok */
+.nav-title-container {
+  width: 825px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding-left: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.nav-title {
+  font-size: 20px;
+  color: #505151;
+  font-weight: 600;
+  margin: 0;
+  line-height: 100%;
+}
+
+/* Post a Job tugmasi */
+.post-job-btn {
+  width: 200px;
+  height: 60px;
+  background: linear-gradient(135deg, #2a4e75, #c25dc5);
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  line-height: 100%;
+  transition: opacity 0.2s;
+  flex-shrink: 0;
+  font-family: "Inter", sans-serif;
+}
+
+.post-job-btn:hover {
+  opacity: 0.9;
+}
+
+/* About Modal Styles */
+.about-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.about-modal-content {
+  background: white;
+  padding: 25px;
+  border-radius: 20px;
+  width: 500px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-modal-content h3 {
+  margin-bottom: 15px;
+  color: #1d3f61;
+}
+
+.about-modal-content textarea {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  padding: 15px;
+  resize: none;
+  font-family: inherit;
+  outline: none;
+}
+
+.about-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.btn-cancel {
+  background: #f1f1f1;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-save {
+  background: #2a4e75;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.about-display-text {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  white-space: pre-wrap; /* Textdagi qatorlarni saqlaydi */
+}
+
+/* About kartasi ichidagi textarea */
+.about-direct-input {
+  width: 100%;
+  height: 280px; /* Karta balandligiga mos */
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: inherit;
+  font-size: 15px;
+  color: #555;
+  line-height: 1.6;
+  resize: none; /* Foydalanuvchi o'lchamni o'zgartirolmaydi */
+  outline: none;
+  background: transparent;
+  transition: all 0.3s ease;
+}
+
+/* Textarea ustiga borganda chegara paydo bo'ladi */
+.about-direct-input:hover,
+.about-direct-input:focus {
+  border-color: #eee;
+  background: #fafafa;
+}
+
+/* Kichkina saqlash tugmasi */
+.inline-save-btn {
+  background: #2a4e75;
+  color: white;
+  border: none;
+  padding: 5px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: background 0.2s;
+}
+
+.inline-save-btn:hover {
+  background: #1d3f61;
+}
+/* ===== UNIVERSAL RESPONSIVE REPAIR ===== */
+
+/* 💻 IPAD PRO, IPAD AIR VA PLANSHEETLAR (1200px gacha) */
+/* ===== SIDEBAR & HAMBURGER REPAIR ===== */
+
+/* Desktopda (1100px dan katta) mobil headerni yashiramiz */
+.mobile-header {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  }
+
+  .sidebar-container {
+    position: fixed;
+    left: -280px; /* Boshida yashirin */
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: white;
+    z-index: 1001;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 5px 0 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar-container.open {
+    left: 0; /* Gamburg bosilganda chiqadi */
+  }
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+  }
+
+  /* Gamburg chiziqchalari (X bo'lib ochiladigan) */
+  .hamburger-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .bar {
+    width: 25px;
+    height: 3px;
+    background: #1d3f61;
+    transition: 0.3s;
+  }
+
+  .bar.active:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+  }
+  .bar.active:nth-child(2) {
+    opacity: 0;
+  }
+  .bar.active:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6deg);
+  }
+
+  /* Kontentni surishni to'xtatamiz */
+  .main-content-area {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 15px !important;
+  }
+
+  .company-profile-wrapper {
+    flex-direction: column !important;
+    align-items: center;
+  }
+
+  .right-side-layout {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Kichik qat'iy o'lchamlarni buzib tashlash */
+@media (max-width: 1100px) {
+  .nav-title-container,
+  .stats-card,
+  .about-card,
+  .company-info-card {
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+  }
+}
+
+/* Custom Alert Styles */
+.custom-alert-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  animation: slideIn 0.5s ease forwards;
+}
+
+.custom-alert-content {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: #ffffff;
+  padding: 16px 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  min-width: 300px;
+  position: relative;
+  overflow: hidden;
+  border-left: 5px solid #4caf50;
+}
+
+.custom-alert-overlay.error .custom-alert-content {
+  border-left-color: #f44336;
+}
+
+.alert-icon {
+  font-size: 22px;
+}
+
+.custom-alert-content p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+  font-family: "Poppins", sans-serif;
+}
+
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 4px;
+  background: #4caf50;
+  width: 100%;
+  animation: progress 3s linear forwards;
+}
+
+.custom-alert-overlay.error .progress-bar {
+  background: #f44336;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+/* Media Queries (Mobil uchun) */
+@media (max-width: 480px) {
+  .custom-alert-overlay {
+    top: auto;
+    bottom: 20px;
+    right: 10px;
+    left: 10px;
+  }
+
+  .custom-alert-content {
+    min-width: auto;
+    width: 100%;
+  }
 }
 
 
@@ -374,6 +639,716 @@
 
 
 
+/* ============================================================
+   RESPONSIVE DESIGN (Media Queries)
+   ============================================================ */
+
+/* 1. Katta monitorlar va Noutbuklar uchun (1200px gacha) */
+@media (max-width: 1200px) {
+  .main-content {
+    grid-template-columns: 1fr 1fr;
+    /* 3 ta ustun 2 taga aylanadi */
+  }
+
+  .chart-card,
+  .chart-cart,
+  .custom-job-card {
+    width: 100% !important;
+    /* Qat'iy o'lchamlarni bekor qilamiz */
+    margin-left: 0 !important;
+  }
+}
+
+/* 2. Planshetlar uchun (992px gacha) */
+@media (max-width: 992px) {
+  .post-job-btn {
+    position: static !important;
+    /* left: 230px butunlay o'chiriladi */
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .profile-completed-card {
+    width: 100% !important;
+    min-height: auto;
+    padding: 30px;
+  }
+
+  .custom-job-card .time-tabs-pilll {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+/* 3. Kichik planshetlar va mobil qurilmalar (768px gacha) */
+@media (max-width: 768px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    /* Hammasi bitta ustun bo'lib qoladi */
+  }
+
+  .summary-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  .bar {
+    width: 20px;
+    /* Grafik ustunlarini kichraytiramiz */
+  }
+}
+
+/* 4. Telefonlar uchun (480px gacha) */
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+  }
+
+  .tab-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .custom-job-card .time-tabs-pilll button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 820px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-completed-card {
+    grid-column: span 1;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  .chart-container {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .simple-bar-chart {
+    min-width: 500px;
+  }
+
+  .summary-section {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .summary-item {
+    flex: 1 1 40%;
+  }
+}
+
+
+
+
+@media (max-width: 1024px) {
+  .main-content {
+    grid-template-columns: 1fr;
+    /* Hammasi bitta ustun bo'lib qoladi */
+  }
+
+  .summary-section {
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  .bar {
+    width: 20px;
+    /* Grafik ustunlarini kichraytiramiz */
+  }
+}
+
+/* 4. Telefonlar uchun (480px gacha) */
+@media (max-width: 480px) {
+  .card {
+    padding: 15px;
+  }
+
+  .nav-title {
+    font-size: 20px;
+  }
+
+  .tab-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  .custom-job-card .time-tabs-pilll button {
+    width: 100%;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 820px) {
+  .main-content {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-completed-card {
+    grid-column: span 1;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  .chart-container {
+    overflow-x: auto;
+    padding-bottom: 10px;
+  }
+
+  .simple-bar-chart {
+    min-width: 500px;
+  }
+
+  .summary-section {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  .summary-item {
+    flex: 1 1 40%;
+  }
+}
+
+
+
+/* ============================================================
+   1072px KENGlik UCHUN MAXSUS MEDIA QUERY
+   ============================================================ */
+
+@media (max-width: 1072px) {
+  /* 1. Dashboard Header qismini moslashtirish */
+  .dashboard-big {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .dashboard-h1 {
+    max-width: 70%; /* Yozuv joyi biroz kichrayadi */
+  }
+
+  .dashboard-big button {
+    width: 180px; /* Tugma o'lchami biroz kichrayadi */
+    font-size: 14px;
+  }
+
+  /* 2. Main Layout - 3 ustunli gridni 1 ustunga o'tkazamiz */
+  .main-content {
+    grid-template-columns: 1fr; 
+    gap: 20px;
+    justify-items: center; /* Cardlarni o'rtaga tekislash */
+  }
+
+  /* 3. Cardlarning qat'iy kengliklarini (fixed width) bekor qilish */
+  .profile-completed-card,
+  .chart-card,
+  .chart-cart,
+  .custom-job-card {
+    width: 100% !important; /* Ekran kengligiga moslashadi */
+    max-width: 900px;        /* Haddan tashqari cho'zilib ketmasligi uchun */
+    margin-left: 0 !important;
+  }
+
+  /* 4. Chartlar ichidagi elementlarni moslashtirish */
+  .custom-job-card .time-tabs-pilll {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .simple-bar-chart {
+    gap: 4px; /* Ustunlar orasidagi masofani kamaytirish */
+  }
+
+  .bar {
+    width: 28px; /* Ustunlar biroz ingichkalashadi */
+  }
+
+  /* 5. Summary (Pastki statistika) qismini 2 qator qilish */
+  .summary-section {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+  }
+
+  .summary-item {
+    flex: 1 1 40%; /* Har bir element 50% ga yaqin joy oladi */
+    text-align: center;
+  }
+}
+
+
+/* ============================================================
+   1072px KENGlik UCHUN MAXSUS MEDIA QUERY
+   ============================================================ */
+
+@media (max-width: 1088px) {
+  /* 1. Dashboard Header qismini moslashtirish */
+  .dashboard-big {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .dashboard-h1 {
+    max-width: 70%; /* Yozuv joyi biroz kichrayadi */
+  }
+
+  .dashboard-big button {
+    width: 180px; /* Tugma o'lchami biroz kichrayadi */
+    font-size: 14px;
+  }
+
+  /* 2. Main Layout - 3 ustunli gridni 1 ustunga o'tkazamiz */
+  .main-content {
+    grid-template-columns: 1fr; 
+    gap: 20px;
+    justify-items: center; /* Cardlarni o'rtaga tekislash */
+  }
+
+  /* 3. Cardlarning qat'iy kengliklarini (fixed width) bekor qilish */
+  .profile-completed-card,
+  .chart-card,
+  .chart-cart,
+  .custom-job-card {
+    width: 100% !important; /* Ekran kengligiga moslashadi */
+    max-width: 900px;        /* Haddan tashqari cho'zilib ketmasligi uchun */
+    margin-left: 0 !important;
+  }
+
+  /* 4. Chartlar ichidagi elementlarni moslashtirish */
+  .custom-job-card .time-tabs-pilll {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .simple-bar-chart {
+    gap: 4px; /* Ustunlar orasidagi masofani kamaytirish */
+  }
+
+  .bar {
+    width: 28px; /* Ustunlar biroz ingichkalashadi */
+  }
+
+  /* 5. Summary (Pastki statistika) qismini 2 qator qilish */
+  .summary-section {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+  }
+
+  .summary-item {
+    flex: 1 1 40%; /* Har bir element 50% ga yaqin joy oladi */
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   1072px KENGlik UCHUN MAXSUS MEDIA QUERY
+   ============================================================ */
+
+@media (max-width: 1080px) {
+  /* 1. Dashboard Header qismini moslashtirish */
+  .dashboard-big {
+    padding: 15px;
+    gap: 12px;
+  }
+
+  .dashboard-h1 {
+    max-width: 70%; /* Yozuv joyi biroz kichrayadi */
+  }
+
+  .dashboard-big button {
+    width: 180px; /* Tugma o'lchami biroz kichrayadi */
+    font-size: 14px;
+  }
+
+  /* 2. Main Layout - 3 ustunli gridni 1 ustunga o'tkazamiz */
+  .main-content {
+    grid-template-columns: 1fr; 
+    gap: 20px;
+    justify-items: center; /* Cardlarni o'rtaga tekislash */
+  }
+
+  /* 3. Cardlarning qat'iy kengliklarini (fixed width) bekor qilish */
+  .profile-completed-card,
+  .chart-card,
+  .chart-cart,
+  .custom-job-card {
+    width: 100% !important; /* Ekran kengligiga moslashadi */
+    max-width: 900px;        /* Haddan tashqari cho'zilib ketmasligi uchun */
+    margin-left: 0 !important;
+  }
+
+  /* 4. Chartlar ichidagi elementlarni moslashtirish */
+  .custom-job-card .time-tabs-pilll {
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .simple-bar-chart {
+    gap: 4px; /* Ustunlar orasidagi masofani kamaytirish */
+  }
+
+  .bar {
+    width: 28px; /* Ustunlar biroz ingichkalashadi */
+  }
+
+  /* 5. Summary (Pastki statistika) qismini 2 qator qilish */
+  .summary-section {
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 15px;
+  }
+
+  .summary-item {
+    flex: 1 1 40%; /* Har bir element 50% ga yaqin joy oladi */
+    text-align: center;
+  }
+}
+
+
+/* ============================================================
+   RESPONSIVE DESIGN (1032px - 350px)
+   ============================================================ */
+
+/* 1. Planshetlar va kichik noutbuklar (1032px dan pastga) */
+@media (max-width: 1032px) {
+  .main-content {
+    grid-template-columns: 1fr; /* Profile va Chartlar ustma-ust tushadi */
+    gap: 30px;
+  }
+
+  .dashboard-big {
+    gap: 15px;
+  }
+
+  .dashboard-h1 {
+    max-width: 65%;
+  }
+
+  /* Cardlarning kengligini konteynerga moslash */
+  .profile-completed-card, 
+  .chart-card, 
+  .chart-cart, 
+  .custom-job-card {
+    width: 100% !important;
+    max-width: 100%;
+    margin-left: 0 !important;
+  }
+
+  .custom-job-card .time-tabs-pilll {
+    margin: 20px auto; /* Markazlash */
+  }
+}
+
+/* 2. Kichik planshetlar va o'rta mobil ekranlar (820px - 768px) */
+@media (max-width: 820px) {
+  .dashboard-big {
+    flex-direction: column; /* Dashboard yozuvi va Tugma ustma-ust */
+    align-items: stretch;
+  }
+
+  .dashboard-h1 {
+    width: 100%;
+    max-width: 100%;
+    height: 55px;
+  }
+
+  .dashboard-big button {
+    width: 100%;
+    height: 55px;
+  }
+
+  .summary-section {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .summary-item {
+    flex: 1 1 45%; /* Statistika 2 qatordan joy oladi */
+    text-align: center;
+    margin-bottom: 10px;
+  }
+}
+
+/* 3. Mobil telefonlar (580px dan pastga) */
+@media (max-width: 580px) {
+  .dashboard-container {
+    padding: 15px;
+  }
+
+  .profile-completed-card {
+    min-height: auto;
+    padding: 30px 20px;
+  }
+
+  .circular-progress {
+    width: 150px;
+    height: 150px;
+  }
+
+  .inner-circle {
+    width: 130px;
+    height: 130px;
+  }
+
+  .percent-number {
+    font-size: 32px;
+  }
+
+  /* Grafik ustunlarini mobilga moslash */
+  .bar {
+    width: 20px;
+  }
+
+  .tab-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+}
+
+/* 4. Eng kichik telefonlar (350px gacha) */
+@media (max-width: 350px) {
+  .dashboard-h1 h1 {
+    font-size: 14px; /* Judayam kichik ekran uchun shriftni pasaytirish */
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .custom-job-card h2 {
+    font-size: 18px;
+  }
+
+  /* Tugmalar sig'ishi uchun */
+  .time-tabs-pilll {
+    flex-direction: column;
+    height: auto !important;
+    gap: 5px;
+    padding: 10px;
+  }
+
+  .time-tabs-pilll button {
+    width: 100% !important;
+  }
+
+  .summary-item {
+    flex: 1 1 100%; /* Statistika birma-bir ustma-ust tushadi */
+  }
+}
+
+/* ============================================================
+   COMPANY PROFILE RESPONSIVE REPAIR (1200px - 320px)
+   ============================================================ */
+
+/* 1. Kichik monitorlar va planshetlar uchun (1200px gacha) */
+@media (max-width: 1200px) {
+  .company-profile-wrapper {
+    justify-content: center;
+    padding: 0 20px;
+  }
+
+  .nav-title-container {
+    width: 100%; /* 825px ni bekor qilamiz */
+    max-width: 718px;
+  }
+
+  /* O'ng tarafdagi bloklarni moslash */
+  .stats-card, .about-card {
+    width: 100%;
+    max-width: 718px;
+  }
+}
+
+/* 2. Gridni buzish (1024px dan pastga) */
+@media (max-width: 1040px) {
+  .company-profile-wrapper {
+    flex-direction: column; /* Chap va o'ng taraflar ustma-ust tushadi */
+    align-items: center;
+    gap: 30px;
+  }
+
+  .company-info-card {
+    width: 100%;
+    max-width: 600px; /* Markazda chiroyli turishi uchun */
+    height: auto; /* 654px ni bekor qilib, kontentga moslaymiz */
+    padding-bottom: 40px;
+  }
+
+  .right-side-layout {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .nav-title-container {
+    max-width: 600px;
+    margin-bottom: 20px;
+  }
+}
+
+/* 3. Planshet va katta telefonlar (768px gacha) */
+@media (max-width: 768px) {
+  .nav-title-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .nav-title-container {
+    padding-left: 0;
+  }
+
+  .post-job-btn {
+    width: 100%;
+  }
+
+  .stats-grid {
+    flex-direction: column; /* Statistika raqamlari ustma-ust */
+    gap: 20px;
+  }
+
+  .stat-box:not(:last-child)::after {
+    display: none; /* O'rtadagi vertikal chiziqlarni olib tashlaymiz */
+  }
+
+  .stats-card {
+    height: auto;
+    padding: 30px 20px;
+  }
+
+  .about-card {
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+/* 4. Mobil telefonlar (480px gacha) */
+@media (max-width: 480px) {
+  .main-content-area {
+    padding: 10px !important;
+  }
+
+  .company-name-text {
+    font-size: 20px;
+  }
+
+  .info-value {
+    max-width: 140px; /* Uzun tekstlar sig'ishi uchun */
+    font-size: 13px;
+  }
+
+  .info-label {
+    font-size: 13px;
+  }
+
+  .stat-box h2 {
+    font-size: 28px;
+  }
+
+  .about-modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .about-header-row h3 {
+    font-size: 16px;
+  }
+}
+
+/* 5. Eng kichik ekranlar (320px gacha) */
+@media (max-width: 350px) {
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .info-value {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .main-logo-img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+>>>>>>> Stashed changes
 
 
 
@@ -401,3 +1376,289 @@
 
 
 
+
+
+
+
+
+
+
+<<<<<<< Updated upstream
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Asosiy konteynerni to'g'rilash */
+.main-content-area {
+  padding: 0px;
+  max-width: 1200px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* FLEX LAYOUTNI TO'G'RILASH */
+.company-profile-wrapper {
+  display: flex;
+  gap: 24px;
+  margin-top: 10px;
+  align-items: flex-start;
+  width: 100%;
+  justify-content: space-between;
+}
+
+/* CHAP TARAF (FIXED 300px) */
+.company-info-card {
+  width: 300px;
+  height: 654px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* O'NG TARAF (QOLGAN BO'SH JOYNİ TO'LDIRADI) */
+.right-side-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+  min-width: 0; /* FLEX ICHIDA OVERFLOW BO'LMASLIGI UCHUN */
+}
+
+/* TOP NAV - "My Profile" BLOKI */
+.top-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0; /* 24px NI O'CHIRAMIZ */
+  gap: 24px;
+}
+
+.nav-title-container {
+  flex: 1;
+  background: white;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  /* QAT'IY 825px NI O'CHIRAMIZ */
+}
+
+/* STATISTICS KARTASI */
+.stats-card {
+  width: 100%; /* 718px NI O'ZGARTIRAMIZ */
+  height: 230px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  box-sizing: border-box; /* PADDING KENGLIKKA TA'SIR QILMASLIGI UCHUN */
+}
+
+/* ABOUT KARTASI */
+.about-card {
+  width: 100%; /* 718px NI O'ZGARTIRAMIZ */
+  height: 394px;
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box; /* PADDING KENGLIKKA TA'SIR QILMASLIGI UCHUN */
+}
+
+/* "My Profile" YOZUVINI MARKAZLASHTIRISH */
+.nav-title {
+  font-size: 20px;
+  color: #505151;
+  font-weight: 600;
+  margin: 0;
+  line-height: 100%;
+  width: 100%;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET)
+   ============================================================ */
+
+/* 1. Planshetlar uchun (1024px gacha) */
+@media (max-width: 1040px) {
+  .company-profile-wrapper {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+
+  .company-info-card {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    padding-bottom: 40px;
+  }
+
+  .right-side-layout {
+    width: 100%;
+    max-width: 600px;
+  }
+
+  .nav-title-container {
+    max-width: 600px;
+  }
+}
+
+/* 2. Kichik planshet va telefonlar (768px gacha) */
+@media (max-width: 768px) {
+  .nav-title-container {
+    flex-direction: column;
+    height: auto;
+    padding: 20px;
+    gap: 15px;
+    text-align: center;
+  }
+
+  .post-job-btn {
+    width: 100%;
+  }
+
+  .stats-grid {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .stat-box:not(:last-child)::after {
+    display: none;
+  }
+
+  .stats-card {
+    height: auto;
+    padding: 30px 20px;
+  }
+
+  .about-card {
+    height: auto;
+    min-height: 300px;
+  }
+}
+
+/* 3. Mobil telefonlar (480px gacha) */
+@media (max-width: 480px) {
+  .main-content-area {
+    padding: 15px !important;
+  }
+
+  .company-name-text {
+    font-size: 20px;
+  }
+
+  .info-value {
+    max-width: 140px;
+    font-size: 13px;
+  }
+
+  .info-label {
+    font-size: 13px;
+  }
+
+  .stat-box h2 {
+    font-size: 28px;
+  }
+
+  .about-modal-content {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .about-header-row h3 {
+    font-size: 16px;
+  }
+}
+
+/* 4. Eng kichik ekranlar (320px gacha) */
+@media (max-width: 350px) {
+  .info-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .info-value {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .main-logo-img {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* ============================================================
+   STATISTIKA KARTASI RESPONSIVE TUGATISH
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .stats-card {
+    height: auto;
+    min-height: 230px;
+  }
+
+  .stats-grid {
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+
+  .stat-box {
+    flex: 0 0 45%;
+    margin-bottom: 20px;
+  }
+
+  .stat-box:nth-child(2)::after {
+    display: none; /* 2-chi elementdan keyin chiziqni o'chiramiz */
+  }
+}
+
+/* Kichik telefonlar uchun statistika to'liq ustun qilish */
+@media (max-width: 480px) {
+  .stat-box {
+    flex: 0 0 100%;
+  }
+
+  .stats-card {
+    padding: 20px 15px;
+  }
+}
+>>>>>>> Stashed changes

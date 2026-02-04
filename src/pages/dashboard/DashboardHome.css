@@ -30,34 +30,130 @@
 
 
 
+.dashboard-big {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Markazlash uchun */
+  gap: 20px;               /* Ikki element orasidagi masofa */
+  background-color: #f7f7f7; /* Umumiy fon rangi */
+}
 
+.dashboard-h1 {
+  width: 100%;
+  max-width: 815px;        /* Siz aytgan uzunlik */
+  height: 60px;            /* Siz aytgan balandlik */
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;     /* Yozuvni vertikal markazlash */
+  padding-left: 20px;      /* Yozuv chetdan surilishi uchun */
+  border-radius: 10px;     /* Burchaklarni yumaloq qilish */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Yengil soya */
+}
 
-
-.post-job-btn {
-  font-family: Gilroy;
-  font-weight: 400;
-  font-style: Regular;
+.dashboard-h1 h1 {
   font-size: 18px;
-  line-height: 100%;
-  letter-spacing: 0%;
-  background: #50c594;
-  color: white;
-  width: 200px;
-  height: 60px;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 5px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(67, 97, 238, 0.2);
-  position: relative;
-  left: 230px;
+  color: #555;
+  margin: 0;
+  font-family: sans-serif;
+  font-weight: 500;
 }
 
-.post-job-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+.dashboard-big button {
+  width: 200px;            /* Tugma kengligi */
+  height: 60px;            /* Tugma balandligi */
+  background-color: #52c48d; /* Rasmdagi yashil rang */
+  color: white;
+  border: none;
+  border-radius: 10px;     /* Burchaklarni yumaloq qilish */
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
 }
+
+.dashboard-big button:hover {
+  background-color: #45a07a; /* Hover bo'lganda rang o'zgarishi */
+}
+
+/* ============================================================
+   DASHBOARD HEADER RESPONSIVE (Tugma va H1 qismi)
+   ============================================================ */
+
+/* 1. Planshetlar uchun (iPad Mini, Air, Pro - 1024px gacha) */
+@media (max-width: 1024px) {
+  .dashboard-big {
+    /* Elementlarni ustma-ust emas, balki qator bo'lib sig'dirishga harakat qiladi */
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .dashboard-h1 {
+    /* Planshetda H1 biroz qisqarib, tugmaga joy bo'shatadi */
+    flex: 1; 
+    min-width: 300px; /* 300px dan kichik bo'lib ketmaydi */
+    max-width: 100%;
+    height: 60px;
+  }
+
+  .dashboard-big button {
+    /* Tugma planshetda o'z holicha qoladi yoki biroz kichrayadi */
+    width: 180px;
+    flex-shrink: 0;
+  }
+}
+
+/* 2. Kichik Planshet va Katta telefonlar (820px dan past) */
+@media (max-width: 820px) {
+  .dashboard-big {
+    flex-direction: column; /* Endi ustma-ust tushadi */
+    align-items: center;
+  }
+
+  .dashboard-h1 {
+    width: 100% !important;
+    max-width: 100%;
+    text-align: center;
+    justify-content: center; /* Yozuvni markazlash */
+    padding-left: 0; /* Markazda bo'lishi uchun paddingni olamiz */
+  }
+
+  .dashboard-big button {
+    width: 100% !important;
+    max-width: 400px; /* Tugma juda cho'zilib ketmasligi uchun */
+    height: 55px;
+  }
+}
+
+/* 3. Mobil telefonlar (480px gacha) */
+@media (max-width: 480px) {
+  .dashboard-big {
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .dashboard-h1 {
+    padding: 12px;
+    min-height: 50px;
+    height: auto;
+  }
+
+  .dashboard-h1 h1 {
+    font-size: 15px; /* Telefon ekranida matn kichrayadi */
+    line-height: 1.2;
+  }
+
+  .dashboard-big button {
+    height: 50px;
+    font-size: 14px;
+    max-width: 100%;
+  }
+}
+
+
+
+
 
 .plus-icon {
   font-size: 20px;
@@ -87,11 +183,10 @@
 }
 
 .profile-completed-card {
-  background: linear-gradient(
-    180deg,
-    #2d3a61 0%,
-    #b669b8 100%
-  ); /* Rasmdagi gradient fon */
+  background: linear-gradient(180deg,
+      #2d3a61 0%,
+      #b669b8 100%);
+  /* Rasmdagi gradient fon */
   color: white;
   /* padding: 40px 30px; */
   border-radius: 24px;
@@ -132,13 +227,12 @@
 }
 
 .inner-circle {
-  width: 160px; /* Chiziq qalinligini belgilaydi */
+  width: 160px;
+  /* Chiziq qalinligini belgilaydi */
   height: 160px;
-  background: linear-gradient(
-    180deg,
-    #2d3a61 0%,
-    #b669b8 100%
-  );
+  background: linear-gradient(180deg,
+      #2d3a61 0%,
+      #b669b8 100%);
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -174,6 +268,7 @@
   flex-direction: column;
   margin-left: 10px;
 }
+
 .chart-cart {
   width: 1010px;
   margin-top: 10px;
@@ -323,7 +418,7 @@
 
 
 
-    
+
 
 .card {
   animation: slideIn 0.5s ease-out;
@@ -416,6 +511,7 @@
   text-align: center;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 .custom-tooltip-box .value {
   font-weight: bold;
   font-size: 14px;
@@ -482,11 +578,11 @@
 }
 
 
-.card .chart-card .time-tabs-pil{
+.card .chart-card .time-tabs-pil {
   width: 320px;
   height: 50px;
   background-color: #94A2AB1A;
-   border-radius: 999px;
+  border-radius: 999px;
 }
 
 
@@ -528,6 +624,7 @@
 
 
 
+<<<<<<< Updated upstream
 /* ============================================================
    RESPONSIVE DESIGN (Media Queries)
    ============================================================ */
@@ -598,11 +695,272 @@
 
 /* 4. Telefonlar uchun (480px gacha) */
 @media (max-width: 480px) {
+=======
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+   MUKAMMAL RESPONSIVE TIZIMI (ALL DEVICES)
+   ============================================================ */
+
+/* 1. Global O'zgarishlar: Qat'iy kengliklarni moslashuvchan qilish */
+.profile-completed-card, 
+.chart-card, 
+.chart-cart, 
+.custom-job-card {
+    width: 100% !important; /* Qat'iy piksellarni bekor qilish */
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    box-sizing: border-box;
+}
+
+/* 2. Asosiy Grid tizimini dinamik qilish */
+.main-content {
+    display: grid;
+    /* Desktopda 3 ustun, lekin ekran kichrayishi bilan avtomat o'zgaradi */
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    width: 100%;
+}
+
+
+
+/* 5. Planshetlar (iPad Pro, Air, Mini - 769px - 1024px) */
+@media (max-width: 1024px) {
+    .dashboard-big {
+        flex-wrap: wrap;
+        padding: 15px;
+        gap: 15px;
+    }
+
+    .dashboard-h1 {
+        flex: 1;
+        min-width: 280px;
+        height: 55px;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr; /* Hamma cardlar bitta ustun */
+        gap: 20px;
+    }
+
+    .custom-job-card, .chart-cart {
+        grid-column: span 1;
+    }
+
+    /* Grafik ichidagi tablarni markazlash */
+    .custom-job-card .time-tabs-pilll {
+        margin: 20px auto;
+        width: 100%;
+        max-width: 450px;
+    }
+}
+
+/* 6. Katta Telefonlar va Kichik Planshetlar (481px - 768px) */
+@media (max-width: 768px) {
+    .dashboard-big {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .dashboard-h1 {
+        width: 100%;
+        padding-left: 0;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .dashboard-big button {
+        width: 100%;
+        max-width: 100%;
+        height: 55px;
+    }
+
+    .summary-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* 2 ustunli statistika */
+        gap: 20px;
+    }
+
+    /* Grafik ustunlarini biroz ingichka qilish */
+    .bar {
+        width: 22px;
+    }
+}
+
+/* 7. Mobil Telefonlar (iPhone, Samsung - 320px - 480px) */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .circular-progress {
+        width: 140px;
+        height: 140px;
+    }
+
+    .inner-circle {
+        width: 120px;
+        height: 120px;
+    }
+
+    .percent-number {
+        font-size: 28px;
+    }
+
+    .summary-section {
+        grid-template-columns: 1fr; /* Mobil telefonda hammasi bitta qator */
+        text-align: center;
+    }
+
+    .summary-item {
+        padding: 10px 0;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .summary-item:last-child {
+        border-bottom: none;
+    }
+
+    /* Grafikni mobil ekranda sig'dirish uchun scroll-x */
+    .chart-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .simple-bar-chart {
+        min-width: 400px; /* Grafik juda kichrayib ketmasligi uchun */
+    }
+
+    .time-tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .tab-btn {
+        padding: 6px 10px;
+        font-size: 11px;
+    }
+}
+
+/* 8. Extra Small - Juda kichik ekranlar (320px dan past) */
+@media (max-width: 320px) {
+    .dashboard-h1 h1 {
+        font-size: 14px;
+    }
+    .percent-number {
+        font-size: 24px;
+    }
+}
+
+/* 9. Animatsiyalarni Responsive qilish (Mobil telefonda yukni kamaytirish) */
+@media (prefers-reduced-motion: reduce) {
+    .card {
+        animation: none;
+        transition: none;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 820px) {
+  .summary-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Statistikani 2 ustun qilib kengaytiramiz */
+    gap: 20px;
+    width: 738px;
+  }
+
+  .chart-container {
+    overflow-x: auto; /* Grafik planshetda sig'masa scroll bo'ladi, lekin kichrayib ketmaydi */
+    padding-bottom: 15px;
+  }
+
+  .simple-bar-chart {
+    min-width: 600px; /* Grafik planshetda "plotniy" va o'qilishi oson bo'ladi */
+  }
+
+  .circular-progress {
+    width: 180px; /* Doira o'lchamini planshetda saqlab qolamiz */
+    height: 180px;
+  }
+}
+
+/* 4. Kichik planshet va Katta telefonlar (768px gacha) */
+@media (max-width: 768px) {
+  .percent-number {
+    font-size: 36px;
+  }
+
+  .bar {
+    width: 25px; /* Grafik ustunlari o'rtacha o'lchamda */
+  }
+}
+
+/* 5. Mobil telefonlar (480px gacha) */
+@media (max-width: 480px) {
+  .summary-section {
+    grid-template-columns: 1fr; /* Mobil telefonda hammasi bitta ustun */
+  }
+
+>>>>>>> Stashed changes
   .card {
     padding: 15px;
   }
 
   .nav-title {
+<<<<<<< Updated upstream
     font-size: 20px;
   }
 
@@ -616,3 +974,17 @@
     font-size: 12px;
   }
 }
+=======
+    font-size: 18px;
+  }
+
+  .tab-btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+
+  .bar {
+    width: 18px;
+  }
+}
+>>>>>>> Stashed changes
