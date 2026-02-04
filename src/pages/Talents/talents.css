@@ -241,3 +241,45 @@
     padding-top: 30px;
   }
 }
+
+
+
+/* 1. Avvalo asosiy stildagi o'sha 720px paddingni butunlay o'chiring yoki kommentga oling */
+.view-profile {
+  padding-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end; /* Desktopda o'ngga surishning eng to'g'ri yo'li */
+}
+
+/* 2. FAQAT iPad Air va o'rta o'lchamli planshetlar uchun (768px dan 1024px gacha) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .view-profile {
+    flex-direction: column !important; /* Ustma-ust */
+    align-items: flex-end !important;  /* O'ng tarafga tekislash */
+    padding-left: 0 !important;        /* Padding xatoligini nol qilish */
+    width: 100% !important;
+  }
+
+  .view-profile button {
+    width: auto !important;            /* Butun qatorni egallamaydi */
+    min-width: 150px;                  /* Ixcham ko'rinish uchun */
+    padding: 10px 20px !important;
+  }
+}
+
+/* 3. Mobil telefonlar uchun (767px dan kichik) */
+@media screen and (max-width: 767px) {
+  .view-profile {
+    flex-direction: row;               /* Telefonlarda yana yonma-yon bo'lsin desa */
+    justify-content: center;           /* Markazda turishi uchun */
+    padding-left: 0 !important;
+    gap: 10px;
+  }
+  
+  .view-profile button {
+    flex: 1;                           /* Telefon kengligiga qarab teng taqsimlanadi */
+    font-size: 12px;                   /* Shriftni kichraytiramiz */
+    padding: 8px 10px;
+  }
+}

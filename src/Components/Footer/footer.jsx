@@ -1,3 +1,4 @@
+import { useState } from "react";
 import "./footer.css";
 import Insta from "../../assets/insta.png";
 import Face from "../../assets/face.png";
@@ -5,6 +6,15 @@ import Youtube from "../../assets/youtube.png";
 import Telegram from "../../assets/telegram.png";
 
 export default function Footer() {
+  // Qaysi bo'lim ochiqligini saqlash uchun state (boshida hammasi yopiq - null)
+  const [openSection, setOpenSection] = useState(null);
+
+  const toggleSection = (sectionName) => {
+    // Agar bosilgan bo'lim allaqachon ochiq bo'lsa, uni yopadi (null qiladi)
+    // Aks holda bosilgan bo'limni ochadi
+    setOpenSection(openSection === sectionName ? null : sectionName);
+  };
+
   return (
     <footer className="footer">
       <div className="footer-content">
@@ -17,8 +27,9 @@ export default function Footer() {
         </div>
 
         <div className="footer-links">
-          <div className="link-column">
-            <h3>General</h3>
+          {/* General bo'limi */}
+          <div className={`link-column ${openSection === "general" ? "active" : ""}`}>
+            <h3 onClick={() => toggleSection("general")}>General</h3>
             <ul>
               <a href="/signup">Sign up</a> <br />
               <a href="">Contacts</a> <br />
@@ -26,8 +37,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="link-column">
-            <h3>Company</h3>
+          {/* Company bo'limi */}
+          <div className={`link-column ${openSection === "company" ? "active" : ""}`}>
+            <h3 onClick={() => toggleSection("company")}>Company</h3>
             <ul>
               <a href="">Post a job</a> <br />
               <a href="">Search talents</a> <br />
@@ -35,8 +47,9 @@ export default function Footer() {
             </ul>
           </div>
 
-          <div className="link-column">
-            <h3>Talents</h3>
+          {/* Talents bo'limi */}
+          <div className={`link-column ${openSection === "talents" ? "active" : ""}`}>
+            <h3 onClick={() => toggleSection("talents")}>Talents</h3>
             <ul>
               <a href="">Search jobs</a> <br />
               <a href="">Talent login</a> <br />

@@ -95,6 +95,13 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = name === "phone" ? formatPhoneNumber(value) : value;
+
+    const updatedData = { ...formData, [name]: newValue };
+    if (name === "country") updatedData.city = "";
+
+    setFormData(updatedData);
+    localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
+
     
     setFormData(prev => {
       const updatedData = { ...prev, [name]: newValue };
@@ -102,10 +109,35 @@ const Signup = () => {
       localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
       return updatedData;
     });
+
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      formData.phone.length < 17 ||
+      !formData.email ||
+      !formData.password ||
+      !formData.country
+    ) {
+      setToast({
+        show: true,
+        message: "Please fill in all required fields!",
+        type: "error",
+      });
+      return;
+    }
+    localStorage.setItem(
+      "signup_form_storage",
+      JSON.stringify({ ...formData, role: activeTab })
+    );
+    setToast({
+      show: true,
+      message: "Information saved, proceeding to next step!",
+      type: "success",
+    });
+
     if (formData.phone.length < 17 || !formData.email || !formData.password || !formData.country) {
       setToast({ show: true, message: "Iltimos, barcha majburiy maydonlarni to'ldiring!", type: "error" });
       return;
@@ -113,6 +145,7 @@ const Signup = () => {
     const finalData = { ...formData, role: activeTab };
     localStorage.setItem("signup_form_storage", JSON.stringify(finalData));
     setToast({ show: true, message: "Ma'lumotlar saqlandi, keyingi bosqichga o'tilmoqda...", type: "success" });
+
   };
 
   const fieldsToTrack = ["companyName", "phone", "email", "website", "industry", "country", "city"];
@@ -166,6 +199,35 @@ const Signup = () => {
     color: "#163d5c"
   };
 
+  // Select styllarini icon uchun to'g'irlash
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      height: "50px",
+      borderRadius: "12px",
+      border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
+      boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
+      "&:hover": { border: "1px solid #163d5c" },
+      paddingLeft: "45px", // Icon uchun joy ochish
+      fontSize: "14px",
+      background: "#fff",
+    }),
+    valueContainer: (provided) => ({ ...provided, paddingLeft: "0px" }),
+    placeholder: (provided) => ({ ...provided, marginLeft: "0px" }),
+    singleValue: (provided) => ({ ...provided, marginLeft: "0px" }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#163d5c"
+        : state.isFocused
+        ? "#f1f4f8"
+        : "#fff",
+      color: state.isSelected ? "#fff" : "#333",
+      cursor: "pointer",
+    }),
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+  };
+
   return (
     <div className="signup-page">
       <Header />
@@ -202,37 +264,153 @@ const Signup = () => {
 
           <form className="form" onSubmit={handleSubmit}>
             <div className="field">
+
+              <label>
+                {activeTab === "company" ? "Company name" : "Full name"}
+              </label>
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  {activeTab === "company" ? <FaBuilding /> : <FaUser />}
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type="text"
+                  placeholder={
+                    activeTab === "company" ? "Company name" : "Full name"
+                  }
+                  name="companyName"
+                  value={formData.companyName}
+                  onChange={handleChange}
+                  required
+                />
+
               <label>{activeTab === "company" ? "Company name" : "Full name"}</label>
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}>
                   {activeTab === "company" ? <FaBuilding /> : <FaUser />}
                 </span>
                 <input type="text" placeholder={activeTab === "company" ? "Company name" : "Full name"} name="companyName" value={formData.companyName} onChange={handleChange} required />
+
               </div>
             </div>
 
             <div className="field">
               <label>Phone</label>
+
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  <FaPhone />
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="+998 90-123-45-67"
+                  required
+                />
+
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}><FaPhone /></span>
                 <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+998 90-123-45-67" required />
+
               </div>
             </div>
 
             <div className="field">
               <label>Email</label>
+
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  <FaEnvelope />
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type="email"
+                  placeholder="Email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}><FaEnvelope /></span>
                 <input type="email" placeholder="Email" name="email" value={formData.email} onChange={handleChange} required />
+
               </div>
             </div>
 
             <div className="field">
               <label>Password</label>
+
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  <FaLock />
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+                <span
+                  className="eye"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    cursor: "pointer",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}><FaLock /></span>
                 <input type={showPassword ? "text" : "password"} placeholder="Password" name="password" value={formData.password} onChange={handleChange} required style={{ paddingRight: "45px" }} />
                 <span className="eye" onClick={() => setShowPassword(!showPassword)}>
+
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
@@ -240,24 +418,86 @@ const Signup = () => {
 
             <div className="field">
               <label>Website (Optional)</label>
+
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  <FaGlobe />
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type="text"
+                  placeholder="https://example.com"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                />
+
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}><FaGlobe /></span>
                 <input type="text" placeholder="https://example.com" name="website" value={formData.website} onChange={handleChange} />
+
               </div>
             </div>
 
             <div className="field">
               <label>Industry</label>
+
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
+                  <FaIndustry />
+                </span>
+                <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
+                  type="text"
+                  placeholder="e.g. IT, Finance"
+                  name="industry"
+                  value={formData.industry}
+                  onChange={handleChange}
+                />
+
               <div className="input-box">
                 <span className="icon" style={commonIconStyle}><FaIndustry /></span>
                 <input type="text" placeholder="e.g. IT, Finance" name="industry" value={formData.industry} onChange={handleChange} />
+
               </div>
             </div>
 
             <div className="field">
               <label>Country</label>
               <div style={{ position: "relative", width: "100%" }}>
+
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    zIndex: 10,
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
+                  }}
+                >
+
                 <span className="icon" style={commonIconStyle}>
+
                   <FaFlag />
                 </span>
                 <Select 
@@ -273,7 +513,21 @@ const Signup = () => {
             <div className="field">
               <label>City / Region</label>
               <div style={{ position: "relative", width: "100%" }}>
+
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    zIndex: 10,
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
+                  }}
+                >
+
                 <span className="icon" style={commonIconStyle}>
+
                   <FaCity />
                 </span>
                 <Select
@@ -299,4 +553,6 @@ const Signup = () => {
   );
 };
 
+
 export default Signup;
+
