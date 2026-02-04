@@ -16,9 +16,17 @@ const Dashboard = () => {
   const { isDarkMode, setIsDarkMode } = useTheme(); // Dark mode holati
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  // 1. Dastlabki ma'lumotni LocalStorage'dan xavfsiz olish
+  const [company, setCompany] = useState(() => {
+    const savedData = JSON.parse(
+      localStorage.getItem("signup_form_storage") || "{}"
+    );
+    return {
+      name: savedData.companyName || "My Company",
+      city: savedData.city || "",
+    };
+  });
 
-  // ... (oldingi company va logo state'lari o'zgarishsiz qoladi)
-  const [company, setCompany] = useState({ name: "Loading...", city: "" });
   const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || C);
   const navigate = useNavigate();
 
@@ -27,7 +35,11 @@ const Dashboard = () => {
 
   // ... (fetchData funksiyasi o'zgarishsiz qoladi)
   const fetchData = useCallback(async () => {
-    const currentUserEmail = localStorage.getItem("email");
+    const signupData = JSON.parse(
+      localStorage.getItem("signup_form_storage") || "{}"
+    );
+    const currentUserEmail = localStorage.getItem("email") || signupData.email;
+
     if (!currentUserEmail) return;
     try {
       const res = await fetch(
@@ -57,6 +69,8 @@ const Dashboard = () => {
       }
     } catch (err) {
       console.error("Error fetching data:", err);
+
+      // Xatolik bo'lsa, mavjud signupData ma'lumotlarini saqlab qolamiz
     }
   }, []);
 
@@ -95,7 +109,7 @@ const Dashboard = () => {
             }}
           />
           <span style={{ fontWeight: "600", fontSize: "14px" }}>
-            {company.name !== "Loading..." ? company.name : ""}
+            {company.name}
           </span>
         </div>
 

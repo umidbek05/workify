@@ -65,18 +65,31 @@ const Signup = () => {
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
   const [formData, setFormData] = useState(() => {
-    const savedData = localStorage.getItem("signup_form_storage");
-    const parsedData = savedData ? JSON.parse(savedData) : null;
-    return {
-      companyName: parsedData?.companyName || "",
-      phone: parsedData?.phone || "+998 ",
-      email: parsedData?.email || "",
-      password: parsedData?.password || "",
-      website: parsedData?.website || "",
-      industry: parsedData?.industry || "",
-      country: parsedData?.country || "",
-      city: parsedData?.city || "",
-    };
+    try {
+      const savedData = localStorage.getItem("signup_form_storage");
+      const parsedData = savedData ? JSON.parse(savedData) : null;
+      return {
+        companyName: parsedData?.companyName || "",
+        phone: parsedData?.phone || "+998 ",
+        email: parsedData?.email || "",
+        password: parsedData?.password || "",
+        website: parsedData?.website || "",
+        industry: parsedData?.industry || "",
+        country: parsedData?.country || "",
+        city: parsedData?.city || "",
+      };
+    } catch (e) {
+      return {
+        companyName: "",
+        phone: "+998 ",
+        email: "",
+        password: "",
+        website: "",
+        industry: "",
+        country: "",
+        city: "",
+      };
+    }
   });
 
   useEffect(() => {
@@ -84,15 +97,14 @@ const Signup = () => {
   }, []);
 
   useEffect(() => {
-    if (toast.show) {
-      const timer = setTimeout(() => {
-        setToast((prev) => ({ ...prev, show: false }));
-        if (toast.type === "success") {
-          navigate("/register");
-        }
-      }, 2000);
-      return () => clearTimeout(timer);
+    let timer;
+    if (toast.show && toast.type === "success") {
+      timer = setTimeout(() => {
+        setToast({ show: false, message: "", type: "" });
+        navigate("/register");
+      }, 1500);
     }
+    return () => clearTimeout(timer);
   }, [toast.show, toast.type, navigate]);
 
   const formatPhoneNumber = (value) => {
@@ -110,15 +122,18 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = name === "phone" ? formatPhoneNumber(value) : value;
-    const updatedData = { ...formData, [name]: newValue };
-    if (name === "country") updatedData.city = "";
 
-    setFormData(updatedData);
-    localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
+    setFormData((prev) => {
+      const updatedData = { ...prev, [name]: newValue };
+      if (name === "country") updatedData.city = "";
+      localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
+      return updatedData;
+    });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
     if (
       formData.phone.length < 17 ||
       !formData.email ||
@@ -132,10 +147,9 @@ const Signup = () => {
       });
       return;
     }
-    localStorage.setItem(
-      "signup_form_storage",
-      JSON.stringify({ ...formData, role: activeTab })
-    );
+
+    const finalData = { ...formData, role: activeTab };
+    localStorage.setItem("signup_form_storage", JSON.stringify(finalData));
     setToast({
       show: true,
       message: "Information saved, proceeding to next step!",
@@ -147,6 +161,7 @@ const Signup = () => {
     "companyName",
     "phone",
     "email",
+    "website",
     "industry",
     "country",
     "city",
@@ -158,21 +173,27 @@ const Signup = () => {
     (filledFields / fieldsToTrack.length) * 100
   );
 
-  // Select styllarini icon uchun to'g'irlash
   const customSelectStyles = {
     control: (provided, state) => ({
       ...provided,
-      height: "50px",
+      minHeight: "50px",
       borderRadius: "12px",
       border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
       boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
       "&:hover": { border: "1px solid #163d5c" },
-      paddingLeft: "45px", // Icon uchun joy ochish
+      paddingLeft: "45px",
       fontSize: "14px",
       background: "#fff",
+      display: "flex",
+      alignItems: "center",
+      cursor: "pointer",
     }),
     valueContainer: (provided) => ({ ...provided, paddingLeft: "0px" }),
-    placeholder: (provided) => ({ ...provided, marginLeft: "0px" }),
+    placeholder: (provided) => ({
+      ...provided,
+      marginLeft: "0px",
+      color: "#999",
+    }),
     singleValue: (provided) => ({ ...provided, marginLeft: "0px" }),
     option: (provided, state) => ({
       ...provided,
@@ -185,6 +206,23 @@ const Signup = () => {
       cursor: "pointer",
     }),
     menu: (provided) => ({ ...provided, zIndex: 9999 }),
+  };
+
+  const commonIconStyle = {
+    position: "absolute",
+    left: "6px",
+    top: "50%",
+    transform: "translateY(-50%)",
+    zIndex: 10,
+    pointerEvents: "none",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "40px",
+    height: "40px",
+    background: "#f1f4f8",
+    borderRadius: "10px",
+    color: "#163d5c",
   };
 
   return (
@@ -264,21 +302,11 @@ const Signup = () => {
               <label>
                 {activeTab === "company" ? "Company name" : "Full name"}
               </label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   {activeTab === "company" ? <FaBuilding /> : <FaUser />}
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder={
                     activeTab === "company" ? "Company name" : "Full name"
@@ -293,21 +321,11 @@ const Signup = () => {
 
             <div className="field">
               <label>Phone</label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   <FaPhone />
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -320,21 +338,11 @@ const Signup = () => {
 
             <div className="field">
               <label>Email</label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   <FaEnvelope />
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="email"
                   placeholder="Email"
                   name="email"
@@ -347,38 +355,22 @@ const Signup = () => {
 
             <div className="field">
               <label>Password</label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   <FaLock />
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
                   required
+                  style={{ paddingRight: "45px" }}
                 />
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
-                  style={{
-                    position: "absolute",
-                    right: "15px",
-                    cursor: "pointer",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                  }}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
@@ -387,21 +379,11 @@ const Signup = () => {
 
             <div className="field">
               <label>Website (Optional)</label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   <FaGlobe />
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder="https://example.com"
                   name="website"
@@ -413,21 +395,11 @@ const Signup = () => {
 
             <div className="field">
               <label>Industry</label>
-              <div className="input-box" style={{ position: "relative" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    zIndex: 2,
-                  }}
-                >
+              <div className="input-box">
+                <span className="icon" style={commonIconStyle}>
                   <FaIndustry />
                 </span>
                 <input
-                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder="e.g. IT, Finance"
                   name="industry"
@@ -440,17 +412,7 @@ const Signup = () => {
             <div className="field">
               <label>Country</label>
               <div style={{ position: "relative", width: "100%" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    zIndex: 10,
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    pointerEvents: "none",
-                  }}
-                >
+                <span className="icon" style={commonIconStyle}>
                   <FaFlag />
                 </span>
                 <Select
@@ -473,17 +435,7 @@ const Signup = () => {
             <div className="field">
               <label>City / Region</label>
               <div style={{ position: "relative", width: "100%" }}>
-                <span
-                  className="icon"
-                  style={{
-                    position: "absolute",
-                    zIndex: 10,
-                    left: "6px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                    pointerEvents: "none",
-                  }}
-                >
+                <span className="icon" style={commonIconStyle}>
                   <FaCity />
                 </span>
                 <Select
