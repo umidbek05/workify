@@ -96,102 +96,51 @@ const Signup = () => {
   }, [toast.show, toast.type, navigate]);
 
   const formatPhoneNumber = (value) => {
-    // Faqat raqamlarni qoldiramiz
     const phoneNumber = value.replace(/[^\d]/g, "");
-
-    // Agar foydalanuvchi hamma narsani o'chirib yuborsa
     if (phoneNumber.length <= 3) return "+998 ";
-
-    let digits = phoneNumber.slice(3, 12); // Faqat koddan keyingi 9 ta raqam
+    let digits = phoneNumber.slice(3, 12);
     let formatted = "+998 ";
-
     if (digits.length > 0) formatted += digits.substring(0, 2);
     if (digits.length >= 3) formatted += "-" + digits.substring(2, 5);
     if (digits.length >= 6) formatted += "-" + digits.substring(5, 7);
     if (digits.length >= 8) formatted += "-" + digits.substring(7, 9);
-
     return formatted;
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     let newValue = name === "phone" ? formatPhoneNumber(value) : value;
-
     const updatedData = { ...formData, [name]: newValue };
-
-    // Davlat o'zgarganda shaharni tozalash
-    if (name === "country") {
-      updatedData.city = "";
-    }
+    if (name === "country") updatedData.city = "";
 
     setFormData(updatedData);
     localStorage.setItem("signup_form_storage", JSON.stringify(updatedData));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    // 1. Telefonni backend formatiga keltirish (+998XXXXXXXXX)
-    const cleanPhone = formData.phone.replace(/[^\d+]/g, "");
-
-    // 2. Validatsiya
     if (
-      cleanPhone.length !== 13 ||
+      formData.phone.length < 17 ||
       !formData.email ||
       !formData.password ||
       !formData.country
     ) {
       setToast({
         show: true,
-        message: "Please fill in all required fields correctly!",
+        message: "Please fill in all required fields!",
         type: "error",
       });
       return;
     }
-
-    // 3. Backendga faqat u kutyotgan ma'lumotlarni yuboramiz
-    const payload = {
-      companyName: formData.companyName || "",
-      email: formData.email,
-      phone: cleanPhone,
-      password: formData.password,
-      website: formData.website || "",
-      country: formData.country,
-      city: formData.city,
-      industry: formData.industry || "",
-    };
-
-    try {
-      const response = await fetch(
-        "https://workifyback-production.up.railway.app/register/createRegister",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload), // 'role' ni yubormaymiz, chunki Joi da yo'q
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem("email", formData.email);
-        localStorage.removeItem("signup_form_storage");
-        setToast({
-          show: true,
-          message: "Form submitted successfully!",
-          type: "success",
-        });
-      } else {
-        // Backenddan kelgan aniq xabarni toastga chiqaramiz
-        throw new Error(result.message || "Registration failed");
-      }
-    } catch (error) {
-      setToast({
-        show: true,
-        message: error.message || "Something went wrong!",
-        type: "error",
-      });
-    }
+    localStorage.setItem(
+      "signup_form_storage",
+      JSON.stringify({ ...formData, role: activeTab })
+    );
+    setToast({
+      show: true,
+      message: "Information saved, proceeding to next step!",
+      type: "success",
+    });
   };
 
   const fieldsToTrack = [
@@ -209,10 +158,38 @@ const Signup = () => {
     (filledFields / fieldsToTrack.length) * 100
   );
 
+  // Select styllarini icon uchun to'g'irlash
+  const customSelectStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      height: "50px",
+      borderRadius: "12px",
+      border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
+      boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
+      "&:hover": { border: "1px solid #163d5c" },
+      paddingLeft: "45px", // Icon uchun joy ochish
+      fontSize: "14px",
+      background: "#fff",
+    }),
+    valueContainer: (provided) => ({ ...provided, paddingLeft: "0px" }),
+    placeholder: (provided) => ({ ...provided, marginLeft: "0px" }),
+    singleValue: (provided) => ({ ...provided, marginLeft: "0px" }),
+    option: (provided, state) => ({
+      ...provided,
+      backgroundColor: state.isSelected
+        ? "#163d5c"
+        : state.isFocused
+        ? "#f1f4f8"
+        : "#fff",
+      color: state.isSelected ? "#fff" : "#333",
+      cursor: "pointer",
+    }),
+    menu: (provided) => ({ ...provided, zIndex: 9999 }),
+  };
+
   return (
     <div className="signup-page">
       <Header />
-
       {toast.show && (
         <div className={`toast-container ${toast.type}`}>
           <div className="toast-content">
@@ -287,11 +264,21 @@ const Signup = () => {
               <label>
                 {activeTab === "company" ? "Company name" : "Full name"}
               </label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   {activeTab === "company" ? <FaBuilding /> : <FaUser />}
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder={
                     activeTab === "company" ? "Company name" : "Full name"
@@ -306,11 +293,21 @@ const Signup = () => {
 
             <div className="field">
               <label>Phone</label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   <FaPhone />
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="tel"
                   name="phone"
                   value={formData.phone}
@@ -323,11 +320,21 @@ const Signup = () => {
 
             <div className="field">
               <label>Email</label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   <FaEnvelope />
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="email"
                   placeholder="Email"
                   name="email"
@@ -340,11 +347,21 @@ const Signup = () => {
 
             <div className="field">
               <label>Password</label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   <FaLock />
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   name="password"
@@ -355,6 +372,13 @@ const Signup = () => {
                 <span
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    cursor: "pointer",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
                 >
                   {showPassword ? <FaEyeSlash /> : <FaEye />}
                 </span>
@@ -363,11 +387,21 @@ const Signup = () => {
 
             <div className="field">
               <label>Website (Optional)</label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   <FaGlobe />
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder="https://example.com"
                   name="website"
@@ -379,11 +413,21 @@ const Signup = () => {
 
             <div className="field">
               <label>Industry</label>
-              <div className="input-box">
-                <span className="icon">
+              <div className="input-box" style={{ position: "relative" }}>
+                <span
+                  className="icon"
+                  style={{
+                    position: "absolute",
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    zIndex: 2,
+                  }}
+                >
                   <FaIndustry />
                 </span>
                 <input
+                  style={{ paddingLeft: "55px", width: "100%" }}
                   type="text"
                   placeholder="e.g. IT, Finance"
                   name="industry"
@@ -395,14 +439,16 @@ const Signup = () => {
 
             <div className="field">
               <label>Country</label>
-              <div style={{ position: "relative" }}>
+              <div style={{ position: "relative", width: "100%" }}>
                 <span
                   className="icon"
                   style={{
                     position: "absolute",
-                    zIndex: 2,
-                    top: "14px",
-                    left: "15px",
+                    zIndex: 10,
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
                   }}
                 >
                   <FaFlag />
@@ -426,14 +472,16 @@ const Signup = () => {
 
             <div className="field">
               <label>City / Region</label>
-              <div style={{ position: "relative" }}>
+              <div style={{ position: "relative", width: "100%" }}>
                 <span
                   className="icon"
                   style={{
                     position: "absolute",
-                    zIndex: 2,
-                    top: "14px",
-                    left: "15px",
+                    zIndex: 10,
+                    left: "6px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    pointerEvents: "none",
                   }}
                 >
                   <FaCity />
@@ -487,31 +535,6 @@ const Signup = () => {
       <Footer />
     </div>
   );
-};
-
-const customSelectStyles = {
-  control: (provided, state) => ({
-    ...provided,
-    height: "50px",
-    borderRadius: "12px",
-    border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
-    boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
-    "&:hover": { border: "1px solid #163d5c" },
-    paddingLeft: "35px",
-    fontSize: "14px",
-    background: "#fff",
-  }),
-  option: (provided, state) => ({
-    ...provided,
-    backgroundColor: state.isSelected
-      ? "#163d5c"
-      : state.isFocused
-      ? "#f1f4f8"
-      : "#fff",
-    color: state.isSelected ? "#fff" : "#333",
-    cursor: "pointer",
-  }),
-  menu: (provided) => ({ ...provided, zIndex: 9999 }),
 };
 
 export default Signup;
