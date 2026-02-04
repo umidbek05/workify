@@ -1,3 +1,19 @@
+:root {
+  --jobs-bg: #ffffff;
+  --jobs-text: #505151;
+  --search-bg: #ffffff;
+  --search-border: #e5e7eb;
+  --search-text: #111827;
+}
+
+:root.dark {
+  --jobs-bg: #1e1e1e; /* Dark mode card foni */
+  --jobs-text: #ffffff; /* Oq matn */
+  --search-bg: #2a2a2a; /* Input foni */
+  --search-border: #333333; /* Input chegarasi */
+  --search-text: #ffffff; /* Input ichidagi yozuv */
+}
+
 .top-nav {
   display: flex;
   justify-content: space-between;
@@ -198,4 +214,35 @@
     height: 50px;
     font-size: 14px;
   }
+}
+
+/* Navigatsiya bloki */
+.top-nav {
+  background: var(--jobs-bg) !important;
+  transition: background 0.3s ease;
+}
+
+.nav-title {
+  color: var(--jobs-text) !important;
+}
+
+/* Qidiruv inputi */
+.search-input {
+  background-color: var(--search-bg) !important;
+  border: 1px solid var(--search-border) !important;
+  color: var(--search-text) !important;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Tugma animatsiyasi va Search bar foni */
+:root.dark .myjobs-container {
+  background-color: transparent;
+}
+
+/* Mobil holatda search-input fokus bo'lganda border rangi */
+.search-input:focus {
+  border-color: #8b39e5 !important;
 }

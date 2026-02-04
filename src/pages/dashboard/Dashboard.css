@@ -152,13 +152,19 @@ body {
   width: 90%;
   max-width: 380px;
   text-align: center;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   animation: modalFadeIn 0.3s ease-out;
 }
 
 @keyframes modalFadeIn {
-  from { transform: scale(0.9); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }
 
 .custom-modal h3 {
@@ -197,6 +203,110 @@ body {
 
 .modal-btn:hover {
   opacity: 0.9;
+}
+
+/* --- IPHONE TOGGLE STYLE --- */
+.ios-switch {
+  position: relative;
+  display: inline-block;
+  width: 46px;
+  height: 24px;
+}
+.dark-mode-item {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 20px;
+}
+
+.ios-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ios-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 24px;
+}
+
+.ios-slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .ios-slider {
+  background-color: #4cd964; /* iPhone yashil rangi */
+}
+
+input:checked + .ios-slider:before {
+  transform: translateX(22px);
+}
+
+/* --- DARK MODE COLORS --- */
+:root.dark {
+  --sidebar-bg: #1a1a1a;
+  --main-bg: #121212;
+  --text-color: #ffffff;
+  --border-color: #333333;
+  --item-hover: #252525;
+}
+
+:root.dark .dashboard {
+  background-color: var(--main-bg);
+}
+
+:root.dark .sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+}
+
+:root.dark .menu-link,
+:root.dark .sidebar-text h1,
+:root.dark .mobile-nav span {
+  color: var(--text-color) !important;
+}
+
+:root.dark .sidebar-text p {
+  color: #aaaaaa;
+}
+
+:root.dark .mobile-nav {
+  background-color: var(--sidebar-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+:root.dark .menu-item:hover {
+  background-color: var(--item-hover);
+}
+
+:root.dark .menu-icon-img {
+  filter: brightness(0) invert(1); /* PNG ikonkalarni oq qiladi */
+}
+
+:root.dark .lucide-icon {
+  color: white !important;
+}
+
+/* Main content ichidagi Outlet (sahifalar) uchun */
+:root.dark .main-content {
+  background-color: var(--main-bg);
+  color: var(--text-color);
 }
 
 /* 2. PLANSHEET VA TELEFONLAR UCHUN (992px dan kichik hamma narsa) */

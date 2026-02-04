@@ -13,39 +13,42 @@ import CompanyProfile from "./pages/dashboard/MyCompany";
 import FAQ from "./pages/dashboard/FAQ";
 import Contacts from "./pages/dashboard/Contacts";
 
-
 import Talentss from "./pages/dashboard/Talents";
 import Login from "./pages/login/Login";
 import Kod from "./pages/forgot/Kod";
 import Forget from "./pages/forgot/Forget";
 import Setpassword from "./pages/setpassword/Setpassword";
 
+import { ThemeProvider } from "./context/ThemeContext";
 const App = () => {
   return (
     <div>
-      <Routes>
-        <Route path="/" element={<Workify />} />
-        <Route path="/talents" element={<Talents />} />
-        <Route path="/jobs" element={<Jobs />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/congratulation" element={<Conguratulation />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/forget" element={<Forget />} />
-        <Route path="/setpassword" element={<Setpassword />} />
-        <Route path="/kod" element={<Kod />} />
-        <Route path="/dashboard" element={<Dashboard />}>
-          {/* DEFAULT PAGE */}
-          <Route index element={<DashboardHome />} />
+      <ThemeProvider>
+        <Routes>
+          <Route path="/" element={<Workify />} />
+          <Route path="/talents" element={<Talents />} />
+          <Route path="/jobs" element={<Jobs />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/congratulation" element={<Conguratulation />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/forget" element={<Forget />} />
+          <Route path="/setpassword" element={<Setpassword />} />
+          <Route path="/kod" element={<Kod />} />
 
-          {/* SIDEBAR PAGES */}
-          <Route path="companyprofil" element={<CompanyProfile />} />
-          <Route path="myjobs" element={<MyJobs />} />
-          <Route path="talents" element={<Talentss />} />
-          <Route path="faq" element={<FAQ />} />
-          <Route path="contacts" element={<Contacts />} />
-        </Route>
-      </Routes>
+          <Route path="/dashboard" element={<Dashboard />}>
+            {/* DEFAULT PAGE */}
+            <Route index element={<DashboardHome />} />
+
+            {/* SIDEBAR PAGES */}
+            <Route path="companyprofil" element={<CompanyProfile />} />
+            <Route path="myjobs" element={<MyJobs />} />
+            <Route path="talents" element={<Talentss />} />
+            <Route path="faq" element={<FAQ />} />
+            <Route path="contacts" element={<Contacts />} />
+          </Route>
+        </Routes>
+      </ThemeProvider>
     </div>
   );
 };
