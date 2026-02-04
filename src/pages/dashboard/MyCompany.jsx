@@ -8,18 +8,15 @@ import { RiPencilFill } from "react-icons/ri";
 const BASE_URL = "https://workifyback-production.up.railway.app";
 
 const CompanyProfile = () => {
-  const [companyData, setCompanyData] = useState({
-    companyName: "",
-    phone: "",
-    email: "",
-    website: "",
-    industry: "",
-    country: "",
-    city: "",
-    about: "",
-    logo: "",
+  const [companyData, setCompanyData] = useState(() => {
+    const saved = localStorage.getItem("signup_form_storage");
+    return saved ? JSON.parse(saved) : {
+      companyName: "", phone: "", email: "", website: "",
+      industry: "", country: "", city: "", about: "", logo: "",
+    };
   });
 
+  const [loading, setLoading] = useState(true);
   const [open, setOpen] = useState(false);
   const [openAbout, setOpenAbout] = useState(false);
   const [tempAbout, setTempAbout] = useState("");
@@ -46,8 +43,14 @@ const CompanyProfile = () => {
   };
 
   const fetchData = useCallback(async () => {
-    const rawEmail = localStorage.getItem("email");
-    if (!rawEmail) return;
+    setLoading(true);
+    const signupData = JSON.parse(localStorage.getItem("signup_form_storage") || "{}");
+    const rawEmail = localStorage.getItem("email") || signupData.email;
+    
+    if (!rawEmail) {
+      setLoading(false);
+      return;
+    }
     const email = rawEmail.trim().toLowerCase();
 
     try {
@@ -60,9 +63,6 @@ const CompanyProfile = () => {
 
         if (myCo) {
           setCompanyData(myCo);
-          
-          // 🔥 TO'G'IRLANGAN JOYI: 
-          // Avval LocalStorage'ni tekshiramiz, agar bo'sh bo'lsa keyin serverdagini olamiz
           const localAbout = localStorage.getItem(`about_${email}`);
           setTempAbout(localAbout !== null ? localAbout : (myCo.about || ""));
 
@@ -75,6 +75,8 @@ const CompanyProfile = () => {
       }
     } catch (e) {
       console.error("Yuklashda xato:", e);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -95,7 +97,7 @@ const CompanyProfile = () => {
       const uploadData = await res.json();
       const rawPath = uploadData.url || uploadData.image || uploadData.path;
       if (rawPath) {
-        const email = localStorage.getItem("email");
+        const email = localStorage.getItem("email") || companyData.email;
         await fetch(`${BASE_URL}/uploader/save-image`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -113,12 +115,20 @@ const CompanyProfile = () => {
     }
   };
 
+  // --- TO'G'IRLANGAN VA INTEGRATSIYA QILINGAN HANDLEABOUTUPDATE ---
   const handleAboutUpdate = async () => {
-    const email = localStorage.getItem("email");
+    const email = localStorage.getItem("email") || companyData.email;
+    
+    // ID-ni qat'iy tekshirish
     const companyId = companyData?._id || companyData?.id;
-    if (!companyId) return;
+
+    if (!companyId) {
+      showToast("ID yuklanmoqda, iltimos qayta urining...");
+      await fetchData(); // ID topilmasa, ma'lumotni qayta tortish
+      return;
+    }
+
     try {
-      // Saqlashdan oldin LocalStorage'ga yozamiz
       localStorage.setItem(`about_${email}`, tempAbout);
       
       const response = await fetch(`${BASE_URL}/register/updateRegister/${companyId}`, {
@@ -128,17 +138,23 @@ const CompanyProfile = () => {
       });
       
       if (response.ok) {
-        showToast("Ma'lumotlar saqlandi!");
+        showToast("Ma'lumotlar muvaffaqiyatli saqlandi!");
         setCompanyData((prev) => ({ ...prev, about: tempAbout }));
         setOpenAbout(false);
-        // Boshqa komponentlarga xabar beramiz
         window.dispatchEvent(new Event("companyUpdated"));
-        await fetchData();
+      } else {
+        const errJson = await response.json();
+        showToast(errJson.message || "Serverda xatolik yuz berdi.");
       }
     } catch (error) {
       console.error("Saqlashda xato:", error);
+      showToast("Xatolik: Tarmoqni tekshiring.");
     }
   };
+
+  if (loading && !companyData.companyName) {
+    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Yuklanmoqda...</div>;
+  }
 
   return (
     <div className="main-content-area">
@@ -202,8 +218,7 @@ const CompanyProfile = () => {
               value={tempAbout}
               onChange={(e) => {
                 setTempAbout(e.target.value);
-                // Har bir harf yozilganda xotiraga saqlab borish ixtiyoriy, lekin refresh uchun foydali:
-                localStorage.setItem(`about_${localStorage.getItem("email")}`, e.target.value);
+                localStorage.setItem(`about_${localStorage.getItem("email") || companyData.email}`, e.target.value);
               }}
               placeholder="Tell us something about your company..."
               style={{ width: "100%", minHeight: "150px", border: "none", outline: "none", fontSize: "16px", color: "#4b5563", resize: "none", marginTop: "15px", background: "transparent" }}
@@ -226,7 +241,7 @@ const CompanyProfile = () => {
             />
             <div className="about-modal-actions">
               <button onClick={() => { 
-                const oldAbout = localStorage.getItem(`about_${localStorage.getItem("email")}`) || companyData.about;
+                const oldAbout = localStorage.getItem(`about_${localStorage.getItem("email") || companyData.email}`) || companyData.about;
                 setTempAbout(oldAbout); 
                 setOpenAbout(false); 
               }} className="btn-cancel">Cancel</button>

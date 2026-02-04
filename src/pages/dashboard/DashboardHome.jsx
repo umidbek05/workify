@@ -18,44 +18,41 @@ const DashboardHome = () => {
   const [activeTab, setActiveTab] = useState("week");
   const [completionPercentage, setCompletionPercentage] = useState(0);
 
-  // 🔹 BAZADAN MA'LUMOT OLIB FOIZNI TO'G'RI HISOBLASH
+  // 🔹 BAZADAN VA LOCALSTORAGE-DAN FOIZNI TO'G'RI HISOBLASH
   useEffect(() => {
-    const currentUserEmail = localStorage.getItem("email");
+    // 1. Dastlabki hisob-kitob uchun LocalStorage-dan ma'lumotni olamiz
+    const calculatePercent = (data) => {
+      const fields = ["companyName", "phone", "email", "website", "industry", "country", "city"];
+      let filledCount = 0;
+      fields.forEach((field) => {
+        if (data[field] && String(data[field]).trim() !== "" && data[field] !== "N/A") {
+          filledCount++;
+        }
+      });
+      return Math.round((filledCount / fields.length) * 100);
+    };
+
+    // Darhol LocalStorage-dan olingan ma'lumot bilan foizni o'rnatamiz (Loadingni oldini olish uchun)
+    const localData = JSON.parse(localStorage.getItem("signup_form_storage") || "{}");
+    if (localData.email) {
+      setCompletionPercentage(calculatePercent(localData));
+    }
+
+    const currentUserEmail = localStorage.getItem("email") || localData.email;
     if (!currentUserEmail) return;
+
+    // 2. Serverdan yangi ma'lumotlarni tekshiramiz
     fetch("https://workifyback-production.up.railway.app/register/getRegister")
       .then((res) => res.json())
       .then((resp) => {
         const data = resp.data || resp;
         if (Array.isArray(data)) {
-          const myData = data
-            .filter(
-              (c) => c.email?.toLowerCase() === currentUserEmail.toLowerCase()
-            )
-            .pop();
+          const myData = data.find(
+            (c) => c.email?.toLowerCase() === currentUserEmail.toLowerCase()
+          );
 
           if (myData) {
-            const fields = [
-              "companyName",
-              "phone",
-              "email",
-              "website",
-              "industry",
-              "country",
-              "city",
-            ];
-
-            let filledCount = 0;
-            fields.forEach((field) => {
-              if (
-                myData[field] &&
-                String(myData[field]).trim() !== "" &&
-                myData[field] !== "N/A"
-              ) {
-                filledCount++;
-              }
-            });
-
-            const percent = Math.round((filledCount / fields.length) * 100);
+            const percent = calculatePercent(myData);
             setCompletionPercentage(percent > 100 ? 100 : percent);
           }
         }
@@ -72,10 +69,10 @@ const DashboardHome = () => {
   };
 
   const getCardBgColor = (percent) => {
-    if (percent === 100) return 'rgba(76, 175, 80, 0.08)'; // Juda och yashil
-    if (percent >= 70) return 'rgba(139, 195, 74, 0.08)';  // Juda och lime
-    if (percent >= 40) return 'rgba(255, 183, 77, 0.08)';  // Juda och sariq
-    return 'rgba(232, 152, 158, 0.08)';                    // Juda och pushti
+    if (percent === 100) return 'rgba(76, 175, 80, 0.08)'; 
+    if (percent >= 70) return 'rgba(139, 195, 74, 0.08)';  
+    if (percent >= 40) return 'rgba(255, 183, 77, 0.08)';  
+    return 'rgba(232, 152, 158, 0.08)';                    
   };
 
   const profileViewsData = {
@@ -105,7 +102,7 @@ const DashboardHome = () => {
     <div className="dashboard-container">
       <div className="main-content">
         
-        {/* 1. PROFILE COMPLETED CARD (YANGILANGAN) */}
+        {/* 1. PROFILE COMPLETED CARD */}
         <div 
           className="card profile-completed-card animate-card" 
           style={{ backgroundColor: getCardBgColor(completionPercentage) }}
