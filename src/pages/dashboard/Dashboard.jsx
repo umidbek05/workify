@@ -15,10 +15,15 @@ const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   
-  const [company, setCompany] = useState({
-    name: "Loading...",
-    city: "",
+  // 1. Dastlabki ma'lumotni LocalStorage'dan xavfsiz olish
+  const [company, setCompany] = useState(() => {
+    const savedData = JSON.parse(localStorage.getItem("signup_form_storage") || "{}");
+    return {
+      name: savedData.companyName || "My Company",
+      city: savedData.city || "",
+    };
   });
+
   const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || C);
   const navigate = useNavigate();
 
@@ -26,7 +31,9 @@ const Dashboard = () => {
   const closeMenu = () => setIsMenuOpen(false);
 
   const fetchData = useCallback(async () => {
-    const currentUserEmail = localStorage.getItem("email");
+    const signupData = JSON.parse(localStorage.getItem("signup_form_storage") || "{}");
+    const currentUserEmail = localStorage.getItem("email") || signupData.email;
+    
     if (!currentUserEmail) return;
 
     try {
@@ -46,14 +53,11 @@ const Dashboard = () => {
           });
 
           if (myData.logo) {
-            // 🔥 MUHIM: Localhost yoki noto'g'ri yo'lni tozalab, Railway manzilini qo'yamiz
             let cleanPath = myData.logo;
             if (cleanPath.includes("/uploads/")) {
               cleanPath = "uploads/" + cleanPath.split("/uploads/")[1];
             }
-            
             const finalLogo = `${BASE_URL}/${cleanPath.replace(/^\//, "")}`;
-            
             setLogo(finalLogo);
             localStorage.setItem("companyLogo", finalLogo);
           }
@@ -61,13 +65,12 @@ const Dashboard = () => {
       }
     } catch (err) {
       console.error("Error fetching data:", err);
-      setCompany({ name: "Error loading", city: "" });
+      // Xatolik bo'lsa, mavjud signupData ma'lumotlarini saqlab qolamiz
     }
   }, []);
 
   useEffect(() => {
     fetchData();
-    // Boshqa sahifadan (CompanyProfile) rasm o'zgarganda Dashboard ham yangilanishi uchun
     window.addEventListener("companyUpdated", fetchData);
     return () => {
       window.removeEventListener("companyUpdated", fetchData);
@@ -98,7 +101,7 @@ const Dashboard = () => {
             }}
           />
           <span style={{ fontWeight: "600", fontSize: "14px" }}>
-            {company.name !== "Loading..." ? company.name : ""}
+            {company.name}
           </span>
         </div>
         <button className="hamburger-btn" onClick={toggleMenu} style={{ background: "none", border: "none", cursor: "pointer" }}>
