@@ -131,9 +131,10 @@ const Signup = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // 1. Validatsiya
     if (
       formData.phone.length < 17 ||
       !formData.email ||
@@ -142,19 +143,59 @@ const Signup = () => {
     ) {
       setToast({
         show: true,
-        message: "Please fill in all required fields!",
+        message: "Iltimos, barcha majburiy maydonlarni to'ldiring!",
         type: "error",
       });
       return;
     }
 
-    const finalData = { ...formData, role: activeTab };
-    localStorage.setItem("signup_form_storage", JSON.stringify(finalData));
-    setToast({
-      show: true,
-      message: "Information saved, proceeding to next step!",
-      type: "success",
-    });
+    try {
+      // 2. Backendga so'rov yuborish
+      const response = await fetch(
+        "https://workifyback-production.up.railway.app/register/createRegister",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData), // FormData ichidagi barcha ma'lumotlar yuboriladi
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        // 3. Muvaffaqiyatli bo'lsa
+        setToast({
+          show: true,
+          message: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
+          type: "success",
+        });
+
+        // LocalStorage-ni tozalash (ixtiyoriy)
+        localStorage.removeItem("signup_form_storage");
+
+        // 1.5 soniyadan keyin login sahifasiga o'tish
+        setTimeout(() => {
+          navigate("/login"); // Yoki o'zingiz xohlagan sahifa
+        }, 1500);
+      } else {
+        // 4. Xatolik yuz bersa (masalan: email band bo'lsa)
+        setToast({
+          show: true,
+          message: result.message || "Xatolik yuz berdi!",
+          type: "error",
+        });
+      }
+    } catch (error) {
+      // 5. Serverga ulanib bo'lmasa
+      console.error("Error:", error);
+      setToast({
+        show: true,
+        message: "Server bilan aloqa uzildi. Keyinroq urinib ko'ring.",
+        type: "error",
+      });
+    }
   };
 
   const fieldsToTrack = [
