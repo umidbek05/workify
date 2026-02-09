@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import TecCells from "./pompany.png";
 import "./MyCompany.css";
 import Update from "./Update";
@@ -56,21 +56,26 @@ const CompanyProfile = () => {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
     const signupData = JSON.parse(
       localStorage.getItem("signup_form_storage") || "{}"
     );
     const rawEmail = localStorage.getItem("email") || signupData.email;
 
     if (!rawEmail) {
+      await delay(1000);
       setLoading(false);
       return;
     }
     const email = rawEmail.trim().toLowerCase();
 
     try {
-      const res = await fetch(
-        `${BASE_URL}/register/getRegister?t=${Date.now()}`
-      );
+      const [res] = await Promise.all([
+        fetch(`${BASE_URL}/register/getRegister?t=${Date.now()}`),
+        delay(1500),
+      ]);
+
       const resp = await res.json();
       const data = resp.data || resp;
 
@@ -136,22 +141,18 @@ const CompanyProfile = () => {
     }
   };
 
-  // --- TO'G'IRLANGAN VA INTEGRATSIYA QILINGAN HANDLEABOUTUPDATE ---
   const handleAboutUpdate = async () => {
     const email = localStorage.getItem("email") || companyData.email;
-
-    // ID-ni qat'iy tekshirish
     const companyId = companyData?._id || companyData?.id;
 
     if (!companyId) {
       showToast("ID yuklanmoqda, iltimos qayta urining...");
-      await fetchData(); // ID topilmasa, ma'lumotni qayta tortish
+      await fetchData();
       return;
     }
 
     try {
       localStorage.setItem(`about_${email}`, tempAbout);
-
       const response = await fetch(
         `${BASE_URL}/register/updateRegister/${companyId}`,
         {
@@ -176,172 +177,191 @@ const CompanyProfile = () => {
     }
   };
 
-  if (loading && !companyData.companyName) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        Yuklanmoqda...
-      </div>
-    );
-  }
-
   return (
     <div className="main-content-area">
-      {toast.show && (
-        <div className="custom-toast-overlay">
-          <div className="custom-toast-box">{toast.message}</div>
+      {/* Loading holati faqat asosiy kontentni yashiradi, 
+         main-content-area divi va Sidebar (agar u yuqorida bo'lsa) o'z joyida qoladi.
+      */}
+      {loading ? (
+        <div className="beautiful-loader-container">
+          <div className="spinner"></div>
+          <div className="loading-text">Loading...</div>
         </div>
-      )}
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleLogoChange}
-        style={{ display: "none" }}
-        accept="image/*"
-      />
-
-      <div className="company-profile-wrapper">
-        <div className="company-info-card">
-          <button className="edit-profile-btn" onClick={() => setOpen(true)}>
-            <RiPencilFill color="#9ca3af" size={20} />
-          </button>
-
-          <div className="profile-logo-wrapper">
-            <img
-              src={logo}
-              onError={(e) => {
-                if (e.target.src !== TecCells) e.target.src = TecCells;
-              }}
-              className="main-logo-img"
-              alt="Logo"
-            />
-            <button
-              className="edit-logo-btn"
-              onClick={() => fileInputRef.current.click()}
-            >
-              <BsCamera size={16} />
-            </button>
-          </div>
-
-          <h1 className="company-name-text">
-            {companyData.companyName || "Company Name"}
-          </h1>
-          <p className="industry-text">{companyData.industry || "Industry"}</p>
-          <p className="rating-stars">⭐⭐⭐⭐⭐ (4.0) | 1K reviews</p>
-
-          <div className="info-list">
-            <h3 className="info-title">Company info:</h3>
-            <div className="info-item">
-              <span className="info-label">City:</span>{" "}
-              <span className="info-value">{companyData.city || "N/A"}</span>
+      ) : (
+        <>
+          {toast.show && (
+            <div className="custom-toast-overlay">
+              <div className="custom-toast-box">{toast.message}</div>
             </div>
-            <div className="info-item">
-              <span className="info-label">Country:</span>{" "}
-              <span className="info-value">{companyData.country || "N/A"}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">Phone:</span>{" "}
-              <span className="info-value">{companyData.phone || "N/A"}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">Email:</span>{" "}
-              <span className="info-value">{companyData.email || "N/A"}</span>
-            </div>
-            <div className="info-item">
-              <span className="info-label">Website:</span>{" "}
-              <span className="info-value">{companyData.website || "N/A"}</span>
-            </div>
-          </div>
-        </div>
+          )}
 
-        <div className="right-side-layout">
-          <div className="stats-card">
-            <h3 className="stats-header">Statistics</h3>
-            <div className="stats-grid">
-              <div className="stat-box">
-                <h2>300</h2>
-                <p>Active jobs</p>
-              </div>
-              <div className="stat-box">
-                <h2>5210</h2>
-                <p>Posted Jobs</p>
-              </div>
-              <div className="stat-box">
-                <h2>56</h2>
-                <p>Hired talents</p>
-              </div>
-            </div>
-          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleLogoChange}
+            style={{ display: "none" }}
+            accept="image/*"
+          />
 
-          <div className="about-card">
-            <div
-              className="about-header-row"
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h3>About company</h3>
-              <div
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+          <div className="company-profile-wrapper">
+            <div className="company-info-card">
+              <button
+                className="edit-profile-btn"
+                onClick={() => setOpen(true)}
               >
-                {tempAbout !== (companyData.about || "") && (
-                  <button
-                    className="inline-save-btn"
-                    onClick={handleAboutUpdate}
+                <RiPencilFill color="#9ca3af" size={20} />
+              </button>
+
+              <div className="profile-logo-wrapper">
+                <img
+                  src={logo}
+                  onError={(e) => {
+                    if (e.target.src !== TecCells) e.target.src = TecCells;
+                  }}
+                  className="main-logo-img"
+                  alt="Logo"
+                />
+                <button
+                  className="edit-logo-btn"
+                  onClick={() => fileInputRef.current.click()}
+                >
+                  <BsCamera size={16} />
+                </button>
+              </div>
+
+              <h1 className="company-name-text">
+                {companyData.companyName || "Company Name"}
+              </h1>
+              <p className="industry-text">
+                {companyData.industry || "Industry"}
+              </p>
+              <p className="rating-stars">⭐⭐⭐⭐⭐ (4.0) | 1K reviews</p>
+
+              <div className="info-list">
+                <h3 className="info-title">Company info:</h3>
+                <div className="info-item">
+                  <span className="info-label">City:</span>{" "}
+                  <span className="info-value">
+                    {companyData.city || "N/A"}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Country:</span>{" "}
+                  <span className="info-value">
+                    {companyData.country || "N/A"}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Phone:</span>{" "}
+                  <span className="info-value">
+                    {companyData.phone || "N/A"}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Email:</span>{" "}
+                  <span className="info-value">
+                    {companyData.email || "N/A"}
+                  </span>
+                </div>
+                <div className="info-item">
+                  <span className="info-label">Website:</span>{" "}
+                  <span className="info-value">
+                    {companyData.website || "N/A"}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="right-side-layout">
+              <div className="stats-card">
+                <h3 className="stats-header">Statistics</h3>
+                <div className="stats-grid">
+                  <div className="stat-box">
+                    <h2>300</h2>
+                    <p>Active jobs</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2>5210</h2>
+                    <p>Posted Jobs</p>
+                  </div>
+                  <div className="stat-box">
+                    <h2>56</h2>
+                    <p>Hired talents</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="about-card">
+                <div
+                  className="about-header-row"
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <h3>About company</h3>
+                  <div
                     style={{
-                      backgroundColor: "#1d3f61",
-                      color: "white",
-                      border: "none",
-                      padding: "5px 12px",
-                      borderRadius: "4px",
-                      cursor: "pointer",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "10px",
                     }}
                   >
-                    Save Changes
-                  </button>
-                )}
-                <RiPencilFill
-                  style={{ cursor: "pointer", color: "#9ca3af" }}
-                  onClick={() => setOpenAbout(true)}
+                    {tempAbout !== (companyData.about || "") && (
+                      <button
+                        className="inline-save-btn"
+                        onClick={handleAboutUpdate}
+                        style={{
+                          backgroundColor: "#1d3f61",
+                          color: "white",
+                          border: "none",
+                          padding: "5px 12px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        Save Changes
+                      </button>
+                    )}
+                    <RiPencilFill
+                      style={{ cursor: "pointer", color: "#9ca3af" }}
+                      onClick={() => setOpenAbout(true)}
+                    />
+                  </div>
+                </div>
+                <textarea
+                  className="about-direct-input"
+                  value={tempAbout}
+                  onChange={(e) => {
+                    setTempAbout(e.target.value);
+                    localStorage.setItem(
+                      `about_${
+                        localStorage.getItem("email") || companyData.email
+                      }`,
+                      e.target.value
+                    );
+                  }}
+                  placeholder="Tell us something about your company..."
+                  style={{
+                    width: "100%",
+                    minHeight: "150px",
+                    border: "none",
+                    outline: "none",
+                    fontSize: "16px",
+                    color: "#4b5563",
+                    resize: "none",
+                    marginTop: "15px",
+                    background: "transparent",
+                  }}
                 />
               </div>
             </div>
-            <textarea
-              className="about-direct-input"
-              value={tempAbout}
-              onChange={(e) => {
-                setTempAbout(e.target.value);
-                localStorage.setItem(
-                  `about_${localStorage.getItem("email") || companyData.email}`,
-                  e.target.value
-                );
-              }}
-              placeholder="Tell us something about your company..."
-              style={{
-                width: "100%",
-                minHeight: "150px",
-                border: "none",
-                outline: "none",
-                fontSize: "16px",
-                color: "#4b5563",
-                resize: "none",
-                marginTop: "15px",
-                background: "transparent",
-              }}
-            />
           </div>
-        </div>
-      </div>
+        </>
+      )}
 
+      {/* Modallar loadingdan tashqarida bo'lishi xavfsizroq */}
       {open && (
         <Update
           setOpen={setOpen}

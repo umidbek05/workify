@@ -676,3 +676,58 @@
 :root.dark .about-modal-overlay {
   background: rgba(0, 0, 0, 0.7);
 }
+
+
+
+
+
+
+/* Sidebar o'ngidagi asosiy qism */
+.main-content-area {
+  position: relative; 
+  min-height: 100vh; /* Kamida ekran bo'yi barobar bo'lishi kerak */
+  width: 100%;
+}
+
+/* Loader faqat profil qismini qoplaydi va markazda turadi */
+.beautiful-loader-container {
+  position: absolute; 
+  top: 0;
+  left: 500px;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Vertikal o'rtaga */
+  align-items: center;     /* Gorizontal o'rtaga */
+  z-index: 99;
+  min-height: 400px; /* Kontent hali yuklanmaganda ham balandlik saqlab turishi uchun */
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #1d3f61;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  margin-top: 15px;
+  font-family: sans-serif;
+  color: #1d3f61;
+  font-weight: 600;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Animatsiyalar o'zgarishsiz qoladi */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
