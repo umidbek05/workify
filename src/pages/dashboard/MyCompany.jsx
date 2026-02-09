@@ -10,10 +10,19 @@ const BASE_URL = "https://workifyback-production.up.railway.app";
 const CompanyProfile = () => {
   const [companyData, setCompanyData] = useState(() => {
     const saved = localStorage.getItem("signup_form_storage");
-    return saved ? JSON.parse(saved) : {
-      companyName: "", phone: "", email: "", website: "",
-      industry: "", country: "", city: "", about: "", logo: "",
-    };
+    return saved
+      ? JSON.parse(saved)
+      : {
+          companyName: "",
+          phone: "",
+          email: "",
+          website: "",
+          industry: "",
+          country: "",
+          city: "",
+          about: "",
+          logo: "",
+        };
   });
 
   const [loading, setLoading] = useState(true);
@@ -21,7 +30,9 @@ const CompanyProfile = () => {
   const [openAbout, setOpenAbout] = useState(false);
   const [tempAbout, setTempAbout] = useState("");
   const [toast, setToast] = useState({ show: false, message: "" });
-  const [logo, setLogo] = useState(localStorage.getItem("companyLogo") || TecCells);
+  const [logo, setLogo] = useState(
+    localStorage.getItem("companyLogo") || TecCells
+  );
 
   const fileInputRef = useRef(null);
 
@@ -38,15 +49,18 @@ const CompanyProfile = () => {
       cleanPath = path.split("/uploads/")[1];
       return `${BASE_URL}/uploads/${cleanPath}`;
     }
-    if (!path.startsWith("http")) return `${BASE_URL}/${path.replace(/^\//, "")}`;
+    if (!path.startsWith("http"))
+      return `${BASE_URL}/${path.replace(/^\//, "")}`;
     return path;
   };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
-    const signupData = JSON.parse(localStorage.getItem("signup_form_storage") || "{}");
+    const signupData = JSON.parse(
+      localStorage.getItem("signup_form_storage") || "{}"
+    );
     const rawEmail = localStorage.getItem("email") || signupData.email;
-    
+
     if (!rawEmail) {
       setLoading(false);
       return;
@@ -54,17 +68,21 @@ const CompanyProfile = () => {
     const email = rawEmail.trim().toLowerCase();
 
     try {
-      const res = await fetch(`${BASE_URL}/register/getRegister?t=${Date.now()}`);
+      const res = await fetch(
+        `${BASE_URL}/register/getRegister?t=${Date.now()}`
+      );
       const resp = await res.json();
       const data = resp.data || resp;
 
       if (Array.isArray(data)) {
-        const myCo = data.find((c) => c.email && c.email.trim().toLowerCase() === email);
+        const myCo = data.find(
+          (c) => c.email && c.email.trim().toLowerCase() === email
+        );
 
         if (myCo) {
           setCompanyData(myCo);
           const localAbout = localStorage.getItem(`about_${email}`);
-          setTempAbout(localAbout !== null ? localAbout : (myCo.about || ""));
+          setTempAbout(localAbout !== null ? localAbout : myCo.about || "");
 
           if (myCo.logo) {
             const finalUrl = getCorrectUrl(myCo.logo);
@@ -93,7 +111,10 @@ const CompanyProfile = () => {
     const formData = new FormData();
     formData.append("image", file);
     try {
-      const res = await fetch(`${BASE_URL}/uploader/upload`, { method: "POST", body: formData });
+      const res = await fetch(`${BASE_URL}/uploader/upload`, {
+        method: "POST",
+        body: formData,
+      });
       const uploadData = await res.json();
       const rawPath = uploadData.url || uploadData.image || uploadData.path;
       if (rawPath) {
@@ -118,7 +139,7 @@ const CompanyProfile = () => {
   // --- TO'G'IRLANGAN VA INTEGRATSIYA QILINGAN HANDLEABOUTUPDATE ---
   const handleAboutUpdate = async () => {
     const email = localStorage.getItem("email") || companyData.email;
-    
+
     // ID-ni qat'iy tekshirish
     const companyId = companyData?._id || companyData?.id;
 
@@ -130,13 +151,16 @@ const CompanyProfile = () => {
 
     try {
       localStorage.setItem(`about_${email}`, tempAbout);
-      
-      const response = await fetch(`${BASE_URL}/register/updateRegister/${companyId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...companyData, about: tempAbout }),
-      });
-      
+
+      const response = await fetch(
+        `${BASE_URL}/register/updateRegister/${companyId}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ...companyData, about: tempAbout }),
+        }
+      );
+
       if (response.ok) {
         showToast("Ma'lumotlar muvaffaqiyatli saqlandi!");
         setCompanyData((prev) => ({ ...prev, about: tempAbout }));
@@ -153,7 +177,18 @@ const CompanyProfile = () => {
   };
 
   if (loading && !companyData.companyName) {
-    return <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>Yuklanmoqda...</div>;
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        Yuklanmoqda...
+      </div>
+    );
   }
 
   return (
@@ -164,7 +199,13 @@ const CompanyProfile = () => {
         </div>
       )}
 
-      <input type="file" ref={fileInputRef} onChange={handleLogoChange} style={{ display: "none" }} accept="image/*" />
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleLogoChange}
+        style={{ display: "none" }}
+        accept="image/*"
+      />
 
       <div className="company-profile-wrapper">
         <div className="company-info-card">
@@ -173,21 +214,50 @@ const CompanyProfile = () => {
           </button>
 
           <div className="profile-logo-wrapper">
-            <img src={logo} onError={(e) => { if(e.target.src !== TecCells) e.target.src = TecCells; }} className="main-logo-img" alt="Logo" />
-            <button className="edit-logo-btn" onClick={() => fileInputRef.current.click()}><BsCamera size={16} /></button>
+            <img
+              src={logo}
+              onError={(e) => {
+                if (e.target.src !== TecCells) e.target.src = TecCells;
+              }}
+              className="main-logo-img"
+              alt="Logo"
+            />
+            <button
+              className="edit-logo-btn"
+              onClick={() => fileInputRef.current.click()}
+            >
+              <BsCamera size={16} />
+            </button>
           </div>
 
-          <h1 className="company-name-text">{companyData.companyName || "Company Name"}</h1>
+          <h1 className="company-name-text">
+            {companyData.companyName || "Company Name"}
+          </h1>
           <p className="industry-text">{companyData.industry || "Industry"}</p>
           <p className="rating-stars">⭐⭐⭐⭐⭐ (4.0) | 1K reviews</p>
 
           <div className="info-list">
             <h3 className="info-title">Company info:</h3>
-            <div className="info-item"><span className="info-label">City:</span> <span className="info-value">{companyData.city || "N/A"}</span></div>
-            <div className="info-item"><span className="info-label">Country:</span> <span className="info-value">{companyData.country || "N/A"}</span></div>
-            <div className="info-item"><span className="info-label">Phone:</span> <span className="info-value">{companyData.phone || "N/A"}</span></div>
-            <div className="info-item"><span className="info-label">Email:</span> <span className="info-value">{companyData.email || "N/A"}</span></div>
-            <div className="info-item"><span className="info-label">Website:</span> <span className="info-value">{companyData.website || "N/A"}</span></div>
+            <div className="info-item">
+              <span className="info-label">City:</span>{" "}
+              <span className="info-value">{companyData.city || "N/A"}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Country:</span>{" "}
+              <span className="info-value">{companyData.country || "N/A"}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Phone:</span>{" "}
+              <span className="info-value">{companyData.phone || "N/A"}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Email:</span>{" "}
+              <span className="info-value">{companyData.email || "N/A"}</span>
+            </div>
+            <div className="info-item">
+              <span className="info-label">Website:</span>{" "}
+              <span className="info-value">{companyData.website || "N/A"}</span>
+            </div>
           </div>
         </div>
 
@@ -195,22 +265,54 @@ const CompanyProfile = () => {
           <div className="stats-card">
             <h3 className="stats-header">Statistics</h3>
             <div className="stats-grid">
-              <div className="stat-box"><h2>300</h2><p>Active jobs</p></div>
-              <div className="stat-box"><h2>5210</h2><p>Posted Jobs</p></div>
-              <div className="stat-box"><h2>56</h2><p>Hired talents</p></div>
+              <div className="stat-box">
+                <h2>300</h2>
+                <p>Active jobs</p>
+              </div>
+              <div className="stat-box">
+                <h2>5210</h2>
+                <p>Posted Jobs</p>
+              </div>
+              <div className="stat-box">
+                <h2>56</h2>
+                <p>Hired talents</p>
+              </div>
             </div>
           </div>
 
           <div className="about-card">
-            <div className="about-header-row" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div
+              className="about-header-row"
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
               <h3>About company</h3>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+              <div
+                style={{ display: "flex", alignItems: "center", gap: "10px" }}
+              >
                 {tempAbout !== (companyData.about || "") && (
-                  <button className="inline-save-btn" onClick={handleAboutUpdate} style={{ backgroundColor: "#1d3f61", color: "white", border: "none", padding: "5px 12px", borderRadius: "4px", cursor: "pointer" }}>
+                  <button
+                    className="inline-save-btn"
+                    onClick={handleAboutUpdate}
+                    style={{
+                      backgroundColor: "#1d3f61",
+                      color: "white",
+                      border: "none",
+                      padding: "5px 12px",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                  >
                     Save Changes
                   </button>
                 )}
-                <RiPencilFill style={{ cursor: "pointer", color: "#9ca3af" }} onClick={() => setOpenAbout(true)} />
+                <RiPencilFill
+                  style={{ cursor: "pointer", color: "#9ca3af" }}
+                  onClick={() => setOpenAbout(true)}
+                />
               </div>
             </div>
             <textarea
@@ -218,16 +320,35 @@ const CompanyProfile = () => {
               value={tempAbout}
               onChange={(e) => {
                 setTempAbout(e.target.value);
-                localStorage.setItem(`about_${localStorage.getItem("email") || companyData.email}`, e.target.value);
+                localStorage.setItem(
+                  `about_${localStorage.getItem("email") || companyData.email}`,
+                  e.target.value
+                );
               }}
               placeholder="Tell us something about your company..."
-              style={{ width: "100%", minHeight: "150px", border: "none", outline: "none", fontSize: "16px", color: "#4b5563", resize: "none", marginTop: "15px", background: "transparent" }}
+              style={{
+                width: "100%",
+                minHeight: "150px",
+                border: "none",
+                outline: "none",
+                fontSize: "16px",
+                color: "#4b5563",
+                resize: "none",
+                marginTop: "15px",
+                background: "transparent",
+              }}
             />
           </div>
         </div>
       </div>
 
-      {open && <Update setOpen={setOpen} currentData={companyData} onUpdate={fetchData} />}
+      {open && (
+        <Update
+          setOpen={setOpen}
+          currentData={companyData}
+          onUpdate={fetchData}
+        />
+      )}
 
       {openAbout && (
         <div className="about-modal-overlay">
@@ -240,12 +361,24 @@ const CompanyProfile = () => {
               style={{ width: "100%", minHeight: "200px", padding: "10px" }}
             />
             <div className="about-modal-actions">
-              <button onClick={() => { 
-                const oldAbout = localStorage.getItem(`about_${localStorage.getItem("email") || companyData.email}`) || companyData.about;
-                setTempAbout(oldAbout); 
-                setOpenAbout(false); 
-              }} className="btn-cancel">Cancel</button>
-              <button onClick={handleAboutUpdate} className="btn-save">Save</button>
+              <button
+                onClick={() => {
+                  const oldAbout =
+                    localStorage.getItem(
+                      `about_${
+                        localStorage.getItem("email") || companyData.email
+                      }`
+                    ) || companyData.about;
+                  setTempAbout(oldAbout);
+                  setOpenAbout(false);
+                }}
+                className="btn-cancel"
+              >
+                Cancel
+              </button>
+              <button onClick={handleAboutUpdate} className="btn-save">
+                Save
+              </button>
             </div>
           </div>
         </div>

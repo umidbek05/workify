@@ -1,19 +1,21 @@
 import React, { useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // useLocation qo'shildi
+import { useNavigate, useLocation } from "react-router-dom";
 import "../../pages/signup/Register.css";
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
 import Swal from "sweetalert2";
 
-function Register() {
+function VerifyForget() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation(); // Signupdan kelgan stateni tutish uchun
+  const location = useLocation();
 
-  // Signup sahifasidan kelgan userId ni olamiz, agar yo'q bo'lsa default 25 qoladi
+  // Signup yoki Forget sahifasidan kelgan userId ni olamiz, default 25
   const USER_ID = location.state?.userId || 25;
+  // Emailni ham statsdan yoki localStoragedan olamiz
+  const userEmail = location.state?.email || localStorage.getItem("resetEmail");
 
   const handleKeyDown = (e) => {
     if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
@@ -38,7 +40,7 @@ function Register() {
     setCode(newCode);
   };
 
-  // Telegram botni ochish - USER_ID endi dinamik
+  // BOT MANZILI ENDI REGISTER BILAN BIR XIL
   const handleClickHere = () => {
     window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
     Swal.fire({
@@ -49,7 +51,6 @@ function Register() {
     });
   };
 
-  // Kodni tekshirish (Verify)
   const handleNext = async () => {
     const enteredCode = code.join("");
 
@@ -77,6 +78,7 @@ function Register() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
+          // Yuborilayotgan ma'lumot ham bir xil (user_id bo'yicha)
           body: JSON.stringify({ user_id: USER_ID, code: enteredCode }),
         }
       );
@@ -87,11 +89,12 @@ function Register() {
         Swal.fire({
           icon: "success",
           title: "Tasdiqlandi!",
-          text: "Kod to‘g‘ri, xush kelibsiz!",
+          text: "Kod to‘g‘ri, endi yangi parol o‘rnating!",
           timer: 1500,
           showConfirmButton: false,
         }).then(() => {
-          navigate("/congratulation");
+          // FARQI: Forget bo'lgani uchun parolni o'zgartirishga o'tadi
+          navigate("/setpassword", { state: { email: userEmail } });
         });
       } else {
         Swal.fire({
@@ -104,11 +107,11 @@ function Register() {
         });
       }
     } catch (err) {
-      console.error("Xatolik tafsiloti:", err);
+      console.error("Xatolik:", err);
       Swal.fire({
         icon: "warning",
         title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi. Backend ishlayotganini tekshiring.",
+        text: "Server bilan bog‘lanishda muammo yuz berdi.",
         confirmButtonColor: "#f39c12",
       });
     }
@@ -149,7 +152,7 @@ function Register() {
           </div>
 
           <div className="nav-buttons">
-            <button className="back" onClick={() => navigate("/signup")}>
+            <button className="back" onClick={() => navigate(-1)}>
               Back
             </button>
 
@@ -164,4 +167,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default VerifyForget;

@@ -131,10 +131,11 @@ const Signup = () => {
     });
   };
 
+  // Signup.js ichidagi handleSubmit funksiyasi
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Validatsiya
+    // Validatsiya qismi (o'zgarishsiz qoladi)
     if (
       formData.phone.length < 17 ||
       !formData.email ||
@@ -143,14 +144,13 @@ const Signup = () => {
     ) {
       setToast({
         show: true,
-        message: "Iltimos, barcha majburiy maydonlarni to'ldiring!",
+        message: "Please fill in all required fields!",
         type: "error",
       });
       return;
     }
 
     try {
-      // 2. Backendga so'rov yuborish
       const response = await fetch(
         "https://workifyback-production.up.railway.app/register/createRegister",
         {
@@ -158,29 +158,30 @@ const Signup = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData), // FormData ichidagi barcha ma'lumotlar yuboriladi
+          body: JSON.stringify(formData),
         }
       );
 
       const result = await response.json();
 
+      // handleSubmit ichidagi muvaffaqiyatli qism:
       if (response.ok) {
-        // 3. Muvaffaqiyatli bo'lsa
         setToast({
           show: true,
-          message: "Ro'yxatdan muvaffaqiyatli o'tdingiz!",
+          message: "Information saved, proceeding to verification!",
           type: "success",
         });
 
-        // LocalStorage-ni tozalash (ixtiyoriy)
+        // Emailni localStorage-ga saqlaymiz, Dashboard va Profile ishlashi uchun
+        localStorage.setItem("email", formData.email);
         localStorage.removeItem("signup_form_storage");
 
-        // 1.5 soniyadan keyin login sahifasiga o'tish
         setTimeout(() => {
-          navigate("/login"); // Yoki o'zingiz xohlagan sahifa
+          navigate("/register", {
+            state: { userId: result.id, email: formData.email },
+          });
         }, 1500);
       } else {
-        // 4. Xatolik yuz bersa (masalan: email band bo'lsa)
         setToast({
           show: true,
           message: result.message || "Xatolik yuz berdi!",
@@ -188,11 +189,10 @@ const Signup = () => {
         });
       }
     } catch (error) {
-      // 5. Serverga ulanib bo'lmasa
       console.error("Error:", error);
       setToast({
         show: true,
-        message: "Server bilan aloqa uzildi. Keyinroq urinib ko'ring.",
+        message: "Server bilan aloqa uzildi.",
         type: "error",
       });
     }

@@ -20,6 +20,7 @@ import Forget from "./pages/forgot/Forget";
 import Setpassword from "./pages/setpassword/Setpassword";
 
 import { ThemeProvider } from "./context/ThemeContext";
+import VerifyForget from "./pages/forgot/VerifyForget";
 const App = () => {
   return (
     <div>
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/forget" element={<Forget />} />
           <Route path="/setpassword" element={<Setpassword />} />
           <Route path="/kod" element={<Kod />} />
+          <Route path="/verify-forget" element={<VerifyForget />} />
 
           <Route path="/dashboard" element={<Dashboard />}>
             {/* DEFAULT PAGE */}
