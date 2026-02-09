@@ -79,9 +79,21 @@
 }
 
 .icon {
-  font-size: 20px;
+  width: 22px !important;  /* Eni */
+  height: 22px !important; /* Bo'yi (Bir xil bo'lishi shart) */
   color: #0f2f4f;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important; /* Fonni mutloq yo'qotish */
+  border: none !important;             /* Border bo'lsa yo'qotish */
+}
+
+/* React-icons SVG o'zini ham jilovlaymiz */
+.icon svg {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .eye {

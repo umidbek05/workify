@@ -6,6 +6,7 @@ import { IoIosLock } from "react-icons/io";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
+import Swal from "sweetalert2";
 
 function Login() {
   const navigate = useNavigate();
@@ -65,7 +66,6 @@ function Login() {
     setErrors({});
 
     try {
-      // Localhost o'rniga Railway URL manzili o'rnatildi
       const response = await fetch(
         "https://workifyback-production.up.railway.app/register/login",
         {
@@ -87,24 +87,30 @@ function Login() {
         return;
       }
 
-      // ✅ 1. Emailni saqlash (Boshqa sahifalarda ma'lumotni fetch qilish uchun kerak)
+      // Emailni saqlash
       localStorage.setItem("email", formData.email);
 
-      // ✅ 2. Foydalanuvchi ID va ma'lumotlarini saqlash
+      // User ma'lumotlari
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ 3. Remember Me funksiyasi
+      // Remember Me
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
       } else {
         localStorage.removeItem("rememberedEmail");
       }
 
-      alert("Muvaffaqiyatli login!");
+      // 🔥 Chiroyli alert
+      Swal.fire({
+        title: "Muvaffaqiyatli!",
+        text: "Tizimga muvaffaqiyatli kirdingiz",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then(() => {
+        navigate("/dashboard");
+      });
 
-      // ✅ 4. Dashboardga o'tish
-      navigate("/dashboard");
     } catch (err) {
       setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
     } finally {
@@ -144,7 +150,7 @@ function Login() {
             <div className="form-group">
               <label>Email</label>
               <div className={`input-box ${errors.email ? "error" : ""}`}>
-                <MdEmail className="icon" />
+                <MdEmail className="icon"  />
                 <input
                   type="email"
                   name="email"
@@ -173,7 +179,11 @@ function Login() {
                   className="eye"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
+                  {showPassword ? (
+                    <AiOutlineEye size={18} />
+                  ) : (
+                    <AiOutlineEyeInvisible size={18} />
+                  )}
                 </span>
               </div>
               {errors.password && (
