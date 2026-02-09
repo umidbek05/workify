@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom"; // useLocation qo'shildi
+import { useNavigate, useLocation } from "react-router-dom";
 import "../../pages/signup/Register.css";
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
@@ -10,59 +10,15 @@ function Register() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  const location = useLocation(); // Signupdan kelgan stateni tutish uchun
+  const location = useLocation();
 
-  // Signup sahifasidan kelgan userId ni olamiz, agar yo'q bo'lsa default 25 qoladi
   const USER_ID = location.state?.userId || 25;
 
-  const handleKeyDown = (e) => {
-    if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
+  // Keyingi bo'sh katak indeksini aniqlash (vizual fokus uchun)
+  const activeIndex = code.findIndex((c) => c === "");
 
-    if (e.key === "Backspace") {
-      const newCode = [...code];
-      for (let i = 5; i >= 0; i--) {
-        if (newCode[i]) {
-          newCode[i] = "";
-          break;
-        }
-      }
-      setCode(newCode);
-      return;
-    }
-
-    const index = code.findIndex((c) => c === "");
-    if (index === -1) return;
-
-    const newCode = [...code];
-    newCode[index] = e.key;
-    setCode(newCode);
-  };
-
-  // Telegram botni ochish - USER_ID endi dinamik
-  const handleClickHere = () => {
-    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
-    Swal.fire({
-      icon: "info",
-      title: "Telegram ochildi",
-      text: "Botga ulaning va tasdiqlash kodini oling.",
-      confirmButtonColor: "#3085d6",
-    });
-  };
-
-  // Kodni tekshirish (Verify)
-  const handleNext = async () => {
-    const enteredCode = code.join("");
-
-    if (enteredCode.length < 6) {
-      Swal.fire({
-        icon: "warning",
-        title: "Diqqat!",
-        text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }
-
+  // Tasdiqlash funksiyasi
+  const triggerVerify = async (enteredCode) => {
     Swal.fire({
       title: "Tekshirilmoqda...",
       allowOutsideClick: false,
@@ -97,21 +53,77 @@ function Register() {
         Swal.fire({
           icon: "error",
           title: "Xatolik",
-          text:
-            data.message ||
-            "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
+          text: data.message || "Siz kiritgan kod noto‘g‘ri! ❌",
           confirmButtonColor: "#d33",
         });
       }
     } catch (err) {
-      console.error("Xatolik tafsiloti:", err);
       Swal.fire({
         icon: "warning",
         title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi. Backend ishlayotganini tekshiring.",
+        text: "Server bilan bog‘lanishda muammo yuz berdi.",
         confirmButtonColor: "#f39c12",
       });
     }
+  };
+
+  // Nusxa ko'chirib qo'yish mantiqi
+  const handlePaste = (e) => {
+    const pasteData = e.clipboardData.getData("text").trim();
+    const digitsOnly = pasteData.replace(/\D/g, "").slice(0, 6);
+
+    if (digitsOnly.length > 0) {
+      const newCode = ["", "", "", "", "", ""];
+      digitsOnly.split("").forEach((digit, index) => {
+        newCode[index] = digit;
+      });
+      setCode(newCode);
+
+      if (digitsOnly.length === 6) {
+        setTimeout(() => triggerVerify(digitsOnly), 100);
+      }
+    }
+    e.preventDefault();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      const newCode = [...code];
+      for (let i = 5; i >= 0; i--) {
+        if (newCode[i]) {
+          newCode[i] = "";
+          break;
+        }
+      }
+      setCode(newCode);
+      return;
+    }
+
+    if (!/^[0-9]$/.test(e.key)) return;
+
+    const index = code.findIndex((c) => c === "");
+    if (index === -1) return;
+
+    const newCode = [...code];
+    newCode[index] = e.key;
+    setCode(newCode);
+  };
+
+  const handleNext = () => {
+    const enteredCode = code.join("");
+    if (enteredCode.length < 6) {
+      Swal.fire({
+        icon: "warning",
+        title: "Diqqat!",
+        text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
+      });
+      return;
+    }
+    triggerVerify(enteredCode);
+  };
+
+  const handleClickHere = () => {
+    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
   };
 
   return (
@@ -129,20 +141,29 @@ function Register() {
             <img src={click} alt="preview" />
           </div>
 
+          {/* Yashirin input */}
           <input
             ref={inputRef}
             type="text"
             inputMode="numeric"
             maxLength={6}
             onKeyDown={handleKeyDown}
+            onPaste={handlePaste}
             className="hidden-input"
             autoFocus
             style={{ opacity: 0, position: "absolute", zIndex: -1 }}
           />
 
+          {/* Vizual kataklar */}
           <div className="digits" onClick={() => inputRef.current.focus()}>
             {code.map((d, i) => (
-              <div key={i} className={d ? "filled" : "empty"}>
+              <div 
+                key={i} 
+                className={`
+                  ${d ? "filled" : "empty"} 
+                  ${i === activeIndex ? "active-cell" : ""}
+                `}
+              >
                 {d}
               </div>
             ))}
@@ -152,7 +173,6 @@ function Register() {
             <button className="back" onClick={() => navigate("/signup")}>
               Back
             </button>
-
             <button className="next" onClick={handleNext}>
               Next
             </button>
