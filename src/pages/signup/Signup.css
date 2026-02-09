@@ -277,7 +277,7 @@
 /* Password ko'zchasi uchun */
 .input-box .eye {
   position: absolute;
-  right: 15px;
+  right: 14px;
   cursor: pointer;
   color: #163d5c;
   display: flex;
