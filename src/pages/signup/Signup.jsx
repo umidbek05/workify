@@ -17,7 +17,6 @@ import {
   FaCity,
   FaUser,
 } from "react-icons/fa";
-import "./Signup.css";
 
 const locationData = {
   Uzbekistan: [
@@ -64,36 +63,33 @@ const Signup = () => {
   const [activeTab, setActiveTab] = useState("company");
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  const [formData, setFormData] = useState(() => {
+  // Ma'lumotlarni localStorage dan yuklash funksiyasi
+  const getStoredData = () => {
     try {
       const savedData = localStorage.getItem("signup_form_storage");
-      const parsedData = savedData ? JSON.parse(savedData) : null;
-      return {
-        companyName: parsedData?.companyName || "",
-        phone: parsedData?.phone || "+998 ",
-        email: parsedData?.email || "",
-        password: parsedData?.password || "",
-        website: parsedData?.website || "",
-        industry: parsedData?.industry || "",
-        country: parsedData?.country || "",
-        city: parsedData?.city || "",
-      };
+      if (savedData) return JSON.parse(savedData);
     } catch (e) {
-      return {
-        companyName: "",
-        phone: "+998 ",
-        email: "",
-        password: "",
-        website: "",
-        industry: "",
-        country: "",
-        city: "",
-      };
+      console.error("Storage error:", e);
     }
-  });
+    return {
+      companyName: "",
+      phone: "+998 ",
+      email: "",
+      password: "",
+      website: "",
+      industry: "",
+      country: "",
+      city: "",
+    };
+  };
+
+  const [formData, setFormData] = useState(getStoredData());
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Sahifa yuklanganda oxirgi ma'lumotlarni qayta o'qish
+    const data = getStoredData();
+    setFormData(data);
   }, []);
 
   useEffect(() => {
@@ -101,11 +97,10 @@ const Signup = () => {
     if (toast.show && toast.type === "success") {
       timer = setTimeout(() => {
         setToast({ show: false, message: "", type: "" });
-        navigate("/register");
       }, 1500);
     }
     return () => clearTimeout(timer);
-  }, [toast.show, toast.type, navigate]);
+  }, [toast.show, toast.type]);
 
   const formatPhoneNumber = (value) => {
     const phoneNumber = value.replace(/[^\d]/g, "");
@@ -131,11 +126,8 @@ const Signup = () => {
     });
   };
 
-  // Signup.js ichidagi handleSubmit funksiyasi
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Validatsiya qismi (o'zgarishsiz qoladi)
     if (
       formData.phone.length < 17 ||
       !formData.email ||
@@ -155,27 +147,21 @@ const Signup = () => {
         "https://workifyback-production.up.railway.app/register/createRegister",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(formData),
         }
       );
 
       const result = await response.json();
 
-      // handleSubmit ichidagi muvaffaqiyatli qism:
       if (response.ok) {
         setToast({
           show: true,
           message: "Information saved, proceeding to verification!",
           type: "success",
         });
-
-        // Emailni localStorage-ga saqlaymiz, Dashboard va Profile ishlashi uchun
         localStorage.setItem("email", formData.email);
-        localStorage.removeItem("signup_form_storage");
-
+        // MUHIM: Bu yerda localStorage'ni o'chirmaymiz, toki ro'yxatdan o'tish to'liq tugamaguncha
         setTimeout(() => {
           navigate("/register", {
             state: { userId: result.id, email: formData.email },
@@ -189,7 +175,6 @@ const Signup = () => {
         });
       }
     } catch (error) {
-      console.error("Error:", error);
       setToast({
         show: true,
         message: "Server bilan aloqa uzildi.",
@@ -220,22 +205,11 @@ const Signup = () => {
       minHeight: "50px",
       borderRadius: "12px",
       border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
-      boxShadow: state.isFocused ? "0 0 0 3px rgba(22, 61, 92, 0.1)" : "none",
+      boxShadow: "none",
       "&:hover": { border: "1px solid #163d5c" },
-      paddingLeft: "45px",
+      paddingLeft: "48px",
       fontSize: "14px",
-      background: "#fff",
-      display: "flex",
-      alignItems: "center",
-      cursor: "pointer",
     }),
-    valueContainer: (provided) => ({ ...provided, paddingLeft: "0px" }),
-    placeholder: (provided) => ({
-      ...provided,
-      marginLeft: "0px",
-      color: "#999",
-    }),
-    singleValue: (provided) => ({ ...provided, marginLeft: "0px" }),
     option: (provided, state) => ({
       ...provided,
       backgroundColor: state.isSelected
@@ -246,216 +220,224 @@ const Signup = () => {
       color: state.isSelected ? "#fff" : "#333",
       cursor: "pointer",
     }),
-    menu: (provided) => ({ ...provided, zIndex: 9999 }),
-  };
-
-  const commonIconStyle = {
-    position: "absolute",
-    left: "6px",
-    top: "50%",
-    transform: "translateY(-50%)",
-    zIndex: 10,
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "40px",
-    height: "40px",
-    background: "#f1f4f8",
-    borderRadius: "10px",
-    color: "#163d5c",
   };
 
   return (
-    <div className="signup-page">
+    <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans">
       <Header />
       {toast.show && (
-        <div className={`toast-container ${toast.type}`}>
-          <div className="toast-content">
-            <div className="toast-icon">
+        <div
+          className={`fixed top-10 right-5 md:right-10 z-[10000] min-w-[300px] p-4 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col gap-2 animate-bounce-short border-l-8 ${
+            toast.type === "success"
+              ? "bg-white/90 border-green-500"
+              : "bg-white/90 border-red-500"
+          }`}
+        >
+          <div className="flex items-center gap-3">
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
+                toast.type === "success"
+                  ? "bg-green-100 text-green-600"
+                  : "bg-red-100 text-red-600"
+              }`}
+            >
               {toast.type === "success" ? "✓" : "!"}
             </div>
-            <div className="toast-message">{toast.message}</div>
+            <p className="text-gray-800 font-medium text-sm">{toast.message}</p>
           </div>
-          <div className="toast-progress"></div>
+          <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className={`h-full animate-progress ${
+                toast.type === "success" ? "bg-green-500" : "bg-red-500"
+              }`}
+            ></div>
+          </div>
         </div>
       )}
 
-      <div className="signup-container">
-        <div className="signup-box">
-          <div
-            className="registration-progress"
-            style={{ padding: "0 20px 20px 20px", width: "100%" }}
-          >
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                fontSize: "14px",
-                marginBottom: "8px",
-                fontWeight: "bold",
-                color: "#555",
-              }}
-            >
+      <main className="flex-grow flex items-center justify-center p-4 md:p-10">
+        <div className="w-full max-w-[720px] bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-slate-200/60 flex flex-col items-center">
+          <div className="w-full mb-8">
+            <div className="flex justify-between text-sm font-bold text-gray-500 mb-2">
               <span>Profile Completion</span>
               <span>{completionPercentage}%</span>
             </div>
-            <div
-              style={{
-                width: "100%",
-                height: "10px",
-                backgroundColor: "#eee",
-                borderRadius: "5px",
-                overflow: "hidden",
-              }}
-            >
+            <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
               <div
-                style={{
-                  width: `${completionPercentage}%`,
-                  height: "100%",
-                  backgroundColor:
-                    completionPercentage === 100 ? "#4CAF50" : "#3b82f6",
-                  transition: "width 0.4s ease-in-out",
-                }}
+                className={`h-full transition-all duration-500 ease-out ${
+                  completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"
+                }`}
+                style={{ width: `${completionPercentage}%` }}
               ></div>
             </div>
           </div>
 
-          <div className="tabs">
+          <div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
             <button
-              type="button"
-              className={`tab ${activeTab === "talent" ? "active" : ""}`}
               onClick={() => setActiveTab("talent")}
+              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
+                activeTab === "talent"
+                  ? "bg-white text-[#163d5c] shadow-sm"
+                  : "text-gray-400"
+              }`}
             >
-              <FaUser className="tab-icon" /> Talent
+              <FaUser size={18} /> Talent
             </button>
             <button
-              type="button"
-              className={`tab ${activeTab === "company" ? "active" : ""}`}
               onClick={() => setActiveTab("company")}
+              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
+                activeTab === "company"
+                  ? "bg-white text-[#163d5c] shadow-sm"
+                  : "text-gray-400"
+              }`}
             >
-              <FaBuilding className="tab-icon" /> Company
+              <FaBuilding size={18} /> Company
             </button>
           </div>
 
-          <form className="form" onSubmit={handleSubmit}>
-            <div className="field">
-              <label>
+          <form
+            onSubmit={handleSubmit}
+            className="w-full grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
                 {activeTab === "company" ? "Company name" : "Full name"}
               </label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   {activeTab === "company" ? <FaBuilding /> : <FaUser />}
-                </span>
+                </div>
                 <input
                   type="text"
-                  placeholder={
-                    activeTab === "company" ? "Company name" : "Full name"
-                  }
                   name="companyName"
                   value={formData.companyName}
                   onChange={handleChange}
+                  placeholder={
+                    activeTab === "company" ? "Company name" : "Full name"
+                  }
+                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                   required
                 />
               </div>
             </div>
 
-            <div className="field">
-              <label>Phone</label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Phone
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaPhone />
-                </span>
+                </div>
                 <input
                   type="tel"
                   name="phone"
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="+998 90-123-45-67"
+                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                   required
                 />
               </div>
             </div>
 
-            <div className="field">
-              <label>Email</label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Email
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaEnvelope />
-                </span>
+                </div>
                 <input
                   type="email"
-                  placeholder="Email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
+                  placeholder="Email"
+                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                   required
                 />
               </div>
             </div>
 
-            <div className="field">
-              <label>Password</label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Password
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaLock />
-                </span>
+                </div>
                 <input
                   type={showPassword ? "text" : "password"}
-                  placeholder="Password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
+                  placeholder="Password"
+                  className="w-full h-[52px] pl-14 pr-12 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                   required
-                  style={{ paddingRight: "45px" }}
                 />
-                <span
-                  className="eye"
+                <button
+                  type="button"
                   onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#163d5c] hover:opacity-70 transition-opacity"
                 >
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
+                  {showPassword ? (
+                    <FaEyeSlash size={18} />
+                  ) : (
+                    <FaEye size={18} />
+                  )}
+                </button>
               </div>
             </div>
 
-            <div className="field">
-              <label>Website (Optional)</label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Website (Optional)
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaGlobe />
-                </span>
+                </div>
                 <input
                   type="text"
-                  placeholder="https://example.com"
                   name="website"
                   value={formData.website}
                   onChange={handleChange}
+                  placeholder="https://example.com"
+                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                 />
               </div>
             </div>
 
-            <div className="field">
-              <label>Industry</label>
-              <div className="input-box">
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Industry
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaIndustry />
-                </span>
+                </div>
                 <input
                   type="text"
-                  placeholder="e.g. IT, Finance"
                   name="industry"
                   value={formData.industry}
                   onChange={handleChange}
+                  placeholder="e.g. IT, Finance"
+                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
                 />
               </div>
             </div>
 
-            <div className="field">
-              <label>Country</label>
-              <div style={{ position: "relative", width: "100%" }}>
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                Country
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] z-10 group-focus-within:bg-blue-50 transition-colors pointer-events-none">
                   <FaFlag />
-                </span>
+                </div>
                 <Select
                   options={countryOptions}
                   placeholder="Select country"
@@ -473,12 +455,14 @@ const Signup = () => {
               </div>
             </div>
 
-            <div className="field">
-              <label>City / Region</label>
-              <div style={{ position: "relative", width: "100%" }}>
-                <span className="icon" style={commonIconStyle}>
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-semibold text-gray-600 ml-1">
+                City / Region
+              </label>
+              <div className="relative group">
+                <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] z-10 group-focus-within:bg-blue-50 transition-colors pointer-events-none">
                   <FaCity />
-                </span>
+                </div>
                 <Select
                   options={
                     formData.country
@@ -510,22 +494,26 @@ const Signup = () => {
               </div>
             </div>
 
-            <div className="buttons">
+            <div className="md:col-span-2 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-gray-100">
               <button
                 type="button"
-                className="btn back"
                 onClick={() => navigate("/")}
+                className="w-full sm:w-[140px] h-12 rounded-xl border border-gray-300 text-[#163d5c] font-bold hover:bg-gray-50 transition-all active:scale-95"
               >
                 Back
               </button>
-              <button type="submit" className="btn next">
+              <button
+                type="submit"
+                className="w-full sm:w-[140px] h-12 rounded-xl bg-[#163d5c] text-white font-bold shadow-lg shadow-[#163d5c]/20 hover:bg-[#1e5078] transition-all active:scale-95"
+              >
                 Next
               </button>
             </div>
           </form>
         </div>
-      </div>
+      </main>
       <Footer />
+      <style>{`@keyframes progress { from { width: 100%; } to { width: 0%; } } .animate-progress { animation: progress 1.5s linear forwards; } @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } } .animate-bounce-short { animation: bounce-short 0.5s ease-out; }`}</style>
     </div>
   );
 };

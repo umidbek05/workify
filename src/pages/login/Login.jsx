@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css";
 import { MdEmail } from "react-icons/md";
 import { IoIosLock } from "react-icons/io";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
@@ -65,7 +64,6 @@ function Login() {
     setErrors({});
 
     try {
-      // Localhost o'rniga Railway URL manzili o'rnatildi
       const response = await fetch(
         "https://workifyback-production.up.railway.app/register/login",
         {
@@ -87,14 +85,10 @@ function Login() {
         return;
       }
 
-      // ✅ 1. Emailni saqlash (Boshqa sahifalarda ma'lumotni fetch qilish uchun kerak)
       localStorage.setItem("email", formData.email);
-
-      // ✅ 2. Foydalanuvchi ID va ma'lumotlarini saqlash
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // ✅ 3. Remember Me funksiyasi
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
       } else {
@@ -102,8 +96,6 @@ function Login() {
       }
 
       alert("Muvaffaqiyatli login!");
-
-      // ✅ 4. Dashboardga o'tish
       navigate("/dashboard");
     } catch (err) {
       setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
@@ -124,90 +116,130 @@ function Login() {
   }, []);
 
   return (
-    <div>
+    <div className="flex flex-col min-h-screen bg-[#f6f4ef]">
       <Header />
 
-      <div className="login-wrapper">
-        <div className="login-card">
-          <h1 className="title">Login</h1>
+      <main className="flex-grow flex items-center justify-center px-4 py-12 md:py-20">
+        <div className="w-full max-w-[420px] bg-white rounded-[24px] p-8 md:p-10 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
+          <h1 className="text-[26px] font-semibold text-[#0f2f4f] text-center mb-8">
+            Login
+          </h1>
 
           {errors.submit && (
-            <p
-              className="error-text"
-              style={{ color: "red", textAlign: "center" }}
-            >
+            <div className="bg-red-50 border border-red-200 text-red-500 rounded-xl p-3 mb-6 text-sm text-center font-medium">
               {errors.submit}
-            </p>
+            </div>
           )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Email</label>
-              <div className={`input-box ${errors.email ? "error" : ""}`}>
-                <MdEmail className="icon" />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Email Group */}
+            <div className="space-y-2">
+              <label className="text-[15px] font-medium text-[#333] block">
+                Email
+              </label>
+              <div
+                className={`flex items-center gap-3 border rounded-xl px-4 py-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#0f2f4f]/10 ${
+                  errors.email
+                    ? "border-red-500"
+                    : "border-[#dcdcdc] focus-within:border-[#0f2f4f]"
+                }`}
+              >
+                <MdEmail className="text-xl text-[#0f2f4f] shrink-0" />
                 <input
                   type="email"
                   name="email"
                   placeholder="example@mail.com"
+                  className="w-full text-sm outline-none bg-transparent text-[#333] placeholder:text-gray-400"
                   value={formData.email}
                   onChange={handleChange}
                 />
               </div>
               {errors.email && (
-                <span className="error-text">{errors.email}</span>
+                <span className="text-red-500 text-xs font-medium ml-1">
+                  {errors.email}
+                </span>
               )}
             </div>
 
-            <div className="form-group">
-              <label>Password</label>
-              <div className={`input-box ${errors.password ? "error" : ""}`}>
-                <IoIosLock className="icon" />
+            {/* Password Group */}
+            <div className="space-y-2">
+              <label className="text-[15px] font-medium text-[#333] block">
+                Password
+              </label>
+              <div
+                className={`flex items-center gap-3 border rounded-xl px-4 py-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#0f2f4f]/10 ${
+                  errors.password
+                    ? "border-red-500"
+                    : "border-[#dcdcdc] focus-within:border-[#0f2f4f]"
+                }`}
+              >
+                <IoIosLock className="text-xl text-[#0f2f4f] shrink-0" />
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Password"
+                  className="w-full text-sm outline-none bg-transparent text-[#333] placeholder:text-gray-400"
                   value={formData.password}
                   onChange={handleChange}
                 />
-                <span
-                  className="eye"
+                <button
+                  type="button"
+                  className="text-xl text-gray-400 hover:text-[#0f2f4f] transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
-                </span>
+                </button>
               </div>
               {errors.password && (
-                <span className="error-text">{errors.password}</span>
+                <span className="text-red-500 text-xs font-medium ml-1">
+                  {errors.password}
+                </span>
               )}
             </div>
 
-            <div className="options">
-              <label className="remember">
+            {/* Options */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 text-sm pt-2">
+              <label className="flex items-center gap-2 cursor-pointer text-gray-600 select-none">
                 <input
                   type="checkbox"
                   name="rememberMe"
+                  className="w-4 h-4 accent-[#0f2f4f] cursor-pointer"
                   checked={formData.rememberMe}
                   onChange={handleChange}
                 />
                 Remember me
               </label>
-
-              <span className="forgot" onClick={() => navigate("/forget")}>
+              <span
+                className="text-[#0f2f4f] font-medium cursor-pointer hover:underline"
+                onClick={() => navigate("/forget")}
+              >
                 Forgot password?
               </span>
             </div>
 
-            <button className="butot" type="submit" disabled={isLoading}>
-              {isLoading ? "Signing in..." : "Sign in"}
-            </button>
+            {/* Submit Button */}
+            <div className="flex justify-center pt-2">
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full sm:w-[211px] py-3.5 bg-[#0f2f4f] text-white font-semibold rounded-2xl hover:bg-[#0c253f] hover:-translate-y-0.5 hover:shadow-lg active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed transition-all duration-300"
+              >
+                {isLoading ? "Signing in..." : "Sign in"}
+              </button>
+            </div>
           </form>
 
-          <p className="footer">
+          <p className="mt-8 text-center text-sm text-gray-500">
             Have no account?{" "}
-            <span onClick={() => navigate("/signup")}>Register</span>
+            <span
+              className="text-[#0f2f4f] font-bold cursor-pointer hover:underline"
+              onClick={() => navigate("/signup")}
+            >
+              Register
+            </span>
           </p>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

@@ -8,7 +8,8 @@ import Register from "./pages/signup/Register";
 import Conguratulation from "./pages/signup/Conguratulation";
 import MyJobs from "./pages/dashboard/MyJobs";
 import DashboardHome from "./pages/dashboard/DashboardHome";
-import CompanyProfile from "./pages/dashboard/MyCompany";
+import CompanyProfile from "./pages/dashboard/CompanyProfile";
+import "./index.css";
 
 import FAQ from "./pages/dashboard/FAQ";
 import Contacts from "./pages/dashboard/Contacts";

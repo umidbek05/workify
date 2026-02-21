@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import "../../pages/signup/Register.css";
+
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";

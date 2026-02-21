@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "../../pages/signup/Register.css";
+
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
@@ -10,9 +10,8 @@ function Register() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
-  
-  // Eslatma: USER_ID har bir foydalanuvchi uchun unikal bo'lishi kerak.
-  const USER_ID = 25; 
+
+  const USER_ID = 25;
 
   const handleKeyDown = (e) => {
     if (!/^[0-9]$/.test(e.key) && e.key !== "Backspace") return;
@@ -37,7 +36,6 @@ function Register() {
     setCode(newCode);
   };
 
-  // Telegram botni ochish - Yangilangan username: @workifyBot_bot
   const handleClickHere = () => {
     window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
     Swal.fire({
@@ -48,7 +46,6 @@ function Register() {
     });
   };
 
-  // Kodni tekshirish (Verify)
   const handleNext = async () => {
     const enteredCode = code.join("");
 
@@ -96,7 +93,9 @@ function Register() {
         Swal.fire({
           icon: "error",
           title: "Xatolik",
-          text: data.message || "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
+          text:
+            data.message ||
+            "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
           confirmButtonColor: "#d33",
         });
       }
@@ -112,18 +111,30 @@ function Register() {
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex flex-col font-sans">
       <Header />
-      <div className="page">
-        <div className="card">
-          <h1>Start our Telegram bot to continue</h1>
 
-          <button className="primary" onClick={handleClickHere}>
+      {/* page wrapper --> min-h-[80vh] flex items-center justify-center bg-[#f9fafb] */}
+      <div className="flex-1 flex items-center justify-center bg-[#f9fafb] p-5">
+        {/* card container --> max-w-[450px] w-full bg-white p-10 rounded-2xl shadow-sm text-center */}
+        <div className="max-w-[450px] w-full bg-white p-10 rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.05)] text-center">
+          <h1 className="text-[22px] text-[#1a202c] mb-6 font-bold">
+            Start our Telegram bot to continue
+          </h1>
+
+          <button
+            className="bg-[#0088cc] hover:bg-[#0077b5] text-white px-[30px] py-3 rounded-lg text-base cursor-pointer transition-colors duration-300 mb-5"
+            onClick={handleClickHere}
+          >
             Click here!
           </button>
 
-          <div className="image-box">
-            <img src={click} alt="preview" />
+          <div className="my-5 flex justify-center">
+            <img
+              src={click}
+              alt="preview"
+              className="w-full max-w-[250px] rounded-lg"
+            />
           </div>
 
           <input
@@ -132,30 +143,49 @@ function Register() {
             inputMode="numeric"
             maxLength={6}
             onKeyDown={handleKeyDown}
-            className="hidden-input"
+            className="absolute opacity-0 z-[-1]"
             autoFocus
-            style={{ opacity: 0, position: "absolute", zIndex: -1 }}
           />
 
-          <div className="digits" onClick={() => inputRef.current.focus()}>
+          {/* Code input boxes */}
+          <div
+            className="flex gap-2.5 justify-center my-8 cursor-pointer"
+            onClick={() => inputRef.current.focus()}
+          >
             {code.map((d, i) => (
-              <div key={i} className={d ? "filled" : "empty"}>
+              <div
+                key={i}
+                className={`w-[45px] h-[55px] flex items-center justify-center text-2xl font-bold border-2 rounded-[10px] transition-all duration-200 
+                  ${
+                    d
+                      ? "border-[#0088cc] bg-[#f0f9ff]"
+                      : "border-[#e2e8f0] bg-white"
+                  }`}
+              >
                 {d}
               </div>
             ))}
           </div>
 
-          <div className="nav-buttons">
-            <button className="back" onClick={() => navigate("/signup")}>
+          <div className="flex justify-between mt-[30px]">
+            <button
+              className="px-[25px] py-3 bg-[#edf2f7] text-[#4a5568] rounded-lg font-semibold hover:bg-[#e2e8f0] transition-colors"
+              onClick={() => navigate("/signup")}
+            >
               Back
             </button>
 
-            <button className="next" onClick={handleNext}>
+            <button
+              className="px-[25px] py-3 bg-[#1a202c] text-white rounded-lg font-semibold hover:opacity-90 disabled:bg-[#cbd5e0] disabled:cursor-not-allowed transition-all"
+              onClick={handleNext}
+              disabled={code.join("").length < 6}
+            >
               Next
             </button>
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

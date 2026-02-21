@@ -3,7 +3,6 @@ import { MdEmail, MdArrowBackIosNew } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
-import "./Forget.css";
 
 const Forget = () => {
   const navigate = useNavigate();
@@ -17,35 +16,43 @@ const Forget = () => {
       return;
     }
 
-    // Emailni keyingi sahifaga uzatish
-    // 1. LocalStorage-ga saqlaymiz (ehtiyot shart)
     localStorage.setItem("resetEmail", email);
-
-    // 2. Navigate orqali 'state' ichida yuboramiz (VerifyForget sahifasi uchun)
     navigate("/verify-forget", { state: { email: email } });
   };
 
   return (
-    <div className="forget-page-container">
+    <div className="flex flex-col min-h-screen font-sans">
       <Header />
-      <div className="forget-wrapper">
-        <div className="forget-card">
-          <button className="back-btn" onClick={() => navigate(-1)}>
+
+      {/* forget-wrapper */}
+      <div className="flex-1 flex justify-center items-center bg-[#f4f7fe] p-5">
+        {/* forget-card */}
+        <div className="bg-white p-8 md:p-10 rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.05)] w-full max-w-[400px] relative transition-transform duration-300">
+          <button
+            className="flex items-center gap-1.5 bg-none border-none text-[#6b7280] cursor-pointer text-sm mb-5 p-0 hover:text-[#1d3f61] transition-colors"
+            onClick={() => navigate(-1)}
+          >
             <MdArrowBackIosNew /> Back
           </button>
 
-          <div className="forget-header">
-            <h2>Forgot Password?</h2>
-            <p>Enter your email address to receive a verification code.</p>
+          <div className="text-center mb-[30px]">
+            <h2 className="text-2xl text-[#111827] mb-2.5 font-bold">
+              Forgot Password?
+            </h2>
+            <p className="text-sm text-[#6b7280] leading-relaxed">
+              Enter your email address to receive a verification code.
+            </p>
           </div>
 
           <form onSubmit={handleNext}>
-            <div className="input-group">
-              <div className="input-box">
-                <MdEmail className="icon" />
+            <div className="mb-[25px]">
+              {/* input-box with focus-within logic */}
+              <div className="flex items-center bg-[#f9fafb] border border-[#e5e7eb] rounded-lg px-[15px] py-3 transition-all duration-300 focus-within:border-[#1d3f61] focus-within:bg-white focus-within:shadow-[0_0_0_4px_rgba(29,63,97,0.1)]">
+                <MdEmail className="text-[#9ca3af] text-xl mr-3" />
                 <input
                   type="email"
                   placeholder="Email Address"
+                  className="border-none outline-none bg-transparent w-full text-base text-[#1f2937]"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -53,12 +60,16 @@ const Forget = () => {
               </div>
             </div>
 
-            <button type="submit" className="forget-btn next">
+            <button
+              type="submit"
+              className="w-full bg-[#1d3f61] text-white border-none p-3.5 rounded-lg text-base font-semibold cursor-pointer hover:bg-[#152e46] transition-all duration-300"
+            >
               Send Code
             </button>
           </form>
         </div>
       </div>
+
       <Footer />
     </div>
   );

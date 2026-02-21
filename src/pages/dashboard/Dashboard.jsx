@@ -8,15 +8,15 @@ import page4 from "./page4.png";
 import page5 from "./page5.png";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { Contact, LogOut, Menu, X } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext"; // Contextni chaqiramiz
+import { useTheme } from "../../context/ThemeContext";
 
 const BASE_URL = "https://workifyback-production.up.railway.app";
 
 const Dashboard = () => {
-  const { isDarkMode, setIsDarkMode } = useTheme(); // Dark mode holati
+  const { isDarkMode, setIsDarkMode } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
-  // 1. Dastlabki ma'lumotni LocalStorage'dan xavfsiz olish
+
   const [company, setCompany] = useState(() => {
     const savedData = JSON.parse(
       localStorage.getItem("signup_form_storage") || "{}"
@@ -33,7 +33,6 @@ const Dashboard = () => {
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
 
-  // ... (fetchData funksiyasi o'zgarishsiz qoladi)
   const fetchData = useCallback(async () => {
     const signupData = JSON.parse(
       localStorage.getItem("signup_form_storage") || "{}"
@@ -69,8 +68,6 @@ const Dashboard = () => {
       }
     } catch (err) {
       console.error("Error fetching data:", err);
-
-      // Xatolik bo'lsa, mavjud signupData ma'lumotlarini saqlab qolamiz
     }
   }, []);
 
@@ -92,7 +89,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="dashboard">
+    <div className={`dashboard ${isDarkMode ? "dark" : ""}`}>
       <header className="mobile-nav">
         <div
           className="mobile-logo"
@@ -113,7 +110,6 @@ const Dashboard = () => {
           </span>
         </div>
 
-        {/* Mobil headerda dark mode tugmasi */}
         <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
           <label className="ios-switch">
             <input
@@ -151,7 +147,6 @@ const Dashboard = () => {
         </div>
 
         <div className="sidebar-menu">
-          {/* Sidebar ichidagi menyu elementlari boshlanishi */}
           <NavLink
             to="/dashboard"
             end
@@ -219,7 +214,6 @@ const Dashboard = () => {
             <span className="menu-link">Contacts</span>
           </NavLink>
 
-          {/* Desktop Sidebar uchun dark mode tugmasi menyu oxirida */}
           <div
             className="menu-item no-hover dark-mode-item"
             style={{
@@ -265,24 +259,43 @@ const Dashboard = () => {
         <Outlet />
       </main>
 
-      {/* Logout Modal qismi o'zgarishsiz qoladi */}
+      {/* --- YANGILANGAN LOGOUT MODAL --- */}
       {showLogoutModal && (
         <div
-          className="custom-modal-overlay"
+          className={`custom-modal-overlay ${isDarkMode ? "dark" : ""}`}
           onClick={() => setShowLogoutModal(false)}
         >
-          <div className="custom-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Chiqishni tasdiqlaysizmi?</h3>
-            <p>Haqiqatan ham profilingizdan chiqmoqchimisiz?</p>
+          <div
+            className={`custom-modal ${isDarkMode ? "dark-modal" : ""}`}
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              backgroundColor: isDarkMode ? "#1a1a1a" : "#fff",
+              color: isDarkMode ? "#fff" : "#000",
+            }}
+          >
+            <h3 style={{ color: isDarkMode ? "#fff" : "#333" }}>
+              Confirm Logout
+            </h3>
+            <p style={{ color: isDarkMode ? "#bbb" : "#666" }}>
+              Are you sure you want to log out of your profile?
+            </p>
             <div className="modal-actions">
               <button
                 className="modal-btn cancel"
                 onClick={() => setShowLogoutModal(false)}
+                style={{
+                  backgroundColor: isDarkMode ? "#333" : "#f0f0f0",
+                  color: isDarkMode ? "#fff" : "#333",
+                }}
               >
-                Bekor qilish
+                Cancel
               </button>
-              <button className="modal-btn confirm" onClick={confirmLogout}>
-                Ha, chiqish
+              <button
+                className="modal-btn confirm"
+                onClick={confirmLogout}
+                style={{ backgroundColor: "#ff4d4f", color: "#fff" }}
+              >
+                Yes, Logout
               </button>
             </div>
           </div>
