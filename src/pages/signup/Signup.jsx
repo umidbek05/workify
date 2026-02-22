@@ -207,7 +207,11 @@ const Signup = () => {
       border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
       boxShadow: "none",
       "&:hover": { border: "1px solid #163d5c" },
+<<<<<<< HEAD
       paddingLeft: "48px",
+=======
+      paddingLeft: "70px",
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
       fontSize: "14px",
     }),
     option: (provided, state) => ({

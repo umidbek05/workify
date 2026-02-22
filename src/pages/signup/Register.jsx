@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+=======
+import React, { useState, useRef } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import "../../pages/signup/Register.css";
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
@@ -13,6 +19,7 @@ function Register() {
 
   const USER_ID = location.state?.userId || 25;
 
+<<<<<<< HEAD
   // Telegramdan nusxa olingan kodni paste qilish (vositachi input orqali)
   const handlePaste = (e) => {
     const pasteData = e.clipboardData.getData("text").trim();
@@ -66,7 +73,13 @@ function Register() {
       });
       return;
     }
+=======
+  // Keyingi bo'sh katak indeksini aniqlash (vizual fokus uchun)
+  const activeIndex = code.findIndex((c) => c === "");
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 
+  // Tasdiqlash funksiyasi
+  const triggerVerify = async (enteredCode) => {
     Swal.fire({
       title: "Tekshirilmoqda...",
       allowOutsideClick: false,
@@ -101,14 +114,11 @@ function Register() {
         Swal.fire({
           icon: "error",
           title: "Xatolik",
-          text:
-            data.message ||
-            "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
+          text: data.message || "Siz kiritgan kod noto‘g‘ri! ❌",
           confirmButtonColor: "#d33",
         });
       }
     } catch (err) {
-      console.error("Xatolik tafsiloti:", err);
       Swal.fire({
         icon: "warning",
         title: "Aloqa uzildi",
@@ -118,8 +128,76 @@ function Register() {
     }
   };
 
+<<<<<<< HEAD
   // Faol katakni aniqlash (border yonishi uchun)
   const activeIndex = code.findIndex((c) => c === "");
+=======
+  // Nusxa ko'chirib qo'yish mantiqi
+  const handlePaste = (e) => {
+    const pasteData = e.clipboardData.getData("text").trim();
+    const digitsOnly = pasteData.replace(/\D/g, "").slice(0, 6);
+
+    if (digitsOnly.length > 0) {
+      const newCode = ["", "", "", "", "", ""];
+      digitsOnly.split("").forEach((digit, index) => {
+        newCode[index] = digit;
+      });
+      setCode(newCode);
+
+      if (digitsOnly.length === 6) {
+        setTimeout(() => triggerVerify(digitsOnly), 100);
+      }
+    }
+    e.preventDefault();
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Backspace") {
+      const newCode = [...code];
+      for (let i = 5; i >= 0; i--) {
+        if (newCode[i]) {
+          newCode[i] = "";
+          break;
+        }
+      }
+      setCode(newCode);
+      return;
+    }
+
+    if (!/^[0-9]$/.test(e.key)) return;
+
+    const index = code.findIndex((c) => c === "");
+    if (index === -1) return;
+
+    const newCode = [...code];
+    newCode[index] = e.key;
+    setCode(newCode);
+  };
+
+  const handleNext = () => {
+    const enteredCode = code.join("");
+    if (enteredCode.length < 6) {
+      Swal.fire({
+        icon: "warning",
+        title: "Diqqat!",
+        text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
+      });
+      return;
+    }
+    triggerVerify(enteredCode);
+  };
+
+  const handleClickHere = () => {
+    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
+  };
+
+  return (
+    <div>
+      <Header />
+      <div className="page">
+        <div className="card">
+          <h1>Start our Telegram bot to continue</h1>
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f6f4ef]">
@@ -147,17 +225,26 @@ function Register() {
             />
           </div>
 
+<<<<<<< HEAD
           {/* Hidden Input for Keyboard and Paste */}
+=======
+          {/* Yashirin input */}
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
           <input
             ref={inputRef}
             type="text"
             inputMode="numeric"
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
+<<<<<<< HEAD
             className="absolute opacity-0 pointer-events-none"
+=======
+            className="hidden-input"
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
             autoFocus
           />
 
+<<<<<<< HEAD
           {/* Verification Code Digits */}
           <div
             className="flex justify-center gap-2 md:gap-3.5 mb-8 cursor-text"
@@ -186,6 +273,21 @@ function Register() {
                 </div>
               );
             })}
+=======
+          {/* Vizual kataklar */}
+          <div className="digits" onClick={() => inputRef.current.focus()}>
+            {code.map((d, i) => (
+              <div 
+                key={i} 
+                className={`
+                  ${d ? "filled" : "empty"} 
+                  ${i === activeIndex ? "active-cell" : ""}
+                `}
+              >
+                {d}
+              </div>
+            ))}
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
           </div>
 
           <div className="flex flex-col-reverse sm:flex-row justify-center gap-4">
@@ -196,12 +298,16 @@ function Register() {
             >
               Back
             </button>
+<<<<<<< HEAD
 
             <button
               type="button"
               className="w-full sm:w-[120px] h-11 rounded-xl bg-[#0f2a44] text-white font-semibold hover:bg-[#1a3a5a] transition-all active:scale-95 shadow-md shadow-[#0f2a44]/10"
               onClick={handleNext}
             >
+=======
+            <button className="next" onClick={handleNext}>
+>>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
               Next
             </button>
           </div>
