@@ -1,11 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-=======
-import React, { useState, useRef } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import "../../pages/signup/Register.css";
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 import click from "../../assets/click.png";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
@@ -17,66 +11,11 @@ function Register() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Agar state'da userId bo'lmasa, default 25 (test uchun)
   const USER_ID = location.state?.userId || 25;
 
-<<<<<<< HEAD
-  // Telegramdan nusxa olingan kodni paste qilish (vositachi input orqali)
-  const handlePaste = (e) => {
-    const pasteData = e.clipboardData.getData("text").trim();
-    if (/^\d{6}$/.test(pasteData)) {
-      setCode(pasteData.split(""));
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Backspace") {
-      const newCode = [...code];
-      for (let i = 5; i >= 0; i--) {
-        if (newCode[i]) {
-          newCode[i] = "";
-          break;
-        }
-      }
-      setCode(newCode);
-      return;
-    }
-
-    if (!/^[0-9]$/.test(e.key)) return;
-
-    const index = code.findIndex((c) => c === "");
-    if (index === -1) return;
-
-    const newCode = [...code];
-    newCode[index] = e.key;
-    setCode(newCode);
-  };
-
-  const handleClickHere = () => {
-    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
-    Swal.fire({
-      icon: "info",
-      title: "Telegram ochildi",
-      text: "Botga ulaning va tasdiqlash kodini oling.",
-      confirmButtonColor: "#3085d6",
-    });
-  };
-
-  const handleNext = async () => {
-    const enteredCode = code.join("");
-
-    if (enteredCode.length < 6) {
-      Swal.fire({
-        icon: "warning",
-        title: "Diqqat!",
-        text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
-        confirmButtonColor: "#3085d6",
-      });
-      return;
-    }
-=======
-  // Keyingi bo'sh katak indeksini aniqlash (vizual fokus uchun)
+  // Keyingi bo'sh katak indeksini aniqlash
   const activeIndex = code.findIndex((c) => c === "");
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 
   // Tasdiqlash funksiyasi
   const triggerVerify = async (enteredCode) => {
@@ -128,11 +67,7 @@ function Register() {
     }
   };
 
-<<<<<<< HEAD
-  // Faol katakni aniqlash (border yonishi uchun)
-  const activeIndex = code.findIndex((c) => c === "");
-=======
-  // Nusxa ko'chirib qo'yish mantiqi
+  // Nusxa ko'chirib qo'yish (Paste) mantiqi
   const handlePaste = (e) => {
     const pasteData = e.clipboardData.getData("text").trim();
     const digitsOnly = pasteData.replace(/\D/g, "").slice(0, 6);
@@ -174,6 +109,16 @@ function Register() {
     setCode(newCode);
   };
 
+  const handleClickHere = () => {
+    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
+    Swal.fire({
+      icon: "info",
+      title: "Telegram ochildi",
+      text: "Botga ulaning va tasdiqlash kodini oling.",
+      confirmButtonColor: "#3085d6",
+    });
+  };
+
   const handleNext = () => {
     const enteredCode = code.join("");
     if (enteredCode.length < 6) {
@@ -181,23 +126,12 @@ function Register() {
         icon: "warning",
         title: "Diqqat!",
         text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
+        confirmButtonColor: "#3085d6",
       });
       return;
     }
     triggerVerify(enteredCode);
   };
-
-  const handleClickHere = () => {
-    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
-  };
-
-  return (
-    <div>
-      <Header />
-      <div className="page">
-        <div className="card">
-          <h1>Start our Telegram bot to continue</h1>
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f6f4ef]">
@@ -225,69 +159,40 @@ function Register() {
             />
           </div>
 
-<<<<<<< HEAD
           {/* Hidden Input for Keyboard and Paste */}
-=======
-          {/* Yashirin input */}
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
           <input
             ref={inputRef}
             type="text"
             inputMode="numeric"
             onKeyDown={handleKeyDown}
             onPaste={handlePaste}
-<<<<<<< HEAD
             className="absolute opacity-0 pointer-events-none"
-=======
-            className="hidden-input"
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
             autoFocus
           />
 
-<<<<<<< HEAD
           {/* Verification Code Digits */}
           <div
             className="flex justify-center gap-2 md:gap-3.5 mb-8 cursor-text"
             onClick={() => inputRef.current.focus()}
           >
             {code.map((d, i) => {
-              // Katak qachon yonishi kerak:
-              // 1. Agar u birinchi bo'sh katak bo'lsa
-              // 2. Agar hamma katak to'la bo'lsa va bu oxirgi katak bo'lsa
-              const isActive =
-                i === activeIndex || (activeIndex === -1 && i === 5);
-
+              const isActive = i === activeIndex || (activeIndex === -1 && i === 5);
               return (
                 <div
                   key={i}
                   className={`w-10 h-12 md:w-[52px] md:h-[52px] rounded-xl flex items-center justify-center text-xl font-bold transition-all border-2
                     ${
                       d
-                        ? "bg-[#f1f3f6] border-[#58b97c] text-gray-700" // To'lgan katak
+                        ? "bg-[#f1f3f6] border-[#58b97c] text-gray-700"
                         : isActive
-                        ? "bg-white border-[#58b97c] shadow-[0_0_8px_rgba(88,185,124,0.4)]" // Faol katak (yonishi)
-                        : "bg-white border-gray-200 text-gray-400" // Bo'sh katak
+                        ? "bg-white border-[#58b97c] shadow-[0_0_8px_rgba(88,185,124,0.4)]"
+                        : "bg-white border-gray-200 text-gray-400"
                     }`}
                 >
                   {d}
                 </div>
               );
             })}
-=======
-          {/* Vizual kataklar */}
-          <div className="digits" onClick={() => inputRef.current.focus()}>
-            {code.map((d, i) => (
-              <div 
-                key={i} 
-                className={`
-                  ${d ? "filled" : "empty"} 
-                  ${i === activeIndex ? "active-cell" : ""}
-                `}
-              >
-                {d}
-              </div>
-            ))}
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
           </div>
 
           <div className="flex flex-col-reverse sm:flex-row justify-center gap-4">
@@ -298,16 +203,12 @@ function Register() {
             >
               Back
             </button>
-<<<<<<< HEAD
 
             <button
               type="button"
               className="w-full sm:w-[120px] h-11 rounded-xl bg-[#0f2a44] text-white font-semibold hover:bg-[#1a3a5a] transition-all active:scale-95 shadow-md shadow-[#0f2a44]/10"
               onClick={handleNext}
             >
-=======
-            <button className="next" onClick={handleNext}>
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
               Next
             </button>
           </div>

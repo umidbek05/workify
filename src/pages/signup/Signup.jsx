@@ -20,29 +20,12 @@ import {
 
 const locationData = {
   Uzbekistan: [
-    "Tashkent city",
-    "Andijan",
-    "Bukhara",
-    "Fergana",
-    "Jizzakh",
-    "Namangan",
-    "Navoi",
-    "Kashkadarya",
-    "Samarkand",
-    "Sirdarya",
-    "Surkhandarya",
-    "Tashkent region",
-    "Khorezm",
-    "Karakalpakstan",
+    "Tashkent city", "Andijan", "Bukhara", "Fergana", "Jizzakh",
+    "Namangan", "Navoi", "Kashkadarya", "Samarkand", "Sirdarya",
+    "Surkhandarya", "Tashkent region", "Khorezm", "Karakalpakstan",
   ],
   Kazakhstan: ["Almaty", "Astana", "Shymkent", "Aktobe", "Karaganda"],
-  Russia: [
-    "Moscow",
-    "Saint Petersburg",
-    "Novosibirsk",
-    "Yekaterinburg",
-    "Kazan",
-  ],
+  Russia: ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Kazan"],
   Turkey: ["Istanbul", "Ankara", "Izmir", "Bursa", "Antalya"],
   USA: ["New York", "California", "Texas", "Florida", "Illinois"],
   Germany: ["Berlin", "Munich", "Hamburg", "Frankfurt", "Cologne"],
@@ -63,7 +46,6 @@ const Signup = () => {
   const [activeTab, setActiveTab] = useState("company");
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  // Ma'lumotlarni localStorage dan yuklash funksiyasi
   const getStoredData = () => {
     try {
       const savedData = localStorage.getItem("signup_form_storage");
@@ -87,7 +69,6 @@ const Signup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Sahifa yuklanganda oxirgi ma'lumotlarni qayta o'qish
     const data = getStoredData();
     setFormData(data);
   }, []);
@@ -161,7 +142,6 @@ const Signup = () => {
           type: "success",
         });
         localStorage.setItem("email", formData.email);
-        // MUHIM: Bu yerda localStorage'ni o'chirmaymiz, toki ro'yxatdan o'tish to'liq tugamaguncha
         setTimeout(() => {
           navigate("/register", {
             state: { userId: result.id, email: formData.email },
@@ -183,21 +163,11 @@ const Signup = () => {
     }
   };
 
-  const fieldsToTrack = [
-    "companyName",
-    "phone",
-    "email",
-    "website",
-    "industry",
-    "country",
-    "city",
-  ];
+  const fieldsToTrack = ["companyName", "phone", "email", "website", "industry", "country", "city"];
   const filledFields = fieldsToTrack.filter((f) =>
     f === "phone" ? formData[f].length >= 17 : formData[f]?.trim() !== ""
   ).length;
-  const completionPercentage = Math.round(
-    (filledFields / fieldsToTrack.length) * 100
-  );
+  const completionPercentage = Math.round((filledFields / fieldsToTrack.length) * 100);
 
   const customSelectStyles = {
     control: (provided, state) => ({
@@ -207,20 +177,12 @@ const Signup = () => {
       border: state.isFocused ? "1px solid #163d5c" : "1px solid #dbe1ea",
       boxShadow: "none",
       "&:hover": { border: "1px solid #163d5c" },
-<<<<<<< HEAD
-      paddingLeft: "48px",
-=======
-      paddingLeft: "70px",
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
+      paddingLeft: "48px", // Cleaned up conflict value
       fontSize: "14px",
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected
-        ? "#163d5c"
-        : state.isFocused
-        ? "#f1f4f8"
-        : "#fff",
+      backgroundColor: state.isSelected ? "#163d5c" : state.isFocused ? "#f1f4f8" : "#fff",
       color: state.isSelected ? "#fff" : "#333",
       cursor: "pointer",
     }),
@@ -230,31 +192,15 @@ const Signup = () => {
     <div className="min-h-screen bg-[#f8fafc] flex flex-col font-sans">
       <Header />
       {toast.show && (
-        <div
-          className={`fixed top-10 right-5 md:right-10 z-[10000] min-w-[300px] p-4 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col gap-2 animate-bounce-short border-l-8 ${
-            toast.type === "success"
-              ? "bg-white/90 border-green-500"
-              : "bg-white/90 border-red-500"
-          }`}
-        >
+        <div className={`fixed top-10 right-5 md:right-10 z-[10000] min-w-[300px] p-4 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col gap-2 animate-bounce-short border-l-8 ${toast.type === "success" ? "bg-white/90 border-green-500" : "bg-white/90 border-red-500"}`}>
           <div className="flex items-center gap-3">
-            <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                toast.type === "success"
-                  ? "bg-green-100 text-green-600"
-                  : "bg-red-100 text-red-600"
-              }`}
-            >
+            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${toast.type === "success" ? "bg-green-100 text-green-600" : "bg-red-100 text-red-600"}`}>
               {toast.type === "success" ? "✓" : "!"}
             </div>
             <p className="text-gray-800 font-medium text-sm">{toast.message}</p>
           </div>
           <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className={`h-full animate-progress ${
-                toast.type === "success" ? "bg-green-500" : "bg-red-500"
-              }`}
-            ></div>
+            <div className={`h-full animate-progress ${toast.type === "success" ? "bg-green-500" : "bg-red-500"}`}></div>
           </div>
         </div>
       )}
@@ -267,257 +213,124 @@ const Signup = () => {
               <span>{completionPercentage}%</span>
             </div>
             <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-              <div
-                className={`h-full transition-all duration-500 ease-out ${
-                  completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"
-                }`}
-                style={{ width: `${completionPercentage}%` }}
-              ></div>
+              <div className={`h-full transition-all duration-500 ease-out ${completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"}`} style={{ width: `${completionPercentage}%` }}></div>
             </div>
           </div>
 
           <div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
-            <button
-              onClick={() => setActiveTab("talent")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
-                activeTab === "talent"
-                  ? "bg-white text-[#163d5c] shadow-sm"
-                  : "text-gray-400"
-              }`}
-            >
+            <button onClick={() => setActiveTab("talent")} className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "talent" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"}`}>
               <FaUser size={18} /> Talent
             </button>
-            <button
-              onClick={() => setActiveTab("company")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
-                activeTab === "company"
-                  ? "bg-white text-[#163d5c] shadow-sm"
-                  : "text-gray-400"
-              }`}
-            >
+            <button onClick={() => setActiveTab("company")} className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "company" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"}`}>
               <FaBuilding size={18} /> Company
             </button>
           </div>
 
-          <form
-            onSubmit={handleSubmit}
-            className="w-full grid grid-cols-1 md:grid-cols-2 gap-6"
-          >
+          <form onSubmit={handleSubmit} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                {activeTab === "company" ? "Company name" : "Full name"}
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">{activeTab === "company" ? "Company name" : "Full name"}</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   {activeTab === "company" ? <FaBuilding /> : <FaUser />}
                 </div>
-                <input
-                  type="text"
-                  name="companyName"
-                  value={formData.companyName}
-                  onChange={handleChange}
-                  placeholder={
-                    activeTab === "company" ? "Company name" : "Full name"
-                  }
-                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                  required
-                />
+                <input type="text" name="companyName" value={formData.companyName} onChange={handleChange} placeholder={activeTab === "company" ? "Company name" : "Full name"} className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" required />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Phone
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Phone</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaPhone />
                 </div>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="+998 90-123-45-67"
-                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                  required
-                />
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+998 90-123-45-67" className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" required />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Email
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Email</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaEnvelope />
                 </div>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Email"
-                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                  required
-                />
+                <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" required />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Password
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Password</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaLock />
                 </div>
-                <input
-                  type={showPassword ? "text" : "password"}
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Password"
-                  className="w-full h-[52px] pl-14 pr-12 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#163d5c] hover:opacity-70 transition-opacity"
-                >
-                  {showPassword ? (
-                    <FaEyeSlash size={18} />
-                  ) : (
-                    <FaEye size={18} />
-                  )}
+                <input type={showPassword ? "text" : "password"} name="password" value={formData.password} onChange={handleChange} placeholder="Password" className="w-full h-[52px] pl-14 pr-12 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" required />
+                <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute right-4 top-1/2 -translate-y-1/2 text-[#163d5c] hover:opacity-70 transition-opacity">
+                  {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
                 </button>
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Website (Optional)
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Website (Optional)</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaGlobe />
                 </div>
-                <input
-                  type="text"
-                  name="website"
-                  value={formData.website}
-                  onChange={handleChange}
-                  placeholder="https://example.com"
-                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                />
+                <input type="text" name="website" value={formData.website} onChange={handleChange} placeholder="https://example.com" className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Industry
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Industry</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] group-focus-within:bg-blue-50 transition-colors">
                   <FaIndustry />
                 </div>
-                <input
-                  type="text"
-                  name="industry"
-                  value={formData.industry}
-                  onChange={handleChange}
-                  placeholder="e.g. IT, Finance"
-                  className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm"
-                />
+                <input type="text" name="industry" value={formData.industry} onChange={handleChange} placeholder="e.g. IT, Finance" className="w-full h-[52px] pl-14 pr-4 border border-gray-200 rounded-xl outline-none focus:border-[#163d5c] focus:ring-4 focus:ring-[#163d5c]/5 transition-all text-sm" />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                Country
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">Country</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] z-10 group-focus-within:bg-blue-50 transition-colors pointer-events-none">
                   <FaFlag />
                 </div>
-                <Select
-                  options={countryOptions}
-                  placeholder="Select country"
-                  value={
-                    countryOptions.find((o) => o.value === formData.country) ||
-                    null
-                  }
-                  onChange={(selected) =>
-                    handleChange({
-                      target: { name: "country", value: selected.value },
-                    })
-                  }
-                  styles={customSelectStyles}
-                />
+                <Select options={countryOptions} placeholder="Select country" value={countryOptions.find((o) => o.value === formData.country) || null} onChange={(selected) => handleChange({ target: { name: "country", value: selected.value }})} styles={customSelectStyles} />
               </div>
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-sm font-semibold text-gray-600 ml-1">
-                City / Region
-              </label>
+              <label className="text-sm font-semibold text-gray-600 ml-1">City / Region</label>
               <div className="relative group">
                 <div className="absolute left-1.5 top-1/2 -translate-y-1/2 w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-[#163d5c] z-10 group-focus-within:bg-blue-50 transition-colors pointer-events-none">
                   <FaCity />
                 </div>
                 <Select
-                  options={
-                    formData.country
-                      ? locationData[formData.country].map((city) => ({
-                          value: city,
-                          label: city,
-                        }))
-                      : []
-                  }
-                  placeholder={
-                    formData.country ? "Select city" : "Select country first"
-                  }
+                  options={formData.country ? locationData[formData.country].map((city) => ({ value: city, label: city })) : []}
+                  placeholder={formData.country ? "Select city" : "Select country first"}
                   isDisabled={!formData.country}
-                  value={
-                    formData.city
-                      ? { value: formData.city, label: formData.city }
-                      : null
-                  }
-                  onChange={(selected) =>
-                    handleChange({
-                      target: {
-                        name: "city",
-                        value: selected ? selected.value : "",
-                      },
-                    })
-                  }
+                  value={formData.city ? { value: formData.city, label: formData.city } : null}
+                  onChange={(selected) => handleChange({ target: { name: "city", value: selected ? selected.value : "" }})}
                   styles={customSelectStyles}
                 />
               </div>
             </div>
 
             <div className="md:col-span-2 flex flex-col-reverse sm:flex-row justify-between items-center gap-4 mt-6 pt-6 border-t border-gray-100">
-              <button
-                type="button"
-                onClick={() => navigate("/")}
-                className="w-full sm:w-[140px] h-12 rounded-xl border border-gray-300 text-[#163d5c] font-bold hover:bg-gray-50 transition-all active:scale-95"
-              >
-                Back
-              </button>
-              <button
-                type="submit"
-                className="w-full sm:w-[140px] h-12 rounded-xl bg-[#163d5c] text-white font-bold shadow-lg shadow-[#163d5c]/20 hover:bg-[#1e5078] transition-all active:scale-95"
-              >
-                Next
-              </button>
+              <button type="button" onClick={() => navigate("/")} className="w-full sm:w-[140px] h-12 rounded-xl border border-gray-300 text-[#163d5c] font-bold hover:bg-gray-50 transition-all active:scale-95">Back</button>
+              <button type="submit" className="w-full sm:w-[140px] h-12 rounded-xl bg-[#163d5c] text-white font-bold shadow-lg shadow-[#163d5c]/20 hover:bg-[#1e5078] transition-all active:scale-95">Next</button>
             </div>
           </form>
         </div>
       </main>
       <Footer />
-      <style>{`@keyframes progress { from { width: 100%; } to { width: 0%; } } .animate-progress { animation: progress 1.5s linear forwards; } @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } } .animate-bounce-short { animation: bounce-short 0.5s ease-out; }`}</style>
+      <style>{`
+        @keyframes progress { from { width: 100%; } to { width: 0%; } }
+        .animate-progress { animation: progress 1.5s linear forwards; }
+        @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce-short { animation: bounce-short 0.5s ease-out; }
+      `}</style>
     </div>
   );
 };
