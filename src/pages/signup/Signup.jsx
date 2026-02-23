@@ -207,24 +207,45 @@ const Signup = () => {
 
       <main className="flex-grow flex items-center justify-center p-4 md:p-10">
         <div className="w-full max-w-[720px] bg-white rounded-3xl p-6 md:p-10 shadow-xl shadow-slate-200/60 flex flex-col items-center">
-          <div className="w-full mb-8">
+        <div className="w-full mb-8">
             <div className="flex justify-between text-sm font-bold text-gray-500 mb-2">
               <span>Profile Completion</span>
               <span>{completionPercentage}%</span>
             </div>
             <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
-              <div className={`h-full transition-all duration-500 ease-out ${completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"}`} style={{ width: `${completionPercentage}%` }}></div>
+              <div
+                className={`h-full transition-all duration-500 ease-out ${
+                  completionPercentage === 100 ? "bg-green-500" : "bg-[#163d5c]"
+                }`}
+                style={{ width: `${completionPercentage}%` }}
+              ></div>
             </div>
           </div>
 
-          <div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
-            <button onClick={() => setActiveTab("talent")} className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "talent" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"}`}>
-              <FaUser size={18} /> Talent
-            </button>
-            <button onClick={() => setActiveTab("company")} className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "company" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"}`}>
-              <FaBuilding size={18} /> Company
-            </button>
-          </div>
+<div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
+  <button
+    type="button"
+    onClick={() => {
+      navigate("/TalentSignup"); 
+    }}
+    className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
+      activeTab === "talent" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"
+    }`}
+  >
+    <FaUser size={18} /> Talent
+  </button>
+  <button
+    type="button"
+    onClick={() => {
+      setActiveTab("company");
+    }}
+    className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
+      activeTab === "company" ? "bg-white text-[#163d5c] shadow-sm" : "text-gray-400"
+    }`}
+  >
+    <FaBuilding size={18} /> Company
+  </button>
+</div>
 
           <form onSubmit={handleSubmit} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex flex-col gap-1.5">

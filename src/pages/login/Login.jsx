@@ -86,42 +86,29 @@ function Login() {
         return;
       }
 
-<<<<<<< HEAD
+      // Ma'lumotlarni saqlash
       localStorage.setItem("email", formData.email);
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-=======
-      // Emailni saqlash
-      localStorage.setItem("email", formData.email);
-
-      // User ma'lumotlari
-      localStorage.setItem("userId", data.user.id);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Remember Me
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
+      // Remember Me logikasi
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
       } else {
         localStorage.removeItem("rememberedEmail");
       }
 
-<<<<<<< HEAD
-      alert("Muvaffaqiyatli login!");
-      navigate("/dashboard");
-=======
-      // 🔥 Chiroyli alert
+      // Muvaffaqiyatli kirish xabari
       Swal.fire({
         title: "Muvaffaqiyatli!",
         text: "Tizimga muvaffaqiyatli kirdingiz",
         icon: "success",
         confirmButtonText: "OK",
+        confirmButtonColor: "#0f2f4f",
       }).then(() => {
         navigate("/dashboard");
       });
 
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
     } catch (err) {
       setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
     } finally {
@@ -156,7 +143,6 @@ function Login() {
             </div>
           )}
 
-<<<<<<< HEAD
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Email Group */}
             <div className="space-y-2">
@@ -171,13 +157,6 @@ function Login() {
                 }`}
               >
                 <MdEmail className="text-xl text-[#0f2f4f] shrink-0" />
-=======
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Email</label>
-              <div className={`input-box ${errors.email ? "error" : ""}`}>
-                <MdEmail className="icon"  />
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
                 <input
                   type="email"
                   name="email"
@@ -220,17 +199,8 @@ function Login() {
                   className="text-xl text-gray-400 hover:text-[#0f2f4f] transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-<<<<<<< HEAD
                   {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible />}
                 </button>
-=======
-                  {showPassword ? (
-                    <AiOutlineEye size={18} />
-                  ) : (
-                    <AiOutlineEyeInvisible size={18} />
-                  )}
-                </span>
->>>>>>> 2f9c5f5aa527ba21be34a282a97ef4adf6800393
               </div>
               {errors.password && (
                 <span className="text-red-500 text-xs font-medium ml-1">
