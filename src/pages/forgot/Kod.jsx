@@ -76,7 +76,7 @@ function Kod() {
           <h1>Start our Telegram bot to continue</h1>
 
           <button className="primary" onClick={handleClickHere}>
-            Click here!
+            Click here
           </button>
 
           <div className="image-box">
