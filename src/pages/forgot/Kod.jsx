@@ -36,7 +36,7 @@ function Kod() {
 
   // Telegram ochish
   const handleClickHere = () => {
-    window.open(`https://t.me/workfy_login_bot?start=${USER_ID}`, "_blank");
+    window.open(`https://t.me/workifyBot_bot?start=${USER_ID}`, "_blank");
     alert("Telegram ochildi! 🔐 Botga ulaning va code ni oling.");
   };
 
@@ -44,6 +44,11 @@ function Kod() {
   const handleNext = async () => {
     const enteredCode = code.join("");
     try {
+      
+
+
+
+
       const res = await fetch("http://localhost:3000/verify-code", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -65,7 +70,7 @@ function Kod() {
 
   return (
     <div>
-      <Header />
+      <Header /> 
       <div className="page">
         <div className="card">
           <h1>Start our Telegram bot to continue</h1>
