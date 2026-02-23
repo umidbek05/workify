@@ -161,7 +161,7 @@ const Signup = () => {
           type: "success",
         });
         localStorage.setItem("email", formData.email);
-        // MUHIM: Bu yerda localStorage'ni o'chirmaymiz, toki ro'yxatdan o'tish to'liq tugamaguncha
+
         setTimeout(() => {
           navigate("/register", {
             state: { userId: result.id, email: formData.email },
