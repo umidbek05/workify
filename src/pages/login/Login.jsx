@@ -5,6 +5,7 @@ import { IoIosLock } from "react-icons/io";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
 import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
+import Swal from "sweetalert2";
 
 function Login() {
   const navigate = useNavigate();
@@ -85,18 +86,29 @@ function Login() {
         return;
       }
 
+      // Ma'lumotlarni saqlash
       localStorage.setItem("email", formData.email);
       localStorage.setItem("userId", data.user.id);
       localStorage.setItem("user", JSON.stringify(data.user));
 
+      // Remember Me logikasi
       if (formData.rememberMe) {
         localStorage.setItem("rememberedEmail", formData.email);
       } else {
         localStorage.removeItem("rememberedEmail");
       }
 
-      alert("Muvaffaqiyatli login!");
-      navigate("/dashboard");
+      // Muvaffaqiyatli kirish xabari
+      Swal.fire({
+        title: "Muvaffaqiyatli!",
+        text: "Tizimga muvaffaqiyatli kirdingiz",
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#0f2f4f",
+      }).then(() => {
+        navigate("/dashboard");
+      });
+
     } catch (err) {
       setErrors({ submit: "Server bilan ulanishda xato yuz berdi" });
     } finally {

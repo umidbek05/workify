@@ -1,5 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Signup from "./pages/signup/Signup";
+import TalentSignup from "./pages/signup/TalentSignup";
+import TalentSignup2 from "./pages/signup/TalentSignup2";
+import TalentSignup3 from "./pages/signup/TalentSignup3";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Workify from "./pages/Workify/workify";
 import Talents from "./pages/Talents/talents";
@@ -31,6 +34,9 @@ const App = () => {
           <Route path="/talents" element={<Talents />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/talentsignup" element={<TalentSignup />} />
+          <Route path="/talentsignup2" element={<TalentSignup2 />} />
+          <Route path="/talentsignup3" element={<TalentSignup3 />} />
           <Route path="/register" element={<Register />} />
           <Route path="/congratulation" element={<Conguratulation />} />
           <Route path="/login" element={<Login />} />

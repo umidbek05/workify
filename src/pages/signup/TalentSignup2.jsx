@@ -1,0 +1,544 @@
+import React, { useState, useEffect } from "react";
+import {
+  FaBriefcase,
+  FaSuitcase,
+  FaIdCard,
+  FaLightbulb,
+  FaLanguage,
+  FaChartBar,
+  FaTimes,
+} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import toast, { Toaster } from "react-hot-toast";
+import Header from "../../Components/Header/header";
+import Footer from "../../Components/Footer/footer";
+
+export default function RegistrationFormStepTwo() {
+  const navigate = useNavigate();
+
+  const [occupation, setOccupation] = useState("");
+  const [specialty, setSpecialty] = useState("");
+  const [skils, setskils] = useState([{ skill: "", experience_years: "" }]);
+  const [languages, setLanguages] = useState([{ language: "", level: "" }]);
+
+  const [showOccupationDropdown, setShowOccupationDropdown] = useState(false);
+  const [showSpecialtyDropdown, setShowSpecialtyDropdown] = useState(false);
+  const [showSkillDropdown, setShowSkillDropdown] = useState([false]);
+  const [showExpDropdown, setShowExpDropdown] = useState([false]);
+  const [showLangDropdown, setShowLangDropdown] = useState([false]);
+  const [showLevelDropdown, setShowLevelDropdown] = useState([false]);
+
+  const occupations = [
+    "Designer",
+    "Programmer",
+    "Businessman",
+    "Manager",
+    "Doctor",
+    "Teacher",
+  ];
+  const specialtyMap = {
+    Manager: [
+      "Product Manager",
+      "Project Manager",
+      "Operations Manager",
+      "Sales Manager",
+      "HR Manager",
+    ],
+    Programmer: [
+      "Frontend Developer",
+      "Backend Developer",
+      "Fullstack Developer",
+      "Mobile Developer",
+      "DevOps",
+    ],
+    Designer: [
+      "UX/UI Designer",
+      "Graphic Designer",
+      "Motion Designer",
+      "3D Artist",
+    ],
+  };
+  const skilsList = [
+    "Figma",
+    "Photoshop",
+    "React",
+    "Node.js",
+    "Python",
+    "Marketing",
+    "Illustrator",
+  ];
+  const expList = ["1 year", "2 years", "3 years", "4 years", "5+ years"];
+  const levels = ["Beginner", "Intermediate", "Advanced", "Native"];
+  const popularLanguages = [
+    "Uzbek",
+    "English",
+    "Russian",
+    "German",
+    "Turkish",
+    "French",
+    "Chinese",
+  ];
+
+  const getFiltered = (list, query) => {
+    const filtered = list.filter((item) =>
+      item.toLowerCase().includes(query.toLowerCase())
+    );
+    return filtered.length > 0 ? filtered : ["Other"];
+  };
+
+  useEffect(() => {
+    const savedData = localStorage.getItem("talent_step2");
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        setOccupation(parsed.occupation || "");
+        setSpecialty(parsed.specialty || "");
+        if (parsed.skils?.length) setskils(parsed.skils);
+        if (parsed.language?.length) setLanguages(parsed.language);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  }, []);
+
+  const addSkill = () => {
+    if (skils.length < 5) {
+      setskils([...skils, { skill: "", experience_years: "" }]);
+      setShowSkillDropdown([...showSkillDropdown, false]);
+      setShowExpDropdown([...showExpDropdown, false]);
+    } else {
+      toast.error("Maximum 5 skills allowed");
+    }
+  };
+
+  const addLanguage = () => {
+    if (languages.length < 3) {
+      setLanguages([...languages, { language: "", level: "" }]);
+      setShowLangDropdown([...showLangDropdown, false]);
+      setShowLevelDropdown([...showLevelDropdown, false]);
+    } else {
+      toast.error("Maximum 3 languages allowed");
+    }
+  };
+
+  const handleNext = () => {
+    if (!occupation) return toast.error("Please select an occupation");
+    if (!specialty) return toast.error("Please select a specialty");
+    if (!skils[0].skill) return toast.error("Please enter at least one skill");
+    if (!languages[0].language)
+      return toast.error("Please enter at least one language");
+
+    const step2Data = { occupation, specialty, skils, language: languages };
+    localStorage.setItem("talent_step2", JSON.stringify(step2Data));
+    toast.success("Saved successfully!");
+    setTimeout(() => navigate("/talentsignup3"), 1000);
+  };
+
+  const handleBack = () => {
+    const step2Data = {
+      occupation,
+      specialty,
+      skils,
+      language: languages,
+    };
+    localStorage.setItem("talent_step2", JSON.stringify(step2Data));
+    toast.success("Returned to previous step!");
+    setTimeout(() => navigate("/talentsignup"), 1000);
+  };
+
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Toaster position="top-right" />
+      <Header />
+      <main className="flex-grow bg-gray-50 flex items-center justify-center px-4 py-8">
+        <div className="w-full max-w-3xl"> 
+          <div className="bg-white rounded-2xl shadow-xl p-6 md:p-10">
+            <div className="flex flex-col items-center mb-6">
+              <h2 className="text-xl md:text-2xl font-extrabold text-[#163D5C] mb-4 text-center">
+                Professional Details
+              </h2>
+              <div className="flex items-center gap-2 w-full max-w-[280px] sm:max-w-sm">
+                <div className="w-2.5 h-2.5 rounded-full bg-[#163D5C] flex-shrink-0"></div>
+                <div className="h-1 bg-[#163D5C] rounded flex-1"></div>
+                <div className="w-4 h-4 rounded-full bg-[#163D5C] ring-2 ring-blue-100 flex-shrink-0"></div>
+                <div className="h-1 bg-gray-200 rounded flex-1"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-gray-200 flex-shrink-0"></div>
+              </div>
+            </div>
+
+            <div className="space-y-4 md:space-y-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="relative">
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5 ml-1">
+                    Occupation *
+                  </label>
+                  <div className="relative">
+                    <FaBriefcase className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-sm" />
+                    <input
+                      type="text"
+                      value={occupation}
+                      onChange={(e) => {
+                        setOccupation(e.target.value);
+                        setShowOccupationDropdown(true);
+                      }}
+                      onFocus={() => setShowOccupationDropdown(true)}
+                      onBlur={() =>
+                        setTimeout(() => setShowOccupationDropdown(false), 200)
+                      }
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#163D5C] text-sm"
+                      placeholder="Search occupation"
+                    />
+                    {showOccupationDropdown && (
+                      <div className="absolute z-50 w-full mt-1 bg-white border rounded-xl shadow-xl max-h-40 overflow-y-auto">
+                        {getFiltered(occupations, occupation).map((item, i) => (
+                          <div
+                            key={i}
+                            onMouseDown={() => setOccupation(item)}
+                            className="px-4 py-2.5 hover:bg-blue-50 cursor-pointer text-gray-700 text-sm"
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                <div className="relative">
+                  <label className="block text-xs font-bold text-gray-700 mb-1.5 ml-1">
+                    Specialty *
+                  </label>
+                  <div className="relative">
+                    <FaSuitcase className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-sm" />
+                    <input
+                      type="text"
+                      value={specialty}
+                      onChange={(e) => {
+                        setSpecialty(e.target.value);
+                        setShowSpecialtyDropdown(true);
+                      }}
+                      onFocus={() => setShowSpecialtyDropdown(true)}
+                      onBlur={() =>
+                        setTimeout(() => setShowSpecialtyDropdown(false), 200)
+                      }
+                      className="w-full pl-11 pr-4 py-3.5 bg-gray-50 border border-gray-200 rounded-xl outline-none focus:ring-2 focus:ring-[#163D5C] text-sm"
+                      placeholder="Search specialty"
+                    />
+                    {showSpecialtyDropdown && (
+                      <div className="absolute z-50 w-full mt-1 bg-white border rounded-xl shadow-xl max-h-40 overflow-y-auto">
+                        {getFiltered(
+                          specialtyMap[occupation] || [
+                            "Generalist",
+                            "Specialist",
+                          ],
+                          specialty
+                        ).map((item, i) => (
+                          <div
+                            key={i}
+                            onMouseDown={() => setSpecialty(item)}
+                            className="px-4 py-2.5 hover:bg-blue-50 cursor-pointer text-gray-700 text-sm"
+                          >
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-sm md:text-base font-bold text-gray-800 border-b pb-2">
+                  Skills & Experience
+                </h3>
+                {skils.map((s, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end"
+                  >
+                    <div className="sm:col-span-6 relative">
+                      <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1 ml-1">
+                        Skill {index === 0 ? "*" : ""}
+                      </label>
+                      <div className="relative">
+                        <FaIdCard className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-sm" />
+                        <input
+                          type="text"
+                          value={s.skill}
+                          onChange={(e) => {
+                            const updated = [...skils];
+                            updated[index].skill = e.target.value;
+                            setskils(updated);
+                          }}
+                          onFocus={() => {
+                            let arr = [...showSkillDropdown];
+                            arr[index] = true;
+                            setShowSkillDropdown(arr);
+                          }}
+                          onBlur={() =>
+                            setTimeout(() => {
+                              let arr = [...showSkillDropdown];
+                              arr[index] = false;
+                              setShowSkillDropdown(arr);
+                            }, 200)
+                          }
+                          className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm"
+                          placeholder="Type skill"
+                        />
+                        {showSkillDropdown[index] && (
+                          <div className="absolute z-40 w-full mt-1 bg-white border rounded-xl shadow-lg max-h-32 overflow-y-auto">
+                            {getFiltered(skilsList, s.skill).map((item, i) => (
+                              <div
+                                key={i}
+                                onMouseDown={() => {
+                                  const updated = [...skils];
+                                  updated[index].skill = item;
+                                  setskils(updated);
+                                }}
+                                className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs"
+                              >
+                                {item}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="sm:col-span-5 relative flex items-end gap-2">
+                      <div className="flex-1 relative">
+                        <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1 ml-1">
+                          Experience
+                        </label>
+                        <div className="relative">
+                          <FaLightbulb className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-sm" />
+                          <input
+                            type="text"
+                            value={s.experience_years}
+                            readOnly
+                            onFocus={() => {
+                              let arr = [...showExpDropdown];
+                              arr[index] = true;
+                              setShowExpDropdown(arr);
+                            }}
+                            onBlur={() =>
+                              setTimeout(() => {
+                                let arr = [...showExpDropdown];
+                                arr[index] = false;
+                                setShowExpDropdown(arr);
+                              }, 200)
+                            }
+                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer text-sm"
+                            placeholder="Select"
+                          />
+                          {showExpDropdown[index] && (
+                            <div className="absolute z-40 w-full mt-1 bg-white border rounded-xl shadow-lg">
+                              {expList.map((item, i) => (
+                                <div
+                                  key={i}
+                                  onMouseDown={() => {
+                                    const updated = [...skils];
+                                    updated[index].experience_years = item;
+                                    setskils(updated);
+                                  }}
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs"
+                                >
+                                  {item}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:col-span-1 flex justify-center sm:justify-end pb-1">
+                        {index > 0 && (
+                          <button
+                            onClick={() =>
+                              setskils(skils.filter((_, i) => i !== index))
+                            }
+                            className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl"
+                            aria-label="Remove skill"
+                          >
+                            <FaTimes className="text-sm" />
+                          </button>
+                        )}
+                    </div>
+                  </div>
+                ))}
+
+                {skils.length < 5 && (
+                  /* Tugma o'ng tarafga surildi (justify-end) */
+                  <div className="flex justify-end pt-1">
+                    <button
+                      onClick={addSkill}
+                      className="text-[10px] uppercase tracking-wider font-bold text-white bg-[#4AD395] px-4 py-2 rounded-lg hover:bg-[#3bc07f] transition-colors"
+                    >
+                      + Add Skill
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="space-y-3 pt-2">
+                <h3 className="text-sm md:text-base font-bold text-gray-800 border-b pb-2">
+                  Languages
+                </h3>
+                {languages.map((l, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end"
+                  >
+                    <div className="sm:col-span-6 relative">
+                      <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1 ml-1">
+                        Language {index === 0 ? "*" : ""}
+                      </label>
+                      <div className="relative">
+                        <FaLanguage className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-base" />
+                        <input
+                          type="text"
+                          value={l.language}
+                          onChange={(e) => {
+                            const updated = [...languages];
+                            updated[index].language = e.target.value;
+                            setLanguages(updated);
+                            let arr = [...showLangDropdown];
+                            arr[index] = true;
+                            setShowLangDropdown(arr);
+                          }}
+                          onFocus={() => {
+                            let arr = [...showLangDropdown];
+                            arr[index] = true;
+                            setShowLangDropdown(arr);
+                          }}
+                          onBlur={() =>
+                            setTimeout(() => {
+                              let arr = [...showLangDropdown];
+                              arr[index] = false;
+                              setShowLangDropdown(arr);
+                            }, 200)
+                          }
+                          className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl outline-none text-sm"
+                          placeholder="Search language"
+                        />
+                        {showLangDropdown[index] && (
+                          <div className="absolute z-40 w-full mt-1 bg-white border rounded-xl shadow-lg max-h-32 overflow-y-auto">
+                            {getFiltered(popularLanguages, l.language).map(
+                              (item, i) => (
+                                <div
+                                  key={i}
+                                  onMouseDown={() => {
+                                    const updated = [...languages];
+                                    updated[index].language = item;
+                                    setLanguages(updated);
+                                  }}
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs"
+                                >
+                                  {item}
+                                </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="sm:col-span-5 relative flex items-end gap-2">
+                      <div className="flex-1 relative">
+                        <label className="block text-[10px] uppercase font-bold text-gray-400 mb-1 ml-1">
+                          Level
+                        </label>
+                        <div className="relative">
+                          <FaChartBar className="absolute left-4 top-1/2 -translate-y-1/2 text-[#163D5C] text-sm" />
+                          <input
+                            type="text"
+                            value={l.level}
+                            readOnly
+                            onFocus={() => {
+                              let arr = [...showLevelDropdown];
+                              arr[index] = true;
+                              setShowLevelDropdown(arr);
+                            }}
+                            onBlur={() =>
+                              setTimeout(() => {
+                                let arr = [...showLevelDropdown];
+                                arr[index] = false;
+                                setShowLevelDropdown(arr);
+                              }, 200)
+                            }
+                            className="w-full pl-11 pr-4 py-3 bg-gray-50 border border-gray-200 rounded-xl cursor-pointer text-sm"
+                            placeholder="Select Level"
+                          />
+                          {showLevelDropdown[index] && (
+                            <div className="absolute z-40 w-full mt-1 bg-white border rounded-xl shadow-lg">
+                              {levels.map((item, i) => (
+                                <div
+                                  key={i}
+                                  onMouseDown={() => {
+                                    const updated = [...languages];
+                                    updated[index].level = item;
+                                    setLanguages(updated);
+                                  }}
+                                  className="px-4 py-2 hover:bg-gray-100 cursor-pointer text-xs"
+                                >
+                                  {item}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="sm:col-span-1 flex justify-center sm:justify-end pb-1">
+                        {index > 0 && (
+                          <button
+                            onClick={() =>
+                              setLanguages(
+                                languages.filter((_, i) => i !== index)
+                              )
+                            }
+                            className="p-2.5 text-red-500 hover:bg-red-50 rounded-xl"
+                            aria-label="Remove language"
+                          >
+                            <FaTimes className="text-sm" />
+                          </button>
+                        )}
+                    </div>
+                  </div>
+                ))}
+
+                {languages.length < 3 && (
+                  /* Tugma o'ng tarafga surildi (justify-end) */
+                  <div className="flex justify-end pt-1">
+                    <button
+                      onClick={addLanguage}
+                      className="text-[10px] uppercase tracking-wider font-bold text-white bg-[#4AD395] px-4 py-2 rounded-lg hover:bg-[#3bc07f] transition-colors"
+                    >
+                      + Add Language
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3 pt-6">
+                <button 
+                  onClick={handleBack}
+                  className="w-full sm:flex-1 py-3.5 border-2 border-[#163D5C] text-[#163D5C] rounded-xl font-bold hover:bg-gray-50 transition-all text-sm"
+                >
+                  Previous Step
+                </button>
+                <button
+                  onClick={handleNext}
+                  className="w-full sm:flex-1 py-3.5 bg-[#163D5C] text-white rounded-xl font-bold hover:bg-[#1a4d73] shadow-md transition-all text-sm"
+                >
+                  Next Step
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+}
