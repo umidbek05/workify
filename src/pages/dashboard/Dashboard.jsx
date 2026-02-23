@@ -17,6 +17,15 @@ const Dashboard = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
 
+  // Miltillashni (flickering) to'xtatadigan funksiya
+  const handleThemeToggle = () => {
+    document.body.classList.add("no-transition");
+    setIsDarkMode(!isDarkMode);
+    setTimeout(() => {
+      document.body.classList.remove("no-transition");
+    }, 50); // 50ms transitionni o'chirib turadi
+  };
+
   const [company, setCompany] = useState(() => {
     const savedData = JSON.parse(
       localStorage.getItem("signup_form_storage") || "{}"
@@ -115,7 +124,7 @@ const Dashboard = () => {
             <input
               type="checkbox"
               checked={isDarkMode}
-              onChange={() => setIsDarkMode(!isDarkMode)}
+              onChange={handleThemeToggle} // BU YERDA O'ZGARDi
             />
             <span className="ios-slider"></span>
           </label>
@@ -226,7 +235,7 @@ const Dashboard = () => {
               <input
                 type="checkbox"
                 checked={isDarkMode}
-                onChange={() => setIsDarkMode(!isDarkMode)}
+                onChange={handleThemeToggle} // BU YERDA O'ZGARDi
               />
               <span className="ios-slider"></span>
             </label>
@@ -259,7 +268,6 @@ const Dashboard = () => {
         <Outlet />
       </main>
 
-      {/* --- YANGILANGAN LOGOUT MODAL --- */}
       {showLogoutModal && (
         <div
           className={`custom-modal-overlay ${isDarkMode ? "dark" : ""}`}
