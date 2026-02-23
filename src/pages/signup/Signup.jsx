@@ -142,6 +142,8 @@ const Signup = () => {
           type: "success",
         });
         localStorage.setItem("email", formData.email);
+signup
+ main
         setTimeout(() => {
           navigate("/register", {
             state: { userId: result.id, email: formData.email },

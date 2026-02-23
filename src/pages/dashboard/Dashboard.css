@@ -1,3 +1,13 @@
+/* ❗ MILTILLASHGA QARSHI QO'SHILDI */
+.no-transition, 
+.no-transition * {
+  -webkit-transition: none !important;
+  -moz-transition: none !important;
+  -ms-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+}
+
 /* ASOSIY STILLAR */
 * {
   box-sizing: border-box;
@@ -121,14 +131,12 @@ body {
 }
 
 /* 🔹 RESPONSIVE DESIGN */
-/* 🔹 RESPONSIVE DESIGN - YANGILANGAN */
-/* 1. Umumiy (Desktop va hamma joy uchun) */
 .close-sidebar-btn {
-  display: none; /* Desktopda ko'rinmaydi */
+  display: none;
 }
 
 .burger-menu-btn {
-  display: none; /* Desktopda ko'rinmaydi */
+  display: none;
 }
 
 .custom-modal-overlay {
@@ -251,7 +259,7 @@ body {
 }
 
 input:checked + .ios-slider {
-  background-color: #4cd964; /* iPhone yashil rangi */
+  background-color: #4cd964;
 }
 
 input:checked + .ios-slider:before {
@@ -296,20 +304,19 @@ input:checked + .ios-slider:before {
 }
 
 :root.dark .menu-icon-img {
-  filter: brightness(0) invert(1); /* PNG ikonkalarni oq qiladi */
+  filter: brightness(0) invert(1);
 }
 
 :root.dark .lucide-icon {
   color: white !important;
 }
 
-/* Main content ichidagi Outlet (sahifalar) uchun */
 :root.dark .main-content {
   background-color: var(--main-bg);
   color: var(--text-color);
 }
 
-/* 2. PLANSHEET VA TELEFONLAR UCHUN (992px dan kichik hamma narsa) */
+/* 2. PLANSHEET VA TELEFONLAR */
 @media (max-width: 992px) {
   .dashboard {
     flex-direction: column;
@@ -318,7 +325,6 @@ input:checked + .ios-slider:before {
     min-height: 100vh;
   }
 
-  /* Mobil Navigatsiya */
   .mobile-nav {
     display: flex !important;
     justify-content: space-between;
@@ -333,64 +339,31 @@ input:checked + .ios-slider:before {
     z-index: 1000;
   }
 
-  .burger-menu-btn {
-    display: block !important;
-    font-size: 26px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #1d3f61;
-    padding: 5px;
-  }
-
-  /* SIDEBAR - Universal Joylashuv */
   .sidebar {
     position: fixed !important;
-    left: -100%; /* To'liq yashirish */
+    left: -100%;
     top: 0;
-    width: 280px; /* Telefonlar uchun standart kenglik */
-    max-width: 80%; /* Juda kichik ekranlarda ekran boyiga qarab moslashadi */
+    width: 280px;
+    max-width: 80%;
     height: 100vh;
-    height: -webkit-fill-available; /* iOS Safari uchun maxsus */
     background: white;
-    z-index: 3000 !important; /* Hamma narsadan ustun */
+    z-index: 3000 !important;
     margin: 0 !important;
     border-radius: 0 20px 20px 0;
     box-shadow: 10px 0 30px rgba(0, 0, 0, 0.1);
     transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    overflow-y: auto; /* Ichidagi kontent sig'masa scroll bo'ladi */
+    overflow-y: auto;
   }
 
   .sidebar.open {
     left: 0;
   }
 
-  /* Yopish tugmasi - iPhone XR va boshqalarda chiroyli turishi uchun */
-  .close-sidebar-btn {
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    width: 35px;
-    height: 35px;
-    background: #f5f7fb;
-    border: none;
-    border-radius: 50%;
-    font-size: 16px;
-    cursor: pointer;
-    color: #1d3f61;
-    z-index: 3001;
-  }
-
-  /* Qorong'u fon (Overlay) */
   .sidebar-overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px); /* Safari uchun */
     z-index: 2500 !important;
     display: none;
     opacity: 0;
@@ -402,14 +375,12 @@ input:checked + .ios-slider:before {
     opacity: 1;
   }
 
-  /* Asosiy kontent mobil holati */
   .main-content {
     padding: 15px;
     width: 100%;
   }
 }
 
-/* 3. JUDA KICHIK TELEFONLAR UCHUN (iPhone SE kabi) */
 @media (max-width: 380px) {
   .sidebar {
     width: 250px;

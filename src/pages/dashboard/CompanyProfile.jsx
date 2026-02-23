@@ -160,7 +160,7 @@ const CompanyProfile = () => {
   return (
     <div
       className={`w-full min-h-screen transition-all duration-300 font-['Inter'] ${
-        isDarkMode ? "bg-[#121212]" : "bg-[#f8f9fa]"
+        isDarkMode ? "bg-[#121212]" : "bg-[#f5f7fb]"
       }`}
     >
       <div className="p-4 md:p-8 w-full">
