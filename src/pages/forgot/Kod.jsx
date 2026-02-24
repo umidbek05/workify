@@ -6,7 +6,7 @@ import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
 import Swal from "sweetalert2";
 
-function Register() {
+function Kod() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ function Register() {
       icon: "info",
       title: "Telegram ochildi",
       text: "Botga ulaning va tasdiqlash kodini oling.",
-      confirmButtonColor: "#3085d6",
+      confirmButtonColor: "#3b82f6",
     });
   };
 
@@ -54,7 +54,7 @@ function Register() {
         icon: "warning",
         title: "Diqqat!",
         text: "Iltimos, 6 xonali kodni to‘liq kiriting.",
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#3b82f6",
       });
       return;
     }
@@ -93,10 +93,8 @@ function Register() {
         Swal.fire({
           icon: "error",
           title: "Xatolik",
-          text:
-            data.message ||
-            "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
-          confirmButtonColor: "#d33",
+          text: data.message || "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
+          confirmButtonColor: "#ef4444",
         });
       }
     } catch (err) {
@@ -104,79 +102,75 @@ function Register() {
       Swal.fire({
         icon: "warning",
         title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi. Backend ishlayotganini tekshiring.",
-        confirmButtonColor: "#f39c12",
+        text: "Server bilan bog‘lanishda muammo yuz berdi.",
+        confirmButtonColor: "#f59e0b",
       });
     }
   };
 
   return (
-    <div className="min-h-screen flex flex-col font-sans">
+    <div className="min-h-screen flex flex-col bg-gray-50 font-sans">
       <Header />
-
-      {/* page wrapper --> min-h-[80vh] flex items-center justify-center bg-[#f9fafb] */}
-      <div className="flex-1 flex items-center justify-center bg-[#f9fafb] p-5">
-        {/* card container --> max-w-[450px] w-full bg-white p-10 rounded-2xl shadow-sm text-center */}
-        <div className="max-w-[450px] w-full bg-white p-10 rounded-2xl shadow-[0_10px_25px_rgba(0,0,0,0.05)] text-center">
-          <h1 className="text-[22px] text-[#1a202c] mb-6 font-bold">
+      
+      <main className="flex-1 flex items-center justify-center p-6">
+        <div className="max-w-[450px] w-full bg-white p-8 md:p-10 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-gray-100 text-center">
+          <h1 className="text-2xl font-bold text-gray-800 mb-6">
             Start our Telegram bot to continue
           </h1>
 
-          <button
-            className="bg-[#0088cc] hover:bg-[#0077b5] text-white px-[30px] py-3 rounded-lg text-base cursor-pointer transition-colors duration-300 mb-5"
+          <button 
+            className="w-full bg-[#0088cc] hover:bg-[#0077b5] text-white font-semibold py-4 rounded-xl transition duration-300 transform active:scale-95 mb-8 shadow-lg shadow-blue-100"
             onClick={handleClickHere}
           >
             Click here!
           </button>
 
-          <div className="my-5 flex justify-center">
-            <img
-              src={click}
-              alt="preview"
-              className="w-full max-w-[250px] rounded-lg"
-            />
+          <div className="flex justify-center mb-8">
+            <div className="relative w-40 h-40 bg-blue-50 rounded-full flex items-center justify-center">
+              <img src={click} alt="preview" className="w-24 h-24 object-contain" />
+            </div>
           </div>
 
+          {/* Hidden input for handling typing */}
           <input
             ref={inputRef}
             type="text"
             inputMode="numeric"
             maxLength={6}
             onKeyDown={handleKeyDown}
-            className="absolute opacity-0 z-[-1]"
+            className="absolute opacity-0 pointer-events-none"
             autoFocus
           />
 
-          {/* Code input boxes */}
-          <div
-            className="flex gap-2.5 justify-center my-8 cursor-pointer"
+          {/* Visual code boxes */}
+          <div 
+            className="flex gap-3 justify-center mb-10 cursor-text" 
             onClick={() => inputRef.current.focus()}
           >
             {code.map((d, i) => (
-              <div
-                key={i}
-                className={`w-[45px] h-[55px] flex items-center justify-center text-2xl font-bold border-2 rounded-[10px] transition-all duration-200 
-                  ${
-                    d
-                      ? "border-[#0088cc] bg-[#f0f9ff]"
-                      : "border-[#e2e8f0] bg-white"
-                  }`}
+              <div 
+                key={i} 
+                className={`w-12 h-16 flex items-center justify-center text-2xl font-bold border-2 rounded-xl transition-all duration-200 
+                  ${d ? "border-blue-500 bg-blue-50 text-blue-600 ring-4 ring-blue-50" : "border-gray-200 text-gray-400"}`}
               >
-                {d}
+                {d || "•"}
               </div>
             ))}
           </div>
 
-          <div className="flex justify-between mt-[30px]">
-            <button
-              className="px-[25px] py-3 bg-[#edf2f7] text-[#4a5568] rounded-lg font-semibold hover:bg-[#e2e8f0] transition-colors"
+          <div className="flex gap-4">
+            <button 
+              className="flex-1 py-4 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition duration-200" 
               onClick={() => navigate("/signup")}
             >
               Back
             </button>
 
-            <button
-              className="px-[25px] py-3 bg-[#1a202c] text-white rounded-lg font-semibold hover:opacity-90 disabled:bg-[#cbd5e0] disabled:cursor-not-allowed transition-all"
+            <button 
+              className={`flex-1 py-4 font-bold rounded-xl transition duration-200 shadow-md 
+                ${code.join("").length === 6 
+                  ? "bg-gray-900 text-white hover:bg-black shadow-gray-200" 
+                  : "bg-gray-200 text-gray-400 cursor-not-allowed shadow-none"}`} 
               onClick={handleNext}
               disabled={code.join("").length < 6}
             >
@@ -184,11 +178,11 @@ function Register() {
             </button>
           </div>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>
   );
 }
 
-export default Register;
+export default Kod;
