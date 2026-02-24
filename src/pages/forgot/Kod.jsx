@@ -6,7 +6,7 @@ import Header from "../../Components/Header/header";
 import Footer from "../../Components/Footer/footer";
 import Swal from "sweetalert2";
 
-function Register() {
+function Kod() {
   const [code, setCode] = useState(["", "", "", "", "", ""]);
   const inputRef = useRef(null);
   const navigate = useNavigate();
@@ -191,4 +191,4 @@ function Register() {
   );
 }
 
-export default Register;
+export default Kod;
