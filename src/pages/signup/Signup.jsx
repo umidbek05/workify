@@ -143,12 +143,19 @@ const Signup = () => {
     }
 
     try {
+
+      const dataToSend = {
+        ...formData,
+        role: activeTab // 'company' yoki 'talent' ni backendga yuborish
+      };
+
+
       const response = await fetch(
         "https://workifyback-production.up.railway.app/register/createRegister",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
+          body: JSON.stringify(dataToSend), // formData o'rniga dataToSend
         }
       );
 
@@ -161,6 +168,8 @@ const Signup = () => {
           type: "success",
         });
         localStorage.setItem("email", formData.email);
+        localStorage.setItem("userRole", activeTab); // 🔥 QO'SHILDI
+
         // MUHIM: Bu yerda localStorage'ni o'chirmaymiz, toki ro'yxatdan o'tish to'liq tugamaguncha
         setTimeout(() => {
           navigate("/register", {
@@ -215,8 +224,8 @@ const Signup = () => {
       backgroundColor: state.isSelected
         ? "#163d5c"
         : state.isFocused
-        ? "#f1f4f8"
-        : "#fff",
+          ? "#f1f4f8"
+          : "#fff",
       color: state.isSelected ? "#fff" : "#333",
       cursor: "pointer",
     }),
@@ -227,19 +236,17 @@ const Signup = () => {
       <Header />
       {toast.show && (
         <div
-          className={`fixed top-10 right-5 md:right-10 z-[10000] min-w-[300px] p-4 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col gap-2 animate-bounce-short border-l-8 ${
-            toast.type === "success"
-              ? "bg-white/90 border-green-500"
-              : "bg-white/90 border-red-500"
-          }`}
+          className={`fixed top-10 right-5 md:right-10 z-[10000] min-w-[300px] p-4 rounded-2xl shadow-2xl backdrop-blur-md flex flex-col gap-2 animate-bounce-short border-l-8 ${toast.type === "success"
+            ? "bg-white/90 border-green-500"
+            : "bg-white/90 border-red-500"
+            }`}
         >
           <div className="flex items-center gap-3">
             <div
-              className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${
-                toast.type === "success"
-                  ? "bg-green-100 text-green-600"
-                  : "bg-red-100 text-red-600"
-              }`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center font-bold ${toast.type === "success"
+                ? "bg-green-100 text-green-600"
+                : "bg-red-100 text-red-600"
+                }`}
             >
               {toast.type === "success" ? "✓" : "!"}
             </div>
@@ -247,9 +254,8 @@ const Signup = () => {
           </div>
           <div className="h-1 w-full bg-gray-100 rounded-full overflow-hidden">
             <div
-              className={`h-full animate-progress ${
-                toast.type === "success" ? "bg-green-500" : "bg-red-500"
-              }`}
+              className={`h-full animate-progress ${toast.type === "success" ? "bg-green-500" : "bg-red-500"
+                }`}
             ></div>
           </div>
         </div>
@@ -264,9 +270,8 @@ const Signup = () => {
             </div>
             <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
               <div
-                className={`h-full transition-all duration-500 ease-out ${
-                  completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"
-                }`}
+                className={`h-full transition-all duration-500 ease-out ${completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"
+                  }`}
                 style={{ width: `${completionPercentage}%` }}
               ></div>
             </div>
@@ -275,21 +280,19 @@ const Signup = () => {
           <div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
             <button
               onClick={() => setActiveTab("talent")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
-                activeTab === "talent"
-                  ? "bg-white text-[#163d5c] shadow-sm"
-                  : "text-gray-400"
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "talent"
+                ? "bg-white text-[#163d5c] shadow-sm"
+                : "text-gray-400"
+                }`}
             >
               <FaUser size={18} /> Talent
             </button>
             <button
               onClick={() => setActiveTab("company")}
-              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
-                activeTab === "company"
-                  ? "bg-white text-[#163d5c] shadow-sm"
-                  : "text-gray-400"
-              }`}
+              className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${activeTab === "company"
+                ? "bg-white text-[#163d5c] shadow-sm"
+                : "text-gray-400"
+                }`}
             >
               <FaBuilding size={18} /> Company
             </button>
@@ -467,9 +470,9 @@ const Signup = () => {
                   options={
                     formData.country
                       ? locationData[formData.country].map((city) => ({
-                          value: city,
-                          label: city,
-                        }))
+                        value: city,
+                        label: city,
+                      }))
                       : []
                   }
                   placeholder={
