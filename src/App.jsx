@@ -9,6 +9,15 @@ import Conguratulation from "./pages/signup/Conguratulation";
 import MyJobs from "./pages/dashboard/MyJobs";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import CompanyProfile from "./pages/dashboard/CompanyProfile";
+
+
+import TalentDashboard from "./pages/talentDashboard/Dashbord";
+import Sidebar from "./pages/talentDashboard/Sidebar.jsx";
+import JobAlerts from "./pages/talentDashboard/JobAlerts.jsx";
+import MyProfile from "./pages/talentDashboard/MyProfile.jsx";
+import MainLoyaut from "./pages/talentDashboard/MainLayout.jsx";
+import JobMatches from "./pages/talentDashboard/JobMatches.jsx";
+
 import "./index.css";
 
 import FAQ from "./pages/dashboard/FAQ";
@@ -20,13 +29,21 @@ import Kod from "./pages/forgot/Kod";
 import Forget from "./pages/forgot/Forget";
 import Setpassword from "./pages/setpassword/Setpassword";
 
-import { ThemeProvider } from "./context/ThemeContext";
+import { ThemeProvider } from "./Context/ThemeContext.jsx";
 import VerifyForget from "./pages/forgot/VerifyForget";
 const App = () => {
   return (
     <div>
       <ThemeProvider>
         <Routes>
+          <Route path="/talentdashboard" element ={<TalentDashboard/>}/>
+          <Route path="/sidebar" element ={<Sidebar/>}/>
+          <Route path="/alerts" element ={<JobAlerts/>}/>
+          <Route path="/profile" element ={<MyProfile/>}/>
+          <Route path="/mainLoyaut" element ={<MainLoyaut/>}/>
+          <Route path="/jobMatches" element ={<JobMatches/>}/>
+
+
           <Route path="/" element={<Workify />} />
           <Route path="/talents" element={<Talents />} />
           <Route path="/jobs" element={<Jobs />} />
