@@ -11,14 +11,79 @@ function Register() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Agar state'da userId bo'lmasa, default 25 (test uchun)
   const USER_ID = location.state?.userId || 25;
 
-  // Telegramdan nusxa olingan kodni paste qilish (vositachi input orqali)
+  // Keyingi bo'sh katak indeksini aniqlash
+  const activeIndex = code.findIndex((c) => c === "");
+
+  // Tasdiqlash funksiyasi
+  const triggerVerify = async (enteredCode) => {
+    Swal.fire({
+      title: "Tekshirilmoqda...",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+    try {
+      const res = await fetch(
+        "https://workifybot-production.up.railway.app/verify-code",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ user_id: USER_ID, code: enteredCode }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (res.ok && data.valid) {
+        Swal.fire({
+          icon: "success",
+          title: "Tasdiqlandi!",
+          text: "Kod to‘g‘ri, xush kelibsiz!",
+          timer: 1500,
+          showConfirmButton: false,
+        }).then(() => {
+          navigate("/congratulation");
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Xatolik",
+          text: data.message || "Siz kiritgan kod noto‘g‘ri! ❌",
+          confirmButtonColor: "#d33",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        icon: "warning",
+        title: "Aloqa uzildi",
+        text: "Server bilan bog‘lanishda muammo yuz berdi.",
+        confirmButtonColor: "#f39c12",
+      });
+    }
+  };
+
+  // Nusxa ko'chirib qo'yish (Paste) mantiqi
   const handlePaste = (e) => {
     const pasteData = e.clipboardData.getData("text").trim();
-    if (/^\d{6}$/.test(pasteData)) {
-      setCode(pasteData.split(""));
+    const digitsOnly = pasteData.replace(/\D/g, "").slice(0, 6);
+
+    if (digitsOnly.length > 0) {
+      const newCode = ["", "", "", "", "", ""];
+      digitsOnly.split("").forEach((digit, index) => {
+        newCode[index] = digit;
+      });
+      setCode(newCode);
+
+      if (digitsOnly.length === 6) {
+        setTimeout(() => triggerVerify(digitsOnly), 100);
+      }
     }
+    e.preventDefault();
   };
 
   const handleKeyDown = (e) => {
@@ -54,9 +119,8 @@ function Register() {
     });
   };
 
-  const handleNext = async () => {
+  const handleNext = () => {
     const enteredCode = code.join("");
-
     if (enteredCode.length < 6) {
       Swal.fire({
         icon: "warning",
@@ -66,60 +130,8 @@ function Register() {
       });
       return;
     }
-
-    Swal.fire({
-      title: "Tekshirilmoqda...",
-      allowOutsideClick: false,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-
-    try {
-      const res = await fetch(
-        "https://workifybot-production.up.railway.app/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ user_id: USER_ID, code: enteredCode }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (res.ok && data.valid) {
-        Swal.fire({
-          icon: "success",
-          title: "Tasdiqlandi!",
-          text: "Kod to‘g‘ri, xush kelibsiz!",
-          timer: 1500,
-          showConfirmButton: false,
-        }).then(() => {
-          navigate("/congratulation");
-        });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Xatolik",
-          text:
-            data.message ||
-            "Siz kiritgan kod noto‘g‘ri yoki muddati o‘tgan! ❌",
-          confirmButtonColor: "#d33",
-        });
-      }
-    } catch (err) {
-      console.error("Xatolik tafsiloti:", err);
-      Swal.fire({
-        icon: "warning",
-        title: "Aloqa uzildi",
-        text: "Server bilan bog‘lanishda muammo yuz berdi.",
-        confirmButtonColor: "#f39c12",
-      });
-    }
+    triggerVerify(enteredCode);
   };
-
-  // Faol katakni aniqlash (border yonishi uchun)
-  const activeIndex = code.findIndex((c) => c === "");
 
   return (
     <div className="min-h-screen flex flex-col bg-[#f6f4ef]">
@@ -164,22 +176,17 @@ function Register() {
             onClick={() => inputRef.current.focus()}
           >
             {code.map((d, i) => {
-              // Katak qachon yonishi kerak:
-              // 1. Agar u birinchi bo'sh katak bo'lsa
-              // 2. Agar hamma katak to'la bo'lsa va bu oxirgi katak bo'lsa
-              const isActive =
-                i === activeIndex || (activeIndex === -1 && i === 5);
-
+              const isActive = i === activeIndex || (activeIndex === -1 && i === 5);
               return (
                 <div
                   key={i}
                   className={`w-10 h-12 md:w-[52px] md:h-[52px] rounded-xl flex items-center justify-center text-xl font-bold transition-all border-2
                     ${
                       d
-                        ? "bg-[#f1f3f6] border-[#58b97c] text-gray-700" // To'lgan katak
+                        ? "bg-[#f1f3f6] border-[#58b97c] text-gray-700"
                         : isActive
-                        ? "bg-white border-[#58b97c] shadow-[0_0_8px_rgba(88,185,124,0.4)]" // Faol katak (yonishi)
-                        : "bg-white border-gray-200 text-gray-400" // Bo'sh katak
+                        ? "bg-white border-[#58b97c] shadow-[0_0_8px_rgba(88,185,124,0.4)]"
+                        : "bg-white border-gray-200 text-gray-400"
                     }`}
                 >
                   {d}
