@@ -194,16 +194,13 @@ export default function RegistrationFormStepThree() {
                   Employment type
                 </label>
                 <div className="relative bg-gray-100 rounded-xl sm:rounded-[40px] border border-gray-200 grid grid-cols-2 sm:grid-cols-4 p-0.5 overflow-hidden">
-                  {/* slider layer */}
                   <div className="absolute inset-0.5 pointer-events-none">
-                    {/* mobile 2x2 */}
                     <div
                       className="sm:hidden w-1/2 h-1/2 bg-white rounded-lg shadow-sm transition-transform duration-300"
                       style={{
                         transform: `translateX(${(idx % 2) * 100}%) translateY(${Math.floor(idx / 2) * 100}%)`,
                       }}
                     />
-                    {/* sm+ 1x4 */}
                     <div
                       className="hidden sm:block w-1/4 h-full bg-white rounded-[40px] shadow-sm transition-transform duration-300"
                       style={{

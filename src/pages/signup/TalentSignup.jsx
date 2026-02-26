@@ -278,6 +278,7 @@ export default function RegistrationForm() {
                   }`}
                 >
                   <FaFemale size={15} /> Femaluu
+                  <FaFemale size={15} /> Female
                 </button>
               </div>
             </div>
