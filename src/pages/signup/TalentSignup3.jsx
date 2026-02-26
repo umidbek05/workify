@@ -56,76 +56,98 @@ export default function RegistrationFormStepThree() {
   }, [workplaceType, minimumSalary, city, errors]);
 
   const handleFinish = async () => {
+    // 1. Validatsiya
     const newErrors = {
       workplaceType: !workplaceType,
       minimumSalary: !minimumSalary || Number(minimumSalary) <= 0,
       city: !city.trim(),
     };
-
     setErrors(newErrors);
 
     if (newErrors.workplaceType || newErrors.minimumSalary || newErrors.city) {
-      toast.error("Please fill in all required fields correctly.");
+      toast.error("Iltimos, barcha majburiy maydonlarni to'ldiring.");
       return;
     }
 
     setLoading(true);
 
     try {
+      // 2. Ma'lumotlarni yig'ish (LocalStorage'dan barcha qadamlarni olish)
       const step1 = JSON.parse(localStorage.getItem("step1_data") || "{}");
       const step2 = JSON.parse(localStorage.getItem("talent_step2") || "{}");
-
-      const step3 = {
+      
+      const rawData = {
+        ...step1,
+        ...step2,
         work_type: employmentType,
         workplace_type: workplaceType,
         minimum_salary: Number(minimumSalary) || 0,
-        country,
-        city,
+        country: country || "Uzbekistan",
+        city: city.trim(),
       };
 
-      const allData = { ...step1, ...step2, ...step3 };
-
-      if (!allData.email) {
-        toast.error(
-          "Email not found. Please restart the registration process.",
-        );
-        setLoading(false);
-        return;
-      }
-
+      // 3. FormData tayyorlash
       const formData = new FormData();
-      Object.entries(allData).forEach(([key, value]) => {
-        if (value === null || value === undefined) return;
-        if (
-          (key === "image" || key === "profileimg") &&
-          value instanceof File
-        ) {
-          formData.append("image", value);
-          return;
-        }
-        if (Array.isArray(value)) {
+      Object.entries(rawData).forEach(([key, value]) => {
+        if (value === null || value === undefined || value === "") return;
+
+        if (value instanceof File) {
+          formData.append(key, value);
+        } else if (Array.isArray(value)) {
+          // Skills kabi massivlarni JSON qilib yuboramiz
           formData.append(key, JSON.stringify(value));
-          return;
+        } else {
+          formData.append(key, String(value));
         }
-        formData.append(key, value);
       });
 
+      // 4. API so'rovi
+      const response = await fetch(
+        "https://workifybackend-production.up.railway.app/api/talent/register",
+        {
+          method: "POST",
+          body: formData,
+          // Eslatma: Content-Type ni o'zingiz yozmang!
+        }
+      );
 
-      if (response.status === 200 || response.status === 201) {
-        localStorage.setItem("verify_email", allData.email);
+      // 5. Javobni tahlil qilish
+      let result;
+      const contentType = response.headers.get("content-type");
+
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      } else {
+        // Agar server JSON o'rniga HTML (xatolik) qaytarsa
+        const errorHTML = await response.text();
+        console.error("Serverdan kutilmagan javob:", errorHTML);
+        throw new Error(`Serverda xatolik yuz berdi (Status: ${response.status})`);
+      }
+
+      if (response.ok) {
+        toast.success("Muvaffaqiyatli ro'yxatdan o'tdingiz!");
+
+        // Emailni keyingi sahifada ishlatish uchun saqlaymiz
+        localStorage.setItem("verify_email", rawData.email);
+
+        // Vaqtinchalik ma'lumotlarni tozalaymiz
         localStorage.removeItem("step1_data");
         localStorage.removeItem("talent_step2");
         localStorage.removeItem("talent_step3");
 
-        toast.success("Info saved! Redirecting to verification...");
-
+        // 1.5 soniyadan keyin keyingi sahifaga o'tamiz
         setTimeout(() => {
-          navigate("/verify-account");
+          navigate("/talentVerifyCode");
         }, 1500);
+
+      } else {
+        // Backend'dan kelgan aniq xatolik (masalan: "Email already registered")
+        throw new Error(result.message || "Ro'yxatdan o'tishda xatolik yuz berdi");
       }
+
     } catch (error) {
-      console.error("Backend error:", error.response?.data);
-      toast.error(`Error: ${error.response?.data?.message || "Server error"}`);
+      console.error("Xatolik tafsiloti:", error);
+      toast.error(error.message || "Server bilan bog'lanishda xatolik");
     } finally {
       setLoading(false);
     }
@@ -384,7 +406,6 @@ export default function RegistrationFormStepThree() {
           </div>
         </div>
       </main>
-
       <Footer />
     </div>
   );
