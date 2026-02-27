@@ -1,8 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-// 1. Context importi (Faqat bitta joyda bo'lishi kerak)
-import { ThemeProvider } from "./Context/ThemeContext.jsx";
+
 
 // 2. CSS importi
 import "./index.css";
@@ -40,7 +39,7 @@ import VerifyForget from "./pages/forgot/VerifyForget";
 
 const App = () => {
   return (
-    <ThemeProvider>
+   
       <Routes>
         {/* Talent Dashboard qismi (Nested Routes) */}
         <Route element={<MainLoyaut />}>
@@ -80,7 +79,6 @@ const App = () => {
           <Route path="contacts" element={<Contacts />} />
         </Route>
       </Routes>
-    </ThemeProvider>
   );
 };
 
