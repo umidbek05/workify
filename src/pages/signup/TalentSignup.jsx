@@ -277,7 +277,6 @@ export default function RegistrationForm() {
                       : "text-gray-400"
                   }`}
                 >
-                  <FaFemale size={15} /> Femaluu
                   <FaFemale size={15} /> Female
                 </button>
               </div>
