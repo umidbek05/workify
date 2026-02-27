@@ -9,6 +9,8 @@ import Talents from "./pages/Talents/talents";
 import Jobs from "./pages/Jobs/jobs";
 import Register from "./pages/signup/Register";
 import Conguratulation from "./pages/signup/Conguratulation";
+import TalentCongratulation from "./pages/signup/TalentCongratulation";
+import TalentVerifyCode from "./pages/signup/TalentVerifyCode";
 import MyJobs from "./pages/dashboard/MyJobs";
 import DashboardHome from "./pages/dashboard/DashboardHome";
 import CompanyProfile from "./pages/dashboard/CompanyProfile";
@@ -37,6 +39,8 @@ const App = () => {
           <Route path="/talentsignup" element={<TalentSignup />} />
           <Route path="/talentsignup2" element={<TalentSignup2 />} />
           <Route path="/talentsignup3" element={<TalentSignup3 />} />
+          <Route path="/talentCongratulation" element={<TalentCongratulation />} />
+          <Route path="/talentVerifyCode" element={<TalentVerifyCode />} />
           <Route path="/register" element={<Register />} />
           <Route path="/congratulation" element={<Conguratulation />} />
           <Route path="/login" element={<Login />} />

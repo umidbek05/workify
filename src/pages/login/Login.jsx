@@ -41,93 +41,80 @@ function Login() {
     if (errors.submit) setErrors({});
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setErrors({});
+// handleSubmit funksiyasini quyidagiga almashtiring:
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+  setErrors({});
 
-    try {
-      const response = await fetch(
-        "https://workifyback-production.up.railway.app/register/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: formData.email.trim(),
-            password: formData.password,
-          }),
-        }
-      );
-
-      const data = await response.json();
-      console.log("FULL RESPONSE:", JSON.stringify(data, null, 2));
-      if (!response.ok) {
-        setErrors({ submit: data.message || "Email yoki parol noto'g'ri" });
-        setIsLoading(false);
-        return;
+  try {
+    const response = await fetch(
+      "https://workifyback-production.up.railway.app/register/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email.trim(),
+          password: formData.password,
+        }),
       }
+    );
 
-      // 1. ROLNI TO'G'RI ANIQLASH (Backend turli xil yuborishi mumkin)
-      // data.user.role yoki data.user.type yoki data.role
-      const backendRole = data.user?.role || data.role || data.user?.type;
-
-      if (!backendRole) {
-        setErrors({
-          submit: "Foydalanuvchi roli aniqlanmadi."
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // 3. AGAR ROL KELSA - FILTRLASH
-      const actualRole = backendRole.toLowerCase().trim();
-      const selectedRole = role.toLowerCase().trim();
-
-      if (actualRole !== selectedRole) {
-        setErrors({
-          submit: `Siz ${actualRole === 'talent' ? 'Talent' : 'Company'} bo'limiga tegishlisiz. Iltimos, bo'limni to'g'ri tanlang!`
-        });
-        setIsLoading(false);
-        return;
-      }
-
-      // 4. HAMMASI TO'G'RI BO'LSA
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("userRole", actualRole);
-      localStorage.setItem("userId", data.user?.id || data.id);
-
-      role === 'company' ? navigate("/dashboard") : navigate("/talent-home");
-
-      // Ma'lumotlarni saqlash
-      localStorage.setItem("email", formData.email);
-      localStorage.setItem("userId", data.user.id);
-      localStorage.setItem("user", JSON.stringify(data.user));
-
-      // Remember Me logikasi
-      if (formData.rememberMe) {
-        localStorage.setItem("rememberedEmail", formData.email);
-      } else {
-        localStorage.removeItem("rememberedEmail");
-      }
-
-      // Muvaffaqiyatli kirish xabari
-      Swal.fire({
-        title: "Muvaffaqiyatli!",
-        text: "Tizimga muvaffaqiyatli kirdingiz",
-        icon: "success",
-        confirmButtonText: "OK",
-        confirmButtonColor: "#0f2f4f",
-      }).then(() => {
-        navigate("/dashboard");
-      });
-
-
-    } catch (err) {
-      setErrors({ submit: "Server bilan bog'lanishda xato!" });
-    } finally {
+    const data = await response.json();
+    
+    if (!response.ok) {
+      setErrors({ submit: data.message || "Email yoki parol noto'g'ri" });
       setIsLoading(false);
+      return;
     }
-  };
+
+    const backendRole = data.user?.role || data.role || data.user?.type;
+    const actualRole = backendRole?.toLowerCase().trim();
+    const selectedRole = role.toLowerCase().trim();
+
+    if (actualRole !== selectedRole) {
+      setErrors({
+        submit: `Siz ${actualRole === 'talent' ? 'Talent' : 'Company'} bo'limiga tegishlisiz. Iltimos, bo'limni to'g'ri tanlang!`
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    // MA'LUMOTLARNI SAQLASH
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userRole", actualRole);
+    localStorage.setItem("userId", data.user?.id || data.id);
+    localStorage.setItem("email", formData.email);
+    if (data.user) localStorage.setItem("user", JSON.stringify(data.user));
+
+    if (formData.rememberMe) {
+      localStorage.setItem("rememberedEmail", formData.email);
+    } else {
+      localStorage.removeItem("rememberedEmail");
+    }
+
+    Swal.fire({
+      title: "Muvaffaqiyatli!",
+      text: "Tizimga muvaffaqiyatli kirdingiz",
+      icon: "success",
+      confirmButtonColor: "#0f2f4f",
+    }).then(() => {
+      // ROLGA QARAB TO'G'RI YO'NALTIRISH
+      if (actualRole === 'company') {
+        navigate("/dashboard");
+      } else {
+        navigate("/talent-home");
+      }
+    });
+
+  } catch (err) {
+    setErrors({ submit: "Server bilan bog'lanishda xato!" });
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 
   return (
     <div className="flex flex-col min-h-screen bg-[#f6f4ef]">
