@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { applicationApi } from "../../services/api.js";
+import { applicationApi } from "../../services/api";
 import {
   FaChevronDown,
   FaBriefcase,

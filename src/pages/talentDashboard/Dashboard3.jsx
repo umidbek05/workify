@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { applicationApi } from "../../services/api.js";
+import { applicationApi } from "../../services/api";
 import { useTheme } from "../../Context/ThemeContext.jsx";
 import {
   AreaChart,

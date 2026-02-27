@@ -16,8 +16,8 @@ import { useTheme } from "../../Context/ThemeContext.jsx";
 import nonImg from "../../assets/img.jpg";
 
 export default function JobMatches() {
-  const { settings } = useTheme();
-  const isDark = settings.darkMode;
+  const { isDarkMode } = useTheme();
+  const isDark = isDarkMode;
 
   const [allJobs, setAllJobs] = useState([]);
   const [userskils, setUserskils] = useState([]);

@@ -30,7 +30,7 @@ const spinnerStyle = `
 `;
 
 const ProfilePage = () => {
- const { isDarkMode } = useTheme();
+  const { isDarkMode } = useTheme();
   const isDark = isDarkMode;
 
   const [user, setUser] = useState(null);

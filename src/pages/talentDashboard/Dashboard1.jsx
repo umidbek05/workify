@@ -4,7 +4,6 @@ import { jwtDecode } from "jwt-decode";
 import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Dashboard1 = () => {
-  // TUZATILGAN QISMI: settings o'rniga isDarkMode ni olamiz
   const { isDarkMode } = useTheme();
   const isDark = isDarkMode;
 

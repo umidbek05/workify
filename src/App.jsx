@@ -17,6 +17,11 @@ import JobAlerts from "./pages/talentDashboard/JobAlerts.jsx";
 import MyProfile from "./pages/talentDashboard/MyProfile.jsx";
 import MainLoyaut from "./pages/talentDashboard/MainLayout.jsx";
 import JobMatches from "./pages/talentDashboard/JobMatches.jsx";
+import Setting from "./pages/talentDashboard/Setting.jsx";
+import Theme from "./pages/talentDashboard/Theme.jsx";
+import Faq from "./pages/talentDashboard/Faq.jsx";
+import Contact from "./pages/talentDashboard/Contact.jsx";
+import Reactions from "./pages/talentDashboard/Reactions.jsx";
 
 import "./index.css";
 
@@ -36,13 +41,19 @@ const App = () => {
     <div>
       <ThemeProvider>
         <Routes>
+          <Route element={<MainLoyaut />}>
           <Route path="/talentdashboard" element ={<TalentDashboard/>}/>
           <Route path="/sidebar" element ={<Sidebar/>}/>
-          <Route path="/alerts" element ={<JobAlerts/>}/>
           <Route path="/profile" element ={<MyProfile/>}/>
+          <Route path="/alerts" element ={<JobAlerts/>}/>
           <Route path="/mainLoyaut" element ={<MainLoyaut/>}/>
-          <Route path="/jobMatches" element ={<JobMatches/>}/>
-
+          <Route path="/matches" element ={<JobMatches/>}/>
+          <Route path="/settings" element ={<Setting/>}/>
+          <Route path="/theme" element ={<Theme/>}/>
+          <Route path="/faq" element ={<Faq/>}/>
+          <Route path="/contacts" element ={<Contact/>}/>
+          <Route path="/reactions" element ={<Reactions/>}/>
+          </Route>
 
           <Route path="/" element={<Workify />} />
           <Route path="/talents" element={<Talents />} />
