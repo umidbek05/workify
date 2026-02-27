@@ -1,0 +1,211 @@
+.page {
+  height: 86vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f6f4ef;
+}
+
+.card {
+  width: 520px;
+  background: #ffffff;
+  padding: 40px 36px;
+  border-radius: 20px;
+  text-align: center;
+}
+.card h1 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 22px;
+  line-height: 1.4;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+}
+
+.primary {
+  padding: 10px 22px;
+  border-radius: 8px;
+  background: #58b97c;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 26px;
+}
+
+.image-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 26px;
+}
+
+.image-box img {
+  width: 260px;
+}
+
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.digits {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+
+.digits div {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #f1f3f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.digits .empty {
+  background: #ffffff;
+  border: 1.5px solid #e5e7eb;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.nav-buttons button {
+  width: 120px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.nav-buttons .back {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  color: #334155;
+}
+
+.nav-buttons .next {
+  background: #0f2a44;
+  color: #ffffff;
+}
+
+/* --- REGISTER RESPONSIVE --- */
+
+@media (max-width: 768px) {
+  .page {
+    height: auto; /* Telefonda balandlikni cheklamaymiz */
+    padding: 40px 20px;
+  }
+
+  .card {
+    width: 100%; /* Kenglikni ekran kengligiga moslaymiz */
+    max-width: 450px;
+    padding: 30px 20px;
+  }
+
+  .card h1 {
+    font-size: 16px; /* Matnni biroz kichraytiramiz */
+  }
+
+  .image-box img {
+    width: 80%; /* Rasm ekran kengligidan chiqib ketmasligi uchun */
+  }
+
+  .digits {
+    gap: 8px; /* Raqam kataklari orasini kamaytiramiz */
+  }
+
+  .digits div {
+    width: 45px; /* Kataklarni biroz kichraytiramiz */
+    height: 45px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 25px 15px;
+  }
+
+  .digits {
+    gap: 5px; /* Juda kichik ekranlar uchun */
+  }
+
+  .digits div {
+    width: 38px; /* 6 ta katak sig'ishi uchun kichraytiriladi */
+    height: 38px;
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .nav-buttons {
+    flex-direction: column-reverse; /* Tugmalarni ustma-ust qilamiz */
+    width: 100%;
+  }
+
+  .nav-buttons button {
+    width: 100%; /* Tugmalar to'liq kenglikda */
+    height: 45px;
+  }
+
+  .primary {
+    width: 100%; /* "Click here" tugmasi ham kengayadi */
+  }
+}
+
+/* Mobil uchun moslashuvchanlik */
+@media (max-width: 480px) {
+  .digits {
+    gap: 6px; /* Katakchalar orasini kichraytiramiz */
+  }
+
+  .digits div {
+    width: 40px;
+    height: 50px;
+    font-size: 20px;
+    border-radius: 6px;
+  }
+
+  .next {
+    padding: 12px 0;
+    font-size: 18px;
+    width: 100%; /* Mobil ekranda tugma to'liq kenglikda */
+    border-radius: 10px;
+  }
+}
+
+/* Tugma bosilgandagi animatsiya */
+.next:active {
+  transform: scale(0.95);
+  transition: 0.1s;
+}
+
+/* Fokusdagi katak uchun animatsiya */
+@keyframes border-blink {
+  0% { border-color: #3085d6; box-shadow: 0 0 5px rgba(48, 133, 214, 0.2); }
+  50% { border-color: transparent; box-shadow: none; }
+  100% { border-color: #3085d6; box-shadow: 0 0 5px rgba(48, 133, 214, 0.2); }
+}
+
+.digits div.active-cell {
+  border: 2px solid #3085d6;
+  animation: border-blink 1.5s infinite;
+}
+
+/* Raqam bor bo'lsa animatsiyani to'xtatish (ixtiyoriy) */
+.digits div.filled {
+  border-color: #3085d6;
+}

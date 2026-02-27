@@ -63,7 +63,6 @@ const Signup = () => {
   const [activeTab, setActiveTab] = useState("company");
   const [toast, setToast] = useState({ show: false, message: "", type: "" });
 
-  // Ma'lumotlarni localStorage dan yuklash funksiyasi
   const getStoredData = () => {
     try {
       const savedData = localStorage.getItem("signup_form_storage");
@@ -87,7 +86,6 @@ const Signup = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // Sahifa yuklanganda oxirgi ma'lumotlarni qayta o'qish
     const data = getStoredData();
     setFormData(data);
   }, []);
@@ -161,7 +159,6 @@ const Signup = () => {
           type: "success",
         });
         localStorage.setItem("email", formData.email);
-        // MUHIM: Bu yerda localStorage'ni o'chirmaymiz, toki ro'yxatdan o'tish to'liq tugamaguncha
         setTimeout(() => {
           navigate("/register", {
             state: { userId: result.id, email: formData.email },
@@ -265,7 +262,7 @@ const Signup = () => {
             <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
               <div
                 className={`h-full transition-all duration-500 ease-out ${
-                  completionPercentage === 100 ? "bg-green-500" : "bg-blue-500"
+                  completionPercentage === 100 ? "bg-green-500" : "bg-[#163d5c]"
                 }`}
                 style={{ width: `${completionPercentage}%` }}
               ></div>
@@ -274,7 +271,10 @@ const Signup = () => {
 
           <div className="flex w-full max-w-[500px] bg-gray-100 p-1.5 rounded-2xl mb-10 h-14">
             <button
-              onClick={() => setActiveTab("talent")}
+              type="button"
+              onClick={() => {
+                navigate("/TalentSignup");
+              }}
               className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
                 activeTab === "talent"
                   ? "bg-white text-[#163d5c] shadow-sm"
@@ -284,7 +284,10 @@ const Signup = () => {
               <FaUser size={18} /> Talent
             </button>
             <button
-              onClick={() => setActiveTab("company")}
+              type="button"
+              onClick={() => {
+                setActiveTab("company");
+              }}
               className={`flex-1 flex items-center justify-center gap-2 rounded-xl font-semibold transition-all ${
                 activeTab === "company"
                   ? "bg-white text-[#163d5c] shadow-sm"
@@ -513,7 +516,12 @@ const Signup = () => {
         </div>
       </main>
       <Footer />
-      <style>{`@keyframes progress { from { width: 100%; } to { width: 0%; } } .animate-progress { animation: progress 1.5s linear forwards; } @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } } .animate-bounce-short { animation: bounce-short 0.5s ease-out; }`}</style>
+      <style>{`
+        @keyframes progress { from { width: 100%; } to { width: 0%; } }
+        .animate-progress { animation: progress 1.5s linear forwards; }
+        @keyframes bounce-short { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce-short { animation: bounce-short 0.5s ease-out; }
+      `}</style>
     </div>
   );
 };

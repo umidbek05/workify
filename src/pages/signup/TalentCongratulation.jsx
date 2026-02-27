@@ -32,8 +32,7 @@ function Congratulation() {
           <button
             className="w-full sm:w-auto mt-6 bg-[#22c55e] hover:bg-[#16a34a] text-white py-3 md:py-3.5 px-7 rounded-lg text-[15px] md:text-[16px] font-semibold transition-all duration-300 active:scale-95 shadow-md"
             onClick={() => {
-              const role = localStorage.getItem("userRole");
-              navigate(role === 'company' ? "/dashboard" : "/talent-home");
+              navigate("/dashboard");
             }}
           >
             Go to Dashboard

@@ -1,0 +1,349 @@
+/* --- ASOSIY STYLLAR --- */
+.signup-container {
+  padding-top: 20px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.signup-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 720px;
+  background: #fff;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.08);
+}
+
+.tabs {
+  padding: 5px;
+  display: flex;
+  background: #f1f3f6;
+  border-radius: 12px;  
+  margin-bottom: 25px;
+  width: 500px;
+  height: 50px;
+}
+
+.tabs > button {
+  font-size: 20px;
+}
+
+.tab {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #8b8b8b;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tab.active {
+  background: #fff;
+  color: #163d5c;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+}
+.field label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #444;
+}
+
+.input-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 50px;
+  border: 1px solid #dbe1ea;
+  border-radius: 12px;
+  padding: 6px;
+  background: #fff;
+}
+
+.icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: #f1f4f8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon svg {
+  color: #163d5c;
+  font-size: 16px;
+}
+.input-box input,
+.input-box select {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 14px;
+  background: transparent;
+}
+.eye {
+  cursor: pointer;
+  padding: 0 10px;
+}
+.eye svg {
+  color: #163d5c;
+}
+
+.buttons {
+  grid-column: span 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.btn {
+  width: 120px;
+  height: 42px;
+  border-radius: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+.btn.back {
+  border: 1px solid #c7d0dd;
+  background: #fff;
+  color: #163d5c;
+}
+.btn.next {
+  border: none;
+  background: #163d5c;
+  color: #fff;
+}
+
+/* --- MODAL (ALERT) ASOSIY --- */
+/* Modern Toast Design */
+.toast-container {
+  position: fixed;
+  /* bottom: 30px; */
+  right: 30px;
+  min-width: 280px;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px); /* Orqa fonni xiralashtirish */
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  z-index: 10000;
+  overflow: hidden;
+  animation: slideUp 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.toast-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.toast-message {
+  color: #1a1a1a;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+/* Success State */
+.toast-container.success {
+  border-left: 6px solid #4CAF50;
+}
+.toast-container.success .toast-icon {
+  background: #e8f5e9;
+  color: #4CAF50;
+}
+
+/* Error State */
+.toast-container.error {
+  border-left: 6px solid #f44336;
+}
+.toast-container.error .toast-icon {
+  background: #ffebee;
+  color: #f44336;
+}
+
+/* Progress Bar Animation */
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+
+.toast-progress::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: inherit;
+  animation: progressAnim 4s linear forwards;
+}
+
+.success .toast-progress::before { background: #4CAF50; }
+.error .toast-progress::before { background: #f44336; }
+
+
+
+
+/* Inputlarni o'rab turgan box */
+.input-box {
+  position: relative; /* Iconni ichida joylashtirish uchun */
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 50px;
+  background: #fff;
+  border: 1px solid #dbe1ea;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.input-box:focus-within {
+  border-color: #163d5c;
+  box-shadow: 0 0 0 3px rgba(22, 61, 92, 0.1);
+}
+
+/* Icon stili - Select dagi bilan bir xil */
+.input-box .icon {
+  position: absolute;
+  left: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background: #f1f4f8; /* Select iconi foni bilan bir xil */
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Haqiqiy input tegi */
+.input-box input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding-left: 55px; /* Icon uchun joy (Select dagi paddingLeft ga mos) */
+  padding-right: 15px;
+  font-size: 14px;
+  background: transparent;
+  border-radius: 12px;
+}
+
+/* Password ko'zchasi uchun */
+.input-box .eye {
+  position: absolute;
+  right: 14px;
+  cursor: pointer;
+  color: #163d5c;
+  display: flex;
+  align-items: center;
+}
+
+/* Animations */
+@keyframes slideUp {
+  from {
+    transform: translateY(100px) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes progressAnim {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+/* --- RESPONSIVE (MEDIA QUERIES) --- */
+
+@media (max-width: 768px) {
+  .signup-box {
+    width: 95%;
+    padding: 20px;
+  }
+  .tabs {
+    width: 100%;
+  }
+  .form {
+    grid-template-columns: 1fr;
+  }
+  .buttons {
+    grid-column: span 1;
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+  .btn {
+    width: 100%;
+    height: 48px;
+  }
+
+  /* Alert responsive */
+  .custom-alert {
+    width: 85%;
+    padding: 20px;
+    font-size: 14px;
+  }
+  .alert-btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-box {
+    padding: 15px;
+  }
+  .input-box {
+    height: 45px;
+  }
+  .icon {
+    width: 35px;
+    height: 35px;
+    min-width: 35px;
+  }
+}
