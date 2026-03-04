@@ -3,7 +3,7 @@ import TecCells from "./pompany.png";
 import Update from "./Update";
 import { BsCamera } from "react-icons/bs";
 import { RiPencilFill } from "react-icons/ri";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../Context/ThemeContext";
 
 const BASE_URL = "https://workifyback-production.up.railway.app";
 
