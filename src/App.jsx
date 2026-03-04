@@ -40,7 +40,7 @@ import Forget from "./pages/forgot/Forget";
 import Setpassword from "./pages/setpassword/Setpassword";
 import VerifyForget from "./pages/forgot/VerifyForget";
 
-import { ThemeProvider } from "../src/Context/ThemeContext.jsx";
+import { ThemeProvider } from "./Context/ThemeContext.jsx";
 
 const App = () => {
   return (
