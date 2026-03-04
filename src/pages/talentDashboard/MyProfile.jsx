@@ -10,7 +10,7 @@ import {
   FiTrash2,
   FiPlus,
 } from "react-icons/fi";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const spinnerStyle = `
   @keyframes spin {

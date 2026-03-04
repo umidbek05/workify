@@ -10,7 +10,7 @@ import { MdEmail, MdPhoneInTalk, MdLocationOn } from "react-icons/md";
 import { AiOutlineGlobal } from "react-icons/ai";
 import ContactImg from "../../assets/Contactimg.png";
 import { contactApi } from "../../services/api";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Contact = () => {
   const { isDarkMode } = useTheme();

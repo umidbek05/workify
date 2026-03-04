@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { talentApi, applicationApi } from "../../services/api";
-import { useTheme } from "../../../Context/ThemeContext"; // ThemeContext ulandi
+import { useTheme } from "../../Context/ThemeContext"; // ThemeContext ulandi
 import { jwtDecode } from "jwt-decode";
 import {
   HiChartBar,

@@ -8,7 +8,7 @@ import page4 from "./page4.png";
 import page5 from "./page5.png";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { Contact, LogOut, Menu, X } from "lucide-react";
-import { useTheme } from "../../context/ThemeContext";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const BASE_URL = "https://workifyback-production.up.railway.app";
 

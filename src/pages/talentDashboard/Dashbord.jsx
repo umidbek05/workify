@@ -2,7 +2,7 @@ import React from "react";
 import Dashboard1 from "../talentDashboard/Dashboard1.jsx";
 import Dashboard2 from "../talentDashboard/Dashboard2.jsx";
 import Dashboard3 from "../talentDashboard/Dashboard3.jsx";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Dashboard = () => {
   const { isDarkMode } = useTheme();

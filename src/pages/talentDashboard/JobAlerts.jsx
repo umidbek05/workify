@@ -11,7 +11,7 @@ import {
 } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 import CompImg from "../../assets/bg.png";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 export default function JobAlerts() {
   const { isDarkMode } = useTheme();

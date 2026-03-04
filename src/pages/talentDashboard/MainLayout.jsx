@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const MainLayout = () => {
   const { settings } = useTheme();

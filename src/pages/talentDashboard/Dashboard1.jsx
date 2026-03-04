@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { talentApi } from "../../services/api";
 import { jwtDecode } from "jwt-decode";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Dashboard1 = () => {
   const { isDarkMode } = useTheme();

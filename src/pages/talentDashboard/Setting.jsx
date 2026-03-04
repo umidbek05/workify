@@ -6,9 +6,8 @@ import {
   TbHeadset,
   TbLogout,
 } from "react-icons/tb";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 import { useNavigate } from "react-router-dom";
-import Theme from "../talentDashboard/Theme.jsx";
 
 const Setting = () => {
   // ThemeContext-dan biz yozgan nomlarni olamiz

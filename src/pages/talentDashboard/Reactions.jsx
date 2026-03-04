@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { jobApi } from "../../services/api";
 import { useJobReactions } from "../../Context/JobReactionsContext";
 // Import yo'li terminal xatosini yo'qotish uchun to'g'rilandi
-import { useTheme } from "../../../Context/ThemeContext";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 import { useNavigate } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { FaCity, FaThumbsUp, FaThumbsDown, FaTrash } from "react-icons/fa";

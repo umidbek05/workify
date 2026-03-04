@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoChevronDown } from "react-icons/io5";
 import FAQimg from "../../assets/FAQimg.png";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Faq = () => {
   const { isDarkMode } = useTheme();

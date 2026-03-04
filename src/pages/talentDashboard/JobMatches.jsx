@@ -12,7 +12,7 @@ import {
   FaThumbsDown,
   FaThumbsUp,
 } from "react-icons/fa";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 import nonImg from "../../assets/img.jpg";
 
 export default function JobMatches() {

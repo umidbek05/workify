@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { applicationApi } from "../../services/api";
-import { useTheme } from "../../../Context/ThemeContext.jsx";
+import { useTheme } from "../../Context/ThemeContext.jsx";
 
 const Dashboard2 = () => {
   const { isDarkMode } = useTheme();
