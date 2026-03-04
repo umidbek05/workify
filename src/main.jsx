@@ -15,8 +15,6 @@ const root = createRoot(container);
 root.render(
   <StrictMode>
     <BrowserRouter>
-      {/* Ma'lumotlar zanjiri: Theme -> Reactions -> App */}
-
       <JobReactionsProvider>
         <Toaster position="top-right" />
         <App />
